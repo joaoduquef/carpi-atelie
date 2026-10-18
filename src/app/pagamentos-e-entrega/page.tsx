@@ -23,7 +23,7 @@ export default function PagamentosEEntrega() {
       <CartaoTexto titulo="Frete" tom="damasco">
         <ul>
           <li>Frete grátis para todo o Sudeste (SP, RJ, MG e ES).</li>
-          <li>Para as outras regiões, o frete é calculado pelo CEP. Enviamos preferencialmente pela Jadlog.</li>
+          <li>Para as outras regiões, o frete é calculado pelo CEP. Enviamos preferencialmente pela plataforma Melhor Envio.</li>
         </ul>
       </CartaoTexto>
       <CartaoTexto titulo="Rastreio" tom="amarelo">

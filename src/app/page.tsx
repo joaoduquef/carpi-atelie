@@ -67,12 +67,12 @@ export default async function Inicio() {
           />
         </div>
         <div className="grid content-center justify-items-start gap-5">
-          <TituloSecao id="titulo-sobre">Sobre o ateliê</TituloSecao>
+          <TituloSecao id="titulo-sobre">O ateliê</TituloSecao>
           <p className="max-w-[56ch] text-lg leading-relaxed">
             A CARPI cria luminárias e objetos para a casa. Peças que chamam atenção mesmo quando estão apagadas — e ganham outra vida quando acesas.
           </p>
           <BotaoLink href="/sobre" variante="secundario">
-            Conheça o ateliê
+            Conheça a CARPI
           </BotaoLink>
         </div>
       </section>
