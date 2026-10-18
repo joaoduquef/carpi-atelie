@@ -1,6 +1,6 @@
 import { TituloSecao } from "./TituloSecao";
 
-/** Molde das páginas de texto (sobre, políticas, entrega...). */
+/** Molde das páginas de texto (sobre, políticas, entrega...): título e cards que ocupam a largura toda. */
 export function PaginaTexto({
   titulo,
   provisorio = false,
@@ -14,13 +14,44 @@ export function PaginaTexto({
     <article className="grid gap-6">
       <TituloSecao como="h1">{titulo}</TituloSecao>
       {provisorio && (
-        <p className="rounded-card bg-bloco-amarelo px-4 py-3 text-sm text-texto-em-bloco">
+        <p className="rounded-card bg-bloco-amarelo px-5 py-3 text-sm text-texto-em-bloco">
           Texto provisório para revisão. Antes de vender, revise com atenção (e, nas políticas, com um advogado ou contador).
         </p>
       )}
-      <div className="grid max-w-[68ch] gap-4 leading-relaxed [&_a]:text-link [&_a]:underline [&_a]:underline-offset-4 [&_h2]:mt-4 [&_h2]:text-lg [&_h2]:font-bold [&_h2]:text-titulo [&_li]:ml-5 [&_li]:list-disc [&_ul]:grid [&_ul]:gap-1.5">
-        {children}
-      </div>
+      <div className="grid gap-3 md:grid-cols-2">{children}</div>
     </article>
+  );
+}
+
+const tons = {
+  creme: { fundo: "bg-superficie border border-linha", titulo: "text-titulo" },
+  rosa: { fundo: "bg-bloco-rosa", titulo: "text-texto-em-bloco" },
+  mare: { fundo: "bg-bloco-mare", titulo: "text-texto-em-mare" },
+  damasco: { fundo: "bg-bloco-damasco", titulo: "text-texto-em-bloco" },
+  amarelo: { fundo: "bg-bloco-amarelo", titulo: "text-texto-em-bloco" },
+} as const;
+
+export type TomCartao = keyof typeof tons;
+
+/** Uma "bolha" de conteúdo. `largo` faz o card ocupar as duas colunas. */
+export function CartaoTexto({
+  titulo,
+  tom = "creme",
+  largo = false,
+  children,
+}: {
+  titulo?: string;
+  tom?: TomCartao;
+  largo?: boolean;
+  children: React.ReactNode;
+}) {
+  const t = tons[tom];
+  return (
+    <section
+      className={`grid content-start gap-3 rounded-bloco px-6 py-6 leading-relaxed text-texto sm:px-8 ${t.fundo} ${largo ? "md:col-span-2" : ""} [&_a]:font-bold [&_a]:underline [&_a]:underline-offset-4 [&_li]:ml-5 [&_li]:list-disc [&_ul]:grid [&_ul]:gap-1.5`}
+    >
+      {titulo && <h2 className={`text-lg font-bold tracking-[0.04em] ${t.titulo}`}>{titulo}</h2>}
+      {children}
+    </section>
   );
 }

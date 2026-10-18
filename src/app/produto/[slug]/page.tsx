@@ -147,18 +147,20 @@ export default async function PaginaProduto({ params, searchParams }: Props) {
 
       <div className="grid gap-2.5">
         <Acordeao titulo="Medidas e desenho técnico" tom="rosa" aberto>
-          <dl className="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-1">
-            {modelo.especificacoes.map((e) => (
-              <div key={e.rotulo} className="contents">
-                <dt className="font-bold">{e.rotulo}</dt>
-                <dd>{e.valor}</dd>
-              </div>
-            ))}
-          </dl>
-          {desenho && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={desenho.url} alt={desenho.alt} className="w-full max-w-xl rounded-xl bg-white p-2" loading="lazy" />
-          )}
+          <div className="grid items-center gap-4 md:grid-cols-[1fr_1.3fr]">
+            <dl className="grid grid-cols-[max-content_1fr] gap-x-5 gap-y-2 text-[0.95rem]">
+              {modelo.especificacoes.map((e) => (
+                <div key={e.rotulo} className="contents">
+                  <dt className="font-bold">{e.rotulo}</dt>
+                  <dd>{e.valor}</dd>
+                </div>
+              ))}
+            </dl>
+            {desenho && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={desenho.url} alt={desenho.alt} className="w-full rounded-xl bg-white p-2" loading="lazy" />
+            )}
+          </div>
         </Acordeao>
         <Acordeao titulo="Como funciona" tom="mare">
           <ol className="grid gap-2 sm:grid-cols-3">
