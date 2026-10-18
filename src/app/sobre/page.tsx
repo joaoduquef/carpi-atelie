@@ -5,7 +5,7 @@ import { TituloSecao } from "@/components/ui/TituloSecao";
 
 export const metadata: Metadata = {
   title: "Sobre nós",
-  description: "Conheça João Duque e Nalu Chagas, fundadores do CARPI Ateliê, ateliê de design de iluminação.",
+  description: "Conheça João Duque e Nalu Chagas, fundadores do CARPI Ateliê, que cria luminárias e objetos para a casa.",
 };
 
 export default function Sobre() {
@@ -52,8 +52,7 @@ export default function Sobre() {
         <div className="grid content-center justify-items-start gap-5 md:order-1">
           <TituloSecao id="titulo-atelie">O ateliê</TituloSecao>
           <p className="max-w-[56ch] text-lg leading-relaxed">
-            A CARPI é um ateliê de design de iluminação. Nossas peças, produzidas sob encomenda em PETG translúcido, vivem dois momentos: de dia, são
-            design; à noite, são luz.
+            A CARPI cria luminárias e objetos para a casa. Peças que chamam atenção mesmo quando estão apagadas — e ganham outra vida quando acesas.
           </p>
           <p className="max-w-[56ch] text-lg leading-relaxed text-texto-suave">
             Cada pedido fica pronto em 2 dias úteis e segue para a sua casa com código de rastreio.

@@ -69,8 +69,7 @@ export default async function Inicio() {
         <div className="grid content-center justify-items-start gap-5">
           <TituloSecao id="titulo-sobre">Sobre o ateliê</TituloSecao>
           <p className="max-w-[56ch] text-lg leading-relaxed">
-            A CARPI é um ateliê de design de iluminação. Nossas peças, produzidas sob encomenda em PETG translúcido, vivem dois momentos: de
-            dia, são design; à noite, são luz.
+            A CARPI cria luminárias e objetos para a casa. Peças que chamam atenção mesmo quando estão apagadas — e ganham outra vida quando acesas.
           </p>
           <BotaoLink href="/sobre" variante="secundario">
             Conheça o ateliê
