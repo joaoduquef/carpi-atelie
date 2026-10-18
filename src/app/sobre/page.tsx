@@ -24,17 +24,16 @@ export default function Sobre() {
           />
         </div>
         <div className="grid content-center justify-items-start gap-5">
-          <TituloSecao como="h1">Sobre nós</TituloSecao>
-          <p className="text-[clamp(1.6rem,3.4vw,2.4rem)] leading-tight font-bold text-destaque" id="titulo-quem">
-            Somos João e Nalu, os fundadores da CARPI.
+          <TituloSecao como="h1" id="titulo-quem">
+            Por trás da CARPI
+          </TituloSecao>
+          <p className="max-w-[58ch] text-lg leading-relaxed">
+            Prazer, somos João e Nalu. Ele estuda Engenharia Aeroespacial e ela estuda Medicina. A CARPI é o nosso jeito de explorar nossa criatividade
+            conjunta.
           </p>
           <p className="max-w-[58ch] text-lg leading-relaxed">
-            João Duque estuda Engenharia Aeroespacial. Nalu Chagas, sócia e namorada, estuda Medicina. Mundos bem diferentes, mas com uma vontade em
-            comum: criar algo nosso.
-          </p>
-          <p className="max-w-[58ch] text-lg leading-relaxed">
-            A CARPI surgiu dessa vontade de empreender e do desejo de transformar ideias de objetos de decoração para a casa em artesanato de verdade:
-            peças pensadas por nós e produzidas com cuidado, uma a uma, para a sua casa.
+            O que começou como uma ideia entre nós virou um estúdio de design, onde tiramos projetos do papel e transformamos nossas referências em
+            objetos para a casa.
           </p>
         </div>
       </section>
@@ -50,12 +49,13 @@ export default function Sobre() {
           />
         </div>
         <div className="grid content-center justify-items-start gap-5 md:order-1">
-          <TituloSecao id="titulo-atelie">O ateliê</TituloSecao>
+          <TituloSecao id="titulo-atelie">Feito na CARPI</TituloSecao>
           <p className="max-w-[56ch] text-lg leading-relaxed">
-            A CARPI cria luminárias e objetos para a casa. Peças que chamam atenção mesmo quando estão apagadas — e ganham outra vida quando acesas.
+            Desenvolvemos cada peça do início ao fim, do desenho ao objeto final. Gostamos de formas marcantes, cores interessantes e objetos que fazem
+            a diferença no ambiente sem precisar de muito.
           </p>
           <p className="max-w-[56ch] text-lg leading-relaxed text-texto-suave">
-            Cada pedido fica pronto em 2 dias úteis e segue para a sua casa com código de rastreio.
+            Produzimos sob encomenda, com prazo de preparo de 2 dias úteis e envio com rastreamento.
           </p>
         </div>
       </section>
