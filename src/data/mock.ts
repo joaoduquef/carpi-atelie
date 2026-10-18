@@ -1,4 +1,5 @@
 // Dados fictícios da Fase 1. Na Fase 2 tudo isto passa a vir do Supabase.
+import { foto } from "@/lib/fotos";
 import type { Cor, CorSlug, Imagem, Modelo, Variacao } from "@/lib/tipos";
 
 export const CORES: Record<CorSlug, Cor> = {
@@ -67,10 +68,10 @@ export const VARIACOES: Variacao[] = MODELOS.flatMap((m) =>
 export const IMAGENS: Record<string, Imagem[]> = {
   babi: [
     ...ORDEM_CORES.flatMap((cor): Imagem[] => [
-      { tipo: "apagado", cor, url: `/products/babi/${cor}-apagado.png`, alt: `Abajur Babi ${CORES[cor].nome} apagado` },
-      { tipo: "aceso", cor, url: `/products/babi/${cor}-aceso.png`, alt: `Abajur Babi ${CORES[cor].nome} aceso` },
+      { tipo: "apagado", cor, url: foto(`/products/babi/${cor}-apagado.png`), alt: `Abajur Babi ${CORES[cor].nome} apagado` },
+      { tipo: "aceso", cor, url: foto(`/products/babi/${cor}-aceso.png`), alt: `Abajur Babi ${CORES[cor].nome} aceso` },
     ]),
-    { tipo: "ambiente", cor: null, url: "/products/babi/ambiente-1.jpg", alt: "Abajur Babi sobre um aparador" },
-    { tipo: "desenho_tecnico", cor: null, url: "/products/babi/desenho-tecnico.png", alt: "Desenho técnico do abajur Babi com medidas" },
+    { tipo: "ambiente", cor: null, url: foto("/products/babi/ambiente-1.jpg"), alt: "Abajur Babi rosa sobre uma escrivaninha de madeira" },
+    { tipo: "desenho_tecnico", cor: null, url: foto("/products/babi/desenho-tecnico.png"), alt: "Desenho técnico do abajur Babi com medidas" },
   ],
 };

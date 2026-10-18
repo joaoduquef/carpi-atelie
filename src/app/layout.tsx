@@ -39,9 +39,9 @@ export const metadata: Metadata = {
     description: LOJA.descricao,
     images: [
       {
-        url: "/products/babi/ambiente-1.jpg",
-        width: 1600,
-        height: 1200,
+        url: "/products/babi/ambiente-1.jpg?v=2",
+        width: 1436,
+        height: 1436,
         alt: "Abajur Babi",
       },
     ],
