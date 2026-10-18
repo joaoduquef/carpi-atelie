@@ -6,7 +6,12 @@ import { classeFundo } from "@/lib/catalogo";
 import type { Cor, Imagem } from "@/lib/tipos";
 import { ImagemAbajur } from "@/components/luzes/ImagemAbajur";
 
-type Vista = { chave: string; rotulo: string; render: "abajur" | "aceso" | "foto"; imagem: Imagem };
+type Vista = {
+  chave: string;
+  rotulo: string;
+  render: "abajur" | "aceso" | "foto";
+  imagem: Imagem;
+};
 
 export function GaleriaProduto({
   cor,
@@ -34,13 +39,34 @@ export function GaleriaProduto({
 
   return (
     <div className="grid gap-2.5 sm:grid-cols-[64px_1fr]">
-      <div className={`relative grid aspect-[1/1.05] place-items-center overflow-hidden rounded-bloco sm:order-2 ${classeFundo(cor)}`}>
+      <div
+        style={{ "--brilho": `${cor.hex}cc` } as React.CSSProperties}
+        className={`fundo-abajur grid aspect-[1/1.05] place-items-center overflow-hidden rounded-bloco sm:order-2 ${classeFundo(cor)}`}
+      >
         {vista.render === "abajur" && (
-          <ImagemAbajur apagado={apagado} aceso={aceso} corBrilho={cor.hex} sizes="(max-width: 768px) 80vw, 420px" priority className="h-[80%]" />
+          <ImagemAbajur
+            apagado={apagado}
+            aceso={aceso}
+            corBrilho={cor.hex}
+            sizes="(max-width: 768px) 80vw, 420px"
+            priority
+            className="h-[80%]"
+          />
         )}
         {vista.render === "aceso" && (
-          <div className="relative aspect-[8/11] h-[80%]" style={{ filter: `drop-shadow(0 0 18px ${cor.hex}cc) drop-shadow(0 0 48px ${cor.hex}cc)` }}>
-            <Image src={aceso.url} alt={aceso.alt} fill sizes="(max-width: 768px) 80vw, 420px" className="object-contain" />
+          <div
+            className="relative aspect-[8/11] h-[80%]"
+            style={{
+              filter: `drop-shadow(0 0 18px ${cor.hex}cc) drop-shadow(0 0 48px ${cor.hex}cc)`,
+            }}
+          >
+            <Image
+              src={aceso.url}
+              alt={aceso.alt}
+              fill
+              sizes="(max-width: 768px) 80vw, 420px"
+              className="object-contain"
+            />
           </div>
         )}
         {vista.render === "foto" && (
@@ -49,11 +75,19 @@ export function GaleriaProduto({
             alt={vista.imagem.alt}
             fill
             sizes="(max-width: 768px) 100vw, 520px"
-            className={vista.imagem.tipo === "desenho_tecnico" ? "bg-white object-contain p-4" : "object-cover"}
+            className={
+              vista.imagem.tipo === "desenho_tecnico"
+                ? "bg-white object-contain p-4"
+                : "object-cover"
+            }
           />
         )}
       </div>
-      <div role="group" aria-label="Fotos do produto" className="flex gap-2 sm:order-1 sm:grid sm:content-start">
+      <div
+        role="group"
+        aria-label="Fotos do produto"
+        className="flex gap-2 sm:order-1 sm:grid sm:content-start"
+      >
         {vistas.map((v) => (
           <button
             key={v.chave}
@@ -62,7 +96,9 @@ export function GaleriaProduto({
             aria-label={v.rotulo}
             onClick={() => setAtiva(v.chave)}
             className={`relative grid aspect-square w-16 place-items-center overflow-hidden rounded-xl bg-superficie ${
-              v.chave === ativa ? "outline-2 outline-offset-1 outline-destaque" : ""
+              v.chave === ativa
+                ? "outline-2 outline-offset-1 outline-destaque"
+                : ""
             }`}
           >
             <Image
@@ -70,7 +106,13 @@ export function GaleriaProduto({
               alt=""
               fill
               sizes="64px"
-              className={v.render === "foto" ? (v.imagem.tipo === "desenho_tecnico" ? "bg-white object-contain" : "object-cover") : "object-contain p-2"}
+              className={
+                v.render === "foto"
+                  ? v.imagem.tipo === "desenho_tecnico"
+                    ? "bg-white object-contain"
+                    : "object-cover"
+                  : "object-contain p-2"
+              }
             />
           </button>
         ))}

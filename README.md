@@ -112,20 +112,21 @@ Outros comandos: `npm run build` (gera a versão de produção) e `npm run lint`
 
 | O quê | Onde |
 |---|---|
-| Logo | `public/brand/logo.svg` (romã) e `public/brand/logo-creme.svg` (creme, usado no modo noite). Troque os dois mantendo os nomes. |
+| Logo | `public/brand/logo.svg` (rosa) e `public/brand/logo-creme.svg` (branco, para fundos escuros). Troque mantendo os nomes. |
 | Fotos da Babi | `public/products/babi/` — `mare-apagado.png`, `mare-aceso.png`, `damasco-…`, `roma-…` (recortadas, fundo transparente), `ambiente-1.jpg` e `desenho-tecnico.png`. Mantenha os nomes e as fotos recortadas em pé (proporção 8 × 11). Depois de trocar, aumente o número em `src/lib/fotos.ts` para o site não mostrar a foto antiga guardada em cache. |
 | E-mail, Instagram, CNPJ, razão social, texto da barra do topo | `src/config/loja.ts` |
 | Preço, descrição e medidas (até a Fase 2) | `src/data/mock.ts` |
-| Cores | `src/app/globals.css` (bloco `:root` para luzes acesas, `html.apagadas` para o modo noite) |
+| Cores e efeito das luzes | `src/app/globals.css` (bloco `:root` para as cores; seção "Luzes" para o efeito de apagar) |
 | Textos das páginas | `src/app/<nome-da-página>/page.tsx`. Os textos marcados como provisórios precisam de revisão. |
 
 ## Identidade visual (decisões aprovadas)
 
-- **Paleta:** creme `#F7EDDC`, creme claro `#FBF6EC`, romã `#E2627F`, romã escuro `#B63A55`, romã texto `#9C2F48`, rosa claro `#F8C3CE`, maré `#A9CCDD`, maré escuro `#336A89`, damasco `#EE8E3E`, damasco claro `#FBD2A5`, amarelo `#F6D27A`, tinta `#3A2228`.
-- **Modo noite (Apagar as luzes):** fundo bordô `#3A1420`, títulos e botões em rosa claro, logo em creme.
-- **Logo:** romã só sobre creme; em creme sobre romã escuro e bordô.
+- **Três cores:** rosa da marca `#B63A55`, branco e preto `#171717` (só nos textos). Um rosa bem diluído (`#FAF1F3`) separa áreas, no lugar de linhas.
+- **Apagar as luzes:** o site continua igual; só o fundo de cada abajur escurece e a peça acende devagar, com brilho na cor dela. Ao acender, a peça apaga primeiro e depois o fundo clareia.
+- **Logo:** no rosa da marca (`public/brand/logo.svg`).
 - **Nome dos produtos:** `BABI  maré` (modelo em caixa alta, dois espaços, cor em minúsculas).
-- **Página inicial enxuta:** só o preço cheio nos cards; Pix, medidas, cuidados, pagamentos e "como funciona" ficam na página do produto.
+- **Página inicial enxuta:** cores do destaque passam sozinhas; só o preço cheio nos cards; Pix, medidas, cuidados, pagamentos e "como funciona" ficam na página do produto.
+- **Cabeçalho fixo** no topo ao rolar a página.
 - **Fonte:** Liberation Sans (licença SIL OFL, arquivo em `public/fonts/LICENSE-Liberation.txt`), hospedada no próprio site.
 - Todos os textos passam no contraste mínimo WCAG AA.
 

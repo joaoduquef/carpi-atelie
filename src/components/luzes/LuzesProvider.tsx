@@ -21,9 +21,7 @@ export function LuzesProvider({ children }: { children: React.ReactNode }) {
   const alternar = useCallback(() => {
     const raiz = document.documentElement;
     const novo = !raiz.classList.contains("apagadas");
-    raiz.classList.add("transicao-luzes");
     raiz.classList.toggle("apagadas", novo);
-    window.setTimeout(() => raiz.classList.remove("transicao-luzes"), 700);
     try {
       localStorage.setItem(CHAVE, novo ? "apagadas" : "acesas");
     } catch {

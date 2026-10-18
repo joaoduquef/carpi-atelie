@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 /*
-  Paleta CARPI. Com as luzes acesas o site usa só três cores: o rosa da marca,
-  o branco e o preto (texto). O "rosa-suave" é o mesmo rosa bem diluído no branco,
-  para separar áreas sem usar linhas. Com as luzes apagadas (.apagadas no <html>)
-  entra a paleta noturna em bordô.
+  Paleta CARPI: só três cores, o rosa da marca, o branco e o preto (texto).
+  O "rosa-suave" é o mesmo rosa bem diluído no branco, para separar áreas sem linhas.
+  "Apagar as luzes" (.apagadas no <html>) não muda o site: só escurece o fundo de
+  cada abajur e acende a peça (veja "Luzes", abaixo).
 */
 :root {
   /* paleta noturna e cores dos produtos */
@@ -55,34 +55,6 @@
   color-scheme: light;
 }
 
-html.apagadas {
-  /* noite: só o bordô e o branco (o bordô um pouco mais claro separa áreas) */
-  --fundo: var(--noite);
-  --superficie: color-mix(in srgb, var(--branco) 7%, var(--noite));
-  --texto: var(--branco);
-  --texto-suave: color-mix(in srgb, var(--branco) 78%, var(--noite));
-  --titulo: var(--branco);
-  --destaque: var(--branco);
-  --link: var(--branco);
-  --linha: rgb(255 255 255 / 0.25);
-  --bloco-mare: var(--superficie);
-  --bloco-rosa: var(--superficie);
-  --bloco-damasco: var(--superficie);
-  --bloco-amarelo: var(--superficie);
-  --texto-em-bloco: var(--branco);
-  --texto-em-mare: var(--branco);
-  --botao: var(--branco);
-  --botao-texto: var(--noite);
-  --icone-fundo: color-mix(in srgb, var(--branco) 12%, var(--noite));
-  --icone: var(--branco);
-  --selo: var(--branco);
-  --selo-texto: var(--noite);
-  --rodape: color-mix(in srgb, #000 28%, var(--noite));
-  --rodape-texto: var(--branco);
-  --erro: var(--branco);
-  --sucesso: var(--branco);
-  color-scheme: dark;
-}
 
 @theme inline {
   --font-sans: var(--fonte-liberation), Arimo, Arial, Helvetica, sans-serif;
@@ -150,50 +122,76 @@ h3 {
   outline-offset: 3px;
 }
 
-/* Transição suave ao apagar/acender (desligada para quem prefere menos movimento) */
-html.transicao-luzes,
-html.transicao-luzes *,
-html.transicao-luzes *::before,
-html.transicao-luzes *::after {
-  transition:
-    background-color 0.6s ease,
-    color 0.6s ease,
-    border-color 0.6s ease,
-    opacity 0.6s ease,
-    filter 0.6s ease !important;
-}
+/* ---------- Luzes ----------
+   Ao apagar: primeiro o fundo do abajur escurece, depois a peça acende devagar.
+   Ao acender: primeiro a peça apaga, depois o fundo clareia. */
 
-@media (prefers-reduced-motion: reduce) {
-  html.transicao-luzes,
-  html.transicao-luzes *,
-  html.transicao-luzes *::before,
-  html.transicao-luzes *::after {
-    transition: none !important;
-  }
+.fundo-abajur {
+  position: relative;
+  isolation: isolate;
+}
+.fundo-abajur::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 45%, color-mix(in srgb, var(--brilho, #f6c28b) 30%, transparent), transparent 70%),
+    radial-gradient(ellipse 120% 90% at 50% 40%, #2b1d1f, #140d0e);
+  opacity: 0;
+  transition: opacity 1.3s ease-in-out 0.9s; /* acendendo a luz da casa: espera o abajur apagar */
+}
+html.apagadas .fundo-abajur::before {
+  opacity: 1;
+  transition: opacity 1.1s ease-in-out 0s; /* apagando a luz da casa: escurece primeiro */
 }
 
 /* Abajur: troca da foto apagada para a acesa, com brilho na cor da variação */
+.abajur-aceso,
+.abajur-apagado,
+.abajur-brilho {
+  transition:
+    opacity 1.1s ease-in-out,
+    filter 1.1s ease-in-out;
+}
 .abajur-aceso {
   opacity: 0;
 }
 html.apagadas .abajur-aceso {
   opacity: 1;
+  transition: opacity 1.8s cubic-bezier(0.55, 0, 0.35, 1) 0.7s;
 }
 html.apagadas .abajur-apagado {
   opacity: 0;
+  transition: opacity 1.8s cubic-bezier(0.55, 0, 0.35, 1) 0.7s;
 }
 html.apagadas .abajur-brilho {
   filter: drop-shadow(0 0 18px var(--brilho)) drop-shadow(0 0 48px var(--brilho));
+  transition: filter 2.2s cubic-bezier(0.55, 0, 0.35, 1) 0.8s;
 }
 
-.logo-escuro {
-  opacity: 0;
+@media (prefers-reduced-motion: reduce) {
+  .fundo-abajur::before,
+  html.apagadas .fundo-abajur::before,
+  .abajur-aceso,
+  .abajur-apagado,
+  .abajur-brilho,
+  html.apagadas .abajur-aceso,
+  html.apagadas .abajur-apagado,
+  html.apagadas .abajur-brilho {
+    transition: none;
+  }
 }
-html.apagadas .logo-escuro {
-  opacity: 1;
+
+/* Texto sobre o fundo escuro do abajur ("ISA", "MANU", nome no destaque) */
+.fundo-abajur .texto-no-abajur {
+  transition: color 1.1s ease-in-out 0.9s;
 }
-html.apagadas .logo-claro {
-  opacity: 0;
+html.apagadas .fundo-abajur .texto-no-abajur {
+  color: var(--branco);
+  transition: color 1.1s ease-in-out;
 }
 
 /* Nomes de produto: "BABI  maré", com dois espaços preservados */

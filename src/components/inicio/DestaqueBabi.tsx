@@ -41,7 +41,8 @@ export function DestaqueBabi({
 
   return (
     <div
-      className={`grid rounded-bloco transition-colors duration-700 ${classeFundo(atual.cor)}`}
+      style={{ "--brilho": `${atual.cor.hex}cc` } as React.CSSProperties}
+      className={`fundo-abajur grid rounded-bloco transition-colors duration-700 ${classeFundo(atual.cor)}`}
     >
       <div className="grid place-items-center gap-5 px-4 pt-10 pb-6">
         <Link
@@ -90,7 +91,7 @@ export function DestaqueBabi({
           <NomeProduto
             modelo={atual.modelo.nome}
             cor={atual.cor.nome}
-            className="ml-1 min-w-[9.5em]"
+            className="texto-no-abajur ml-1 min-w-[9.5em]"
           />
         </div>
       </div>
