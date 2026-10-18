@@ -6,7 +6,7 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 
 | Fase | O que entra | Situação |
 |---|---|---|
-| 1. Visual | Todas as páginas, paleta, fonte, celular e "Apagar as luzes" | **Aprovada** |
+| 1. Visual | Todas as páginas, paleta, fonte, celular e "Acender as luzes" | **Aprovada** |
 | 2. Banco de dados | Supabase, cadastro e login, produtos e estoque vindos do banco | **Pronta para teste** (precisa configurar o Supabase, veja abaixo) |
 | 3. Sacola e checkout | Cupons, frete pelo Melhor Envio, frete grátis no Sudeste | A fazer |
 | 4. Pagamento | Pagar.me e PagBank em teste, cartão e Pix, baixa de estoque | A fazer |
@@ -124,7 +124,7 @@ Outros comandos: `npm run build` (gera a versão de produção) e `npm run lint`
 ## Identidade visual (decisões aprovadas)
 
 - **Três cores:** rosa da marca `#B63A55`, branco e preto `#171717` (só nos textos). Um rosa bem diluído (`#FAF1F3`) separa áreas, no lugar de linhas.
-- **Apagar as luzes**: o site continua igual; o fundo de cada abajur escurece para um rosa fechado, mas em volta da peça continua clarinho, e a peça acende devagar, com brilho na cor dela. Botão na página inicial, na coleção, na página do produto e no menu do celular. Ao acender as luzes de novo, a peça apaga primeiro e depois o fundo clareia.
+- **Acender as luzes**: o site continua igual; o fundo de cada abajur escurece para um rosa fechado, mas em volta da peça continua clarinho, e a peça acende devagar, com brilho na cor dela. Botão na página inicial, na coleção, na página do produto e no menu do celular. Ao apagar as luzes, a peça apaga primeiro e depois o fundo clareia.
 - **Logo:** no rosa da marca (`public/brand/logo.svg`).
 - **Nome dos produtos:** `BABI  maré` (modelo em caixa alta, dois espaços, cor em minúsculas).
 - **Página inicial enxuta:** cores do destaque passam sozinhas; só o preço cheio nos cards; Pix, medidas, cuidados, pagamentos e "como funciona" ficam na página do produto.

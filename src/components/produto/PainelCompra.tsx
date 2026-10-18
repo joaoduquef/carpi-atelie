@@ -27,7 +27,7 @@ export function PainelCompra({
           {disponivel ? "Adicionar à sacola" : "Indisponível"}
         </Botao>
       </div>
-      <BotaoLuzes luzesDoAbajur />
+      <BotaoLuzes />
       <div className="border-t border-linha pt-4">
         <CalculoFrete producaoDias={producaoDias} id="cep-produto" />
       </div>
