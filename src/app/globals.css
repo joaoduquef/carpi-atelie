@@ -1,10 +1,13 @@
 @import "tailwindcss";
 
 /*
-  Paleta CARPI (aprovada). As cores "de papel" (fundo, texto, título...) mudam
-  quando as luzes se apagam: a classe .apagadas no <html> troca os valores.
+  Paleta CARPI. Com as luzes acesas o site usa só três cores: o rosa da marca,
+  o branco e o preto (texto). O "rosa-suave" é o mesmo rosa bem diluído no branco,
+  para separar áreas sem usar linhas. Com as luzes apagadas (.apagadas no <html>)
+  entra a paleta noturna em bordô.
 */
 :root {
+  /* paleta noturna e cores dos produtos */
   --creme: #f7eddc;
   --creme-claro: #fbf6ec;
   --roma: #e2627f;
@@ -19,30 +22,36 @@
   --tinta: #3a2228;
   --noite: #3a1420;
 
-  --fundo: var(--creme);
-  --superficie: var(--creme-claro);
-  --texto: var(--tinta);
-  --texto-suave: #5e464b;
-  --titulo: var(--roma-escuro);
-  --destaque: var(--roma-texto);
-  --link: var(--mare-escuro);
-  --linha: rgb(182 58 85 / 0.32);
-  --bloco-mare: var(--mare);
-  --bloco-rosa: var(--rosa-claro);
-  --bloco-damasco: var(--damasco-claro);
-  --bloco-amarelo: var(--amarelo);
-  --texto-em-bloco: var(--roma-texto);
-  --texto-em-mare: var(--tinta);
-  --botao: var(--roma-escuro);
-  --botao-texto: var(--creme-claro);
-  --icone-fundo: var(--rosa-claro);
-  --icone: var(--roma-escuro);
-  --rodape: var(--roma-escuro);
-  --rodape-texto: var(--creme-claro);
-  --erro: #9c2f48;
-  --sucesso: #2f6b45;
-  /* linhas: contorno da moldura, dos blocos e dos cards */
-  --contorno: var(--roma-escuro);
+  /* as três cores do dia */
+  --rosa: #b63a55;
+  --rosa-suave: #faf1f3;
+  --branco: #ffffff;
+  --preto: #171717;
+
+  --fundo: var(--branco);
+  --superficie: var(--rosa-suave);
+  --texto: var(--preto);
+  --texto-suave: #575757;
+  --titulo: var(--preto);
+  --destaque: var(--rosa);
+  --link: var(--rosa);
+  --linha: rgb(23 23 23 / 0.14);
+  --bloco-mare: var(--rosa-suave);
+  --bloco-rosa: var(--rosa-suave);
+  --bloco-damasco: var(--rosa-suave);
+  --bloco-amarelo: var(--rosa-suave);
+  --texto-em-bloco: var(--preto);
+  --texto-em-mare: var(--preto);
+  --botao: var(--rosa);
+  --botao-texto: var(--branco);
+  --icone-fundo: var(--rosa-suave);
+  --icone: var(--rosa);
+  --selo: var(--rosa);
+  --selo-texto: var(--branco);
+  --rodape: var(--rosa);
+  --rodape-texto: var(--branco);
+  --erro: var(--rosa);
+  --sucesso: var(--preto);
   color-scheme: light;
 }
 
@@ -66,9 +75,10 @@ html.apagadas {
   --icone-fundo: color-mix(in srgb, var(--creme) 14%, var(--noite));
   --icone: var(--rosa-claro);
   --rodape: color-mix(in srgb, #000 30%, var(--noite));
+  --selo: var(--rosa-claro);
+  --selo-texto: var(--noite);
   --erro: #f8c3ce;
   --sucesso: #b9e3c6;
-  --contorno: rgb(248 195 206 / 0.55);
   color-scheme: dark;
 }
 
@@ -88,6 +98,12 @@ html.apagadas {
   --color-amarelo: var(--amarelo);
   --color-tinta: var(--tinta);
   --color-noite: var(--noite);
+  --color-rosa: var(--rosa);
+  --color-rosa-suave: var(--rosa-suave);
+  --color-branco: var(--branco);
+  --color-preto: var(--preto);
+  --color-selo: var(--selo);
+  --color-selo-texto: var(--selo-texto);
 
   --color-fundo: var(--fundo);
   --color-superficie: var(--superficie);
@@ -112,41 +128,13 @@ html.apagadas {
   --color-erro: var(--erro);
   --color-sucesso: var(--sucesso);
 
-  --radius-bloco: 28px;
-  --radius-card: 18px;
+  --radius-bloco: 20px;
+  --radius-card: 14px;
 }
 
 body {
   background: var(--fundo);
   color: var(--texto);
-}
-
-/* ---------- Linhas: moldura e contornos ---------- */
-
-/* Moldura: o site inteiro dentro de um quadro com contorno, como nas referências */
-.moldura-site {
-  margin: 10px;
-  border: 1.5px solid var(--contorno);
-  border-radius: 34px;
-  background: var(--fundo);
-  overflow: clip;
-}
-@media (min-width: 640px) {
-  .moldura-site {
-    margin: 18px;
-  }
-}
-
-/* Blocos e cards: contorno fino */
-.rounded-bloco,
-.rounded-card {
-  border: 1.5px solid var(--contorno);
-}
-
-/* Campos de texto com contorno da marca */
-input:not([type="checkbox"]):not([type="radio"]),
-select {
-  border-color: var(--contorno) !important;
 }
 
 h1,

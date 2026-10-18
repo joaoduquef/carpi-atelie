@@ -119,7 +119,7 @@ function FormEndereco({ endereco, demo, aoTerminar }: { endereco?: EnderecoConta
   }
 
   return (
-    <form action={acao} className="grid gap-3 rounded-xl border border-linha bg-fundo p-4 sm:grid-cols-2">
+    <form action={acao} className="grid gap-3 rounded-xl bg-fundo p-4 sm:grid-cols-2">
       {endereco && <input type="hidden" name="id" value={endereco.id} />}
       <Campo rotulo="Apelido" name="apelido" defaultValue={endereco?.apelido ?? "Casa"} placeholder="Casa, Trabalho…" />
       <Campo rotulo="Quem recebe" name="destinatario" defaultValue={endereco?.destinatario} required autoComplete="name" />
@@ -188,10 +188,10 @@ export function Enderecos({ enderecos, demo }: { enderecos: EnderecoConta[]; dem
               <FormEndereco endereco={e} demo={demo} aoTerminar={() => setEditando(null)} />
             </li>
           ) : (
-            <li key={e.id} className="grid gap-1 rounded-xl border border-linha bg-fundo px-4 py-3">
+            <li key={e.id} className="grid gap-1 rounded-xl bg-fundo px-4 py-3">
               <div className="flex flex-wrap items-center gap-2">
                 <strong>{e.apelido}</strong>
-                {e.padrao && <span className="rounded-full bg-amarelo px-2 py-0.5 text-xs font-bold text-tinta">Padrão</span>}
+                {e.padrao && <span className="rounded-full bg-selo px-2 py-0.5 text-xs font-bold text-selo-texto">Padrão</span>}
               </div>
               <p>
                 {e.destinatario} · {e.rua}, {e.numero}
@@ -248,7 +248,7 @@ export function PedidoExclusao({ solicitadoEm, demo }: { solicitadoEm: string | 
     );
 
   return (
-    <form action={acao} className="grid gap-3 rounded-xl border border-linha bg-fundo p-4">
+    <form action={acao} className="grid gap-3 rounded-xl bg-fundo p-4">
       <p className="text-sm">
         Vamos apagar a sua conta, endereços e favoritos. Os dados de pedidos já feitos ficam guardados pelo prazo exigido pela lei fiscal.
       </p>

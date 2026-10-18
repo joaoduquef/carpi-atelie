@@ -29,7 +29,7 @@ export function ConteudoFavoritos() {
       </div>
 
       {carregado && produtos.length === 0 ? (
-        <div className="grid justify-items-center gap-4 rounded-bloco border border-linha bg-superficie px-6 py-12 text-center">
+        <div className="grid justify-items-center gap-4 rounded-bloco bg-superficie px-6 py-12 text-center">
           <p className="max-w-[44ch] text-lg">Você ainda não tem favoritos. Toque no coração de uma peça para guardá-la aqui.</p>
           <BotaoLink href="/colecao">Ver a coleção</BotaoLink>
         </div>

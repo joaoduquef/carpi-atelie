@@ -1,4 +1,4 @@
-/** Título de seção em caixa alta, com uma linha que puxa até a borda (ou linhas dos dois lados, se centralizado). */
+/** Título de seção em caixa alta, espaçado. */
 export function TituloSecao({
   children,
   id,
@@ -12,14 +12,12 @@ export function TituloSecao({
   centralizado?: boolean;
   className?: string;
 }) {
-  const linha = <span aria-hidden className="h-[1.5px] min-w-6 flex-1 bg-[var(--contorno)]" />;
   return (
-    <div className="flex items-center gap-4">
-      {centralizado && linha}
-      <Tag id={id} className={`text-[clamp(1.5rem,4vw,2.2rem)] font-bold tracking-[0.08em] text-titulo uppercase ${className}`}>
-        {children}
-      </Tag>
-      {linha}
-    </div>
+    <Tag
+      id={id}
+      className={`text-[clamp(1.35rem,2.6vw,1.9rem)] font-bold tracking-[0.12em] text-titulo uppercase ${centralizado ? "text-center" : ""} ${className}`}
+    >
+      {children}
+    </Tag>
   );
 }

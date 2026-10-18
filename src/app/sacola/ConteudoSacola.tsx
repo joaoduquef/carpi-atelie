@@ -25,13 +25,13 @@ export function ConteudoSacola() {
       <TituloSecao como="h1">Sua sacola</TituloSecao>
 
       {carregado && linhas.length === 0 ? (
-        <div className="grid justify-items-center gap-4 rounded-bloco border border-linha bg-superficie px-6 py-12 text-center">
+        <div className="grid justify-items-center gap-4 rounded-bloco bg-superficie px-6 py-12 text-center">
           <p className="text-lg">Sua sacola está vazia.</p>
           <BotaoLink href="/colecao">Ver a coleção</BotaoLink>
         </div>
       ) : (
         <div className="grid items-start gap-4 md:grid-cols-[1.5fr_1fr]">
-          <ul className="grid rounded-card border border-linha bg-superficie px-5" aria-label="Itens da sacola">
+          <ul className="grid rounded-card bg-superficie px-5" aria-label="Itens da sacola">
             {linhas.map((l) => (
               <li key={l.variacao.id} className="grid grid-cols-[64px_1fr] items-center gap-x-4 gap-y-2 border-b border-linha py-4 last:border-b-0 sm:grid-cols-[76px_1fr_auto]">
                 <Link href={urlProduto(l.modelo.slug, l.variacao.cor)} aria-label={`Ver ${textoNomeProduto(l.modelo.nome, l.cor.nome)}`}>
@@ -54,7 +54,7 @@ export function ConteudoSacola() {
             ))}
           </ul>
 
-          <aside aria-label="Resumo da sacola" className="grid gap-4 rounded-card border border-linha bg-superficie px-5 py-5">
+          <aside aria-label="Resumo da sacola" className="grid gap-4 rounded-card bg-superficie px-5 py-5">
             <h2 className="text-base font-bold tracking-[0.08em] text-titulo uppercase">Resumo</h2>
             <CalculoFrete producaoDias={producao || 2} id="cep-sacola" />
             <dl className="grid grid-cols-[1fr_auto] gap-x-3 gap-y-1.5 border-t border-linha pt-3 text-[0.95rem] tabular-nums">

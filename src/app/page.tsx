@@ -1,9 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import { foto } from "@/lib/fotos";
 import { listarEmBreve, listarProdutos } from "@/lib/catalogo";
 import { carregarCatalogo } from "@/lib/catalogo-servidor";
 import { DestaqueBabi } from "@/components/inicio/DestaqueBabi";
-import { Logo } from "@/components/layout/Logo";
 import { BotaoLuzes } from "@/components/luzes/BotaoLuzes";
 import { CardEmBreve } from "@/components/produto/CardEmBreve";
 import { CardProduto } from "@/components/produto/CardProduto";
@@ -18,14 +18,17 @@ export default async function Inicio() {
   const destaque = produtos.filter((p) => p.modelo.slug === produtos[0]?.modelo.slug);
 
   return (
-    <div className="grid gap-14">
-      <section aria-label="Destaque" className="grid gap-3 md:grid-cols-[1.05fr_1fr]">
-        <div className="grid content-center justify-items-center gap-6 rounded-bloco border border-linha bg-superficie px-6 py-12 text-center">
-          <h1 className="grid justify-items-center gap-5">
-            <Logo className="h-auto w-[min(78%,380px)] [&_img]:h-auto" />
-            <span className="text-xl font-bold tracking-[0.02em] text-titulo sm:text-2xl">Abajures feitos com carinho.</span>
+    <div className="grid gap-20 sm:gap-24">
+      <section aria-label="Destaque" className="grid items-center gap-8 md:grid-cols-[1fr_1.05fr] md:gap-12">
+        <div className="grid justify-items-start gap-6 md:py-8">
+          <p className="text-xs font-bold tracking-[0.22em] text-destaque uppercase">Ateliê de abajures · feito sob encomenda</p>
+          <h1 className="text-[clamp(2.4rem,6vw,4.25rem)] leading-[1.02] font-bold tracking-[-0.01em] text-titulo">
+            Abajures feitos com carinho.
           </h1>
-          <div className="flex flex-wrap justify-center gap-2.5">
+          <p className="max-w-[44ch] text-lg leading-relaxed text-texto-suave">
+            Peças em PETG translúcido que colorem o ambiente de dia e espalham uma luz quente à noite.
+          </p>
+          <div className="flex flex-wrap gap-2.5">
             <BotaoLink href="/colecao">Ver a coleção</BotaoLink>
             <BotaoLuzes />
           </div>
@@ -33,8 +36,13 @@ export default async function Inicio() {
         <DestaqueBabi produtos={destaque} corInicial="damasco" />
       </section>
 
-      <section aria-labelledby="titulo-colecao" className="grid gap-5">
-        <TituloSecao id="titulo-colecao">A coleção</TituloSecao>
+      <section aria-labelledby="titulo-colecao" className="grid gap-6">
+        <div className="flex items-baseline justify-between gap-4">
+          <TituloSecao id="titulo-colecao">A coleção</TituloSecao>
+          <Link href="/colecao" className="text-sm font-bold whitespace-nowrap text-destaque underline-offset-4 hover:underline">
+            Ver tudo
+          </Link>
+        </div>
         <Carrossel rotulo="Peças da coleção">
           {produtos.map((p, i) => (
             <ItemCarrossel key={p.variacao.id}>
@@ -49,8 +57,8 @@ export default async function Inicio() {
         </Carrossel>
       </section>
 
-      <section aria-labelledby="titulo-sobre" className="grid gap-3 md:grid-cols-[1.1fr_1fr]">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-bloco bg-bloco-rosa">
+      <section aria-labelledby="titulo-sobre" className="grid items-center gap-8 md:grid-cols-[1.1fr_1fr] md:gap-12">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-bloco bg-superficie">
           <Image
             src={foto("/products/babi/ambiente-1.jpg")}
             alt="Abajur Babi rosa sobre uma escrivaninha de madeira"
@@ -59,17 +67,15 @@ export default async function Inicio() {
             className="object-cover"
           />
         </div>
-        <div className="grid content-center gap-4 rounded-bloco bg-bloco-mare px-6 py-8 text-texto-em-mare sm:px-8">
-          <TituloSecao id="titulo-sobre" className="!text-texto-em-mare">
-            Sobre o ateliê
-          </TituloSecao>
+        <div className="grid content-center justify-items-start gap-5">
+          <TituloSecao id="titulo-sobre">Sobre o ateliê</TituloSecao>
           {/* TEXTO PROVISÓRIO: escrever o texto definitivo do ateliê */}
-          <p className="max-w-[60ch]">
+          <p className="max-w-[56ch] text-lg leading-relaxed">
             A CARPI é um ateliê de abajures de design autoral. Cada peça é produzida sob encomenda, em PETG translúcido,
             para levar cor durante o dia e uma luz quente e macia à noite.
           </p>
-          <p className="max-w-[60ch] text-sm opacity-80">Texto provisório: os donos vão escrever a versão final.</p>
-          <BotaoLink href="/sobre" variante="secundario" className="justify-self-start !border-texto-em-mare !text-texto-em-mare">
+          <p className="text-sm text-texto-suave">Texto provisório: os donos vão escrever a versão final.</p>
+          <BotaoLink href="/sobre" variante="secundario">
             Conheça o ateliê
           </BotaoLink>
         </div>

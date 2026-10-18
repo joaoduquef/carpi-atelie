@@ -24,11 +24,11 @@ export function PaginaTexto({
 }
 
 const tons = {
-  creme: { fundo: "bg-superficie border border-linha", titulo: "text-titulo" },
-  rosa: { fundo: "bg-bloco-rosa", titulo: "text-texto-em-bloco" },
-  mare: { fundo: "bg-bloco-mare", titulo: "text-texto-em-mare" },
-  damasco: { fundo: "bg-bloco-damasco", titulo: "text-texto-em-bloco" },
-  amarelo: { fundo: "bg-bloco-amarelo", titulo: "text-texto-em-bloco" },
+  creme: { fundo: "bg-superficie", titulo: "text-destaque" },
+  rosa: { fundo: "bg-bloco-rosa", titulo: "text-destaque" },
+  mare: { fundo: "bg-bloco-mare", titulo: "text-destaque" },
+  damasco: { fundo: "bg-bloco-damasco", titulo: "text-destaque" },
+  amarelo: { fundo: "bg-bloco-amarelo", titulo: "text-destaque" },
 } as const;
 
 export type TomCartao = keyof typeof tons;

@@ -7,7 +7,7 @@ export function CaixaConta({ titulo, children }: { titulo: string; children: Rea
       <TituloSecao como="h1" centralizado className="text-center">
         {titulo}
       </TituloSecao>
-      <div className="grid gap-4 rounded-bloco border border-linha bg-superficie px-6 py-7">{children}</div>
+      <div className="grid gap-4 rounded-bloco bg-superficie px-6 py-7">{children}</div>
     </div>
   );
 }

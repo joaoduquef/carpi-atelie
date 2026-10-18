@@ -61,7 +61,7 @@ export function GaleriaProduto({
             aria-pressed={v.chave === ativa}
             aria-label={v.rotulo}
             onClick={() => setAtiva(v.chave)}
-            className={`relative grid aspect-square w-16 place-items-center overflow-hidden rounded-xl border border-linha bg-superficie ${
+            className={`relative grid aspect-square w-16 place-items-center overflow-hidden rounded-xl bg-superficie ${
               v.chave === ativa ? "outline-2 outline-offset-1 outline-destaque" : ""
             }`}
           >

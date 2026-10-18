@@ -35,7 +35,7 @@ export function Newsletter() {
       <form
         onSubmit={enviar}
         noValidate
-        className="grid gap-3 rounded-bloco border border-linha bg-superficie px-6 py-7 sm:px-8"
+        className="grid gap-3 rounded-bloco bg-superficie px-6 py-7 sm:px-8"
       >
         <h2 id="titulo-news" className="text-xl font-bold tracking-[0.02em] text-titulo">
           Receba as novidades do ateliê

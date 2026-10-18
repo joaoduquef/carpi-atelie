@@ -13,12 +13,12 @@ export const metadata: Metadata = { title: "Minha conta", robots: { index: false
 const ETAPAS: StatusPedido[] = ["aguardando_pagamento", "pago", "em_producao", "enviado", "entregue"];
 
 const corStatus: Record<StatusPedido, string> = {
-  aguardando_pagamento: "bg-amarelo text-tinta",
-  pago: "bg-mare text-tinta",
-  em_producao: "bg-damasco-claro text-tinta",
-  enviado: "bg-rosa-claro text-tinta",
-  entregue: "bg-creme-claro text-tinta ring-1 ring-tinta/30",
-  cancelado: "bg-tinta text-creme",
+  aguardando_pagamento: "bg-fundo text-destaque ring-1 ring-current",
+  pago: "bg-selo text-selo-texto",
+  em_producao: "bg-selo text-selo-texto",
+  enviado: "bg-selo text-selo-texto",
+  entregue: "bg-texto text-fundo",
+  cancelado: "bg-fundo text-texto ring-1 ring-current",
 };
 
 async function carregarConta(): Promise<DadosConta | null> {
@@ -62,7 +62,7 @@ async function carregarConta(): Promise<DadosConta | null> {
 
 function Bloco({ titulo, children, id }: { titulo: string; children: React.ReactNode; id: string }) {
   return (
-    <section id={id} aria-labelledby={`t-${id}`} className="grid scroll-mt-6 content-start gap-4 rounded-bloco border border-linha bg-superficie px-5 py-6 sm:px-7">
+    <section id={id} aria-labelledby={`t-${id}`} className="grid scroll-mt-6 content-start gap-4 rounded-bloco bg-superficie px-5 py-6 sm:px-7">
       <h2 id={`t-${id}`} className="text-base font-bold tracking-[0.08em] text-titulo uppercase">
         {titulo}
       </h2>
@@ -120,7 +120,7 @@ export default async function MinhaConta({ searchParams }: { searchParams: Promi
           ["/favoritos", "Favoritos"],
           ["#privacidade", "Privacidade"],
         ].map(([href, rotulo]) => (
-          <a key={href} href={href} className="rounded-full border border-linha bg-superficie px-4 py-1.5 whitespace-nowrap">
+          <a key={href} href={href} className="rounded-full bg-superficie px-4 py-1.5 whitespace-nowrap">
             {rotulo}
           </a>
         ))}
@@ -139,7 +139,7 @@ export default async function MinhaConta({ searchParams }: { searchParams: Promi
             {pedidos.map((p) => {
               const etapa = ETAPAS.indexOf(p.status);
               return (
-                <li key={p.id} className="grid content-start gap-3 rounded-xl border border-linha bg-fundo px-4 py-4">
+                <li key={p.id} className="grid content-start gap-3 rounded-xl bg-fundo px-4 py-4">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <strong>Pedido nº {p.numero}</strong>
                     <span className={`rounded-full px-3 py-0.5 text-xs font-bold ${corStatus[p.status]}`}>{ROTULO_STATUS[p.status]}</span>

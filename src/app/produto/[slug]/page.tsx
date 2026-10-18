@@ -100,7 +100,7 @@ export default async function PaginaProduto({ params, searchParams }: Props) {
         <div className="grid items-start gap-4 md:grid-cols-[1.1fr_1fr]">
           <GaleriaProduto key={cor} cor={corObj} apagado={apagado} aceso={aceso} extras={extras} />
 
-          <div className="grid gap-5 rounded-bloco border border-linha bg-superficie px-5 py-6 sm:px-7">
+          <div className="grid gap-5 rounded-bloco bg-superficie px-5 py-6 sm:px-7">
             <div className="flex items-start justify-between gap-3">
               <h1 className="text-[2rem] leading-tight font-normal text-titulo">
                 <NomeProduto modelo={modelo.nome} cor={corObj.nome} />
@@ -152,7 +152,7 @@ export default async function PaginaProduto({ params, searchParams }: Props) {
 
       <div className="grid gap-2.5">
         <Acordeao titulo="Medidas e desenho técnico" tom="rosa" aberto>
-          <div className="grid items-center gap-4 md:grid-cols-[1fr_1.3fr]">
+          <div className="grid items-start gap-4 md:grid-cols-[1fr_1.3fr]">
             <dl className="grid grid-cols-[max-content_1fr] gap-x-5 gap-y-2 text-[0.95rem]">
               {modelo.especificacoes.map((e) => (
                 <div key={e.rotulo} className="contents">

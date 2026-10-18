@@ -3,6 +3,9 @@ import { LOJA } from "@/config/loja";
 import { listarModelos } from "@/lib/catalogo";
 import { carregarCatalogo } from "@/lib/catalogo-servidor";
 
+// Gerado a cada pedido (e não na publicação), para a publicação nunca depender do banco estar no ar.
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const cat = await carregarCatalogo();
   const paginas = ["", "/colecao", "/sobre", "/contato", "/pagamentos-e-entrega", "/trocas-e-devolucoes", "/privacidade"];

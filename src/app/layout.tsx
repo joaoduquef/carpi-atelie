@@ -72,7 +72,7 @@ export default async function RootLayout({
         <LuzesProvider>
           <CatalogoProvider catalogo={catalogo}>
             <LojaProvider usuarioId={usuario?.id ?? null}>
-              <div className="moldura-site">
+              <>
                 <a
                   href="#conteudo"
                   className="sr-only z-50 rounded-full bg-botao px-4 py-2 text-botao-texto focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
@@ -102,7 +102,7 @@ export default async function RootLayout({
                   <Newsletter />
                   <Rodape />
                 </div>
-              </div>
+              </>
               <Aviso />
             </LojaProvider>
           </CatalogoProvider>

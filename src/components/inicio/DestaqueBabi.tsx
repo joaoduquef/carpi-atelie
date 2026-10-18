@@ -13,9 +13,9 @@ export function DestaqueBabi({ produtos, corInicial }: { produtos: ProdutoCard[]
   if (!atual) return null;
 
   return (
-    <div className={`grid rounded-bloco p-4 sm:p-5 ${classeFundo(atual.cor)}`}>
-      <div className="grid place-items-center gap-4 rounded-[20px] bg-superficie px-4 pt-8 pb-5">
-        <Link href={urlProduto(atual.modelo.slug, atual.cor.slug)} className="w-[46%] max-w-[230px]">
+    <div className={`grid rounded-bloco ${classeFundo(atual.cor)}`}>
+      <div className="grid place-items-center gap-5 px-4 pt-10 pb-6">
+        <Link href={urlProduto(atual.modelo.slug, atual.cor.slug)} className="w-[52%] max-w-[300px]">
           <ImagemAbajur
             apagado={atual.imagemApagado}
             aceso={atual.imagemAceso}
@@ -33,7 +33,7 @@ export function DestaqueBabi({ produtos, corInicial }: { produtos: ProdutoCard[]
               aria-pressed={p.cor.slug === atual.cor.slug}
               aria-label={p.cor.nome}
               onClick={() => setCor(p.cor.slug)}
-              className={`h-7 w-7 rounded-full border-[3px] border-superficie outline-2 outline-offset-0 ${
+              className={`h-7 w-7 rounded-full border-[3px] border-fundo outline-2 outline-offset-0 ${
                 p.cor.slug === atual.cor.slug ? "outline-destaque" : "outline-transparent"
               }`}
               style={{ background: p.cor.hex }}

@@ -4,12 +4,12 @@ import { LINKS_AJUDA } from "./navegacao";
 
 export function Rodape() {
   return (
-    <footer className="mx-auto w-full max-w-6xl px-2 pb-3 sm:px-4" style={{ paddingBottom: "calc(12px + env(safe-area-inset-bottom, 0px))" }}>
-      <div className="@container grid gap-8 overflow-hidden rounded-bloco bg-rodape px-6 pt-8 pb-6 text-rodape-texto sm:px-8">
+    <footer className="w-full bg-rodape text-rodape-texto" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
+      <div className="@container mx-auto grid max-w-6xl gap-10 overflow-hidden px-4 pt-12 pb-8 sm:px-6">
         <p aria-hidden className="mr-[-0.12em] text-[25.5cqi] leading-[0.9] font-bold tracking-[0.12em]">
           CARPI
         </p>
-        <div className="grid grid-cols-2 gap-6 text-sm sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-8 text-sm sm:grid-cols-3">
           <nav aria-label="Loja" className="grid content-start gap-1.5">
             <strong className="mb-1">Loja</strong>
             <Link href="/colecao">Coleção</Link>
@@ -39,7 +39,7 @@ export function Rodape() {
           </span>
           <ul aria-label="Formas de pagamento" className="flex flex-wrap gap-1.5">
             {LOJA.meiosPagamento.map((m) => (
-              <li key={m} className="rounded-md bg-creme-claro px-2 py-0.5 text-[0.7rem] font-bold text-tinta">
+              <li key={m} className="rounded-md bg-branco px-2 py-0.5 text-[0.7rem] font-bold text-preto">
                 {m}
               </li>
             ))}

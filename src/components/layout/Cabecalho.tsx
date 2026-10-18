@@ -16,12 +16,13 @@ export function Cabecalho({ nomeUsuario }: { nomeUsuario: string | null }) {
   const [menuAberto, setMenuAberto] = useState(false);
 
   return (
-    <header className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 pt-4 sm:px-6">
+    <header className="sticky top-0 z-40 bg-fundo/95 backdrop-blur-md" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
       <Link href="/" aria-label="CARPI Ateliê, página inicial" className="block">
         <Logo className="h-9 w-[122px]" />
       </Link>
 
-      <nav aria-label="Principal" className="hidden rounded-full border border-linha bg-superficie p-1 text-sm md:flex">
+      <nav aria-label="Principal" className="hidden items-center gap-1 text-[0.82rem] font-bold tracking-[0.1em] uppercase md:flex">
         {LINKS_PRINCIPAIS.map((l) => {
           const ativo = caminho.startsWith(l.href);
           return (
@@ -29,7 +30,7 @@ export function Cabecalho({ nomeUsuario }: { nomeUsuario: string | null }) {
               key={l.href}
               href={l.href}
               aria-current={ativo ? "page" : undefined}
-              className={`rounded-full px-4 py-1.5 ${ativo ? "bg-botao font-bold text-botao-texto" : "text-destaque hover:bg-botao/10"}`}
+              className={`rounded-full px-4 py-2 transition-colors ${ativo ? "text-destaque" : "text-texto hover:text-destaque"}`}
             >
               {l.rotulo}
             </Link>
@@ -39,19 +40,20 @@ export function Cabecalho({ nomeUsuario }: { nomeUsuario: string | null }) {
 
       <div className="flex items-center gap-1.5">
         <span className="hidden md:contents">
-          <LinkIcone href={nomeUsuario ? "/minha-conta" : "/entrar"} aria-label={nomeUsuario ? `Minha conta (${nomeUsuario})` : "Entrar"}>
+          <LinkIcone tom="nu" href={nomeUsuario ? "/minha-conta" : "/entrar"} aria-label={nomeUsuario ? `Minha conta (${nomeUsuario})` : "Entrar"}>
             <IconeConta />
           </LinkIcone>
         </span>
-        <LinkIcone href="/favoritos" aria-label={`Favoritos (${favoritos.length})`}>
+        <LinkIcone tom="nu" href="/favoritos" aria-label={`Favoritos (${favoritos.length})`}>
           <IconeCoracao />
           <Contador valor={favoritos.length} />
         </LinkIcone>
-        <LinkIcone href="/sacola" aria-label={`Sacola (${totalItens} itens)`}>
+        <LinkIcone tom="nu" href="/sacola" aria-label={`Sacola (${totalItens} itens)`}>
           <IconeSacola />
           <Contador valor={totalItens} />
         </LinkIcone>
         <BotaoIcone
+          tom="nu"
           aria-label="Abrir menu"
           aria-expanded={menuAberto}
           aria-controls="menu-lateral"
@@ -62,6 +64,7 @@ export function Cabecalho({ nomeUsuario }: { nomeUsuario: string | null }) {
         </BotaoIcone>
       </div>
 
+      </div>
       <MenuLateral aberto={menuAberto} aoFechar={() => setMenuAberto(false)} nomeUsuario={nomeUsuario} />
     </header>
   );

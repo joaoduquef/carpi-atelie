@@ -20,7 +20,7 @@ type Pagamento = "pix" | "cartao";
 
 function Etapa({ numero, titulo, children }: { numero: number; titulo: string; children: React.ReactNode }) {
   return (
-    <section aria-labelledby={`etapa-${numero}`} className="grid gap-4 rounded-card border border-linha bg-superficie px-5 py-5">
+    <section aria-labelledby={`etapa-${numero}`} className="grid gap-4 rounded-card bg-superficie px-5 py-5">
       <h2 id={`etapa-${numero}`} className="flex items-center gap-2.5 text-base font-bold tracking-[0.08em] text-titulo uppercase">
         <span className="grid h-7 w-7 place-items-center rounded-full bg-botao text-sm tracking-normal text-botao-texto">{numero}</span>
         {titulo}
@@ -85,7 +85,7 @@ export function Checkout() {
 
   if (carregado && linhas.length === 0) {
     return (
-      <div className="grid justify-items-center gap-4 rounded-bloco border border-linha bg-superficie px-6 py-12 text-center">
+      <div className="grid justify-items-center gap-4 rounded-bloco bg-superficie px-6 py-12 text-center">
         <p className="text-lg">Sua sacola está vazia.</p>
         <BotaoLink href="/colecao">Ver a coleção</BotaoLink>
       </div>
@@ -143,7 +143,7 @@ export function Checkout() {
           </Etapa>
 
           <Etapa numero={3} titulo="Pagamento">
-            <div role="group" aria-label="Forma de pagamento" className="inline-flex justify-self-start rounded-full border border-linha bg-fundo p-1 text-sm">
+            <div role="group" aria-label="Forma de pagamento" className="inline-flex justify-self-start rounded-full bg-fundo p-1 text-sm">
               {(
                 [
                   ["pix", "Pix · 5% off"],
@@ -194,7 +194,7 @@ export function Checkout() {
           </Etapa>
         </div>
 
-        <aside aria-label="Resumo do pedido" className="grid gap-4 rounded-card border border-linha bg-superficie px-5 py-5 md:sticky md:top-4">
+        <aside aria-label="Resumo do pedido" className="grid gap-4 rounded-card bg-superficie px-5 py-5 md:sticky md:top-4">
           <h2 className="text-base font-bold tracking-[0.08em] text-titulo uppercase">Resumo</h2>
           <ul className="grid gap-3">
             {linhas.map((l) => (
