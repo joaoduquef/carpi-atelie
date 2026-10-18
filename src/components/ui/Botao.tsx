@@ -3,7 +3,7 @@ import Link from "next/link";
 type Variante = "primario" | "secundario";
 
 const base =
-  "botao-relevo inline-flex items-center justify-center gap-2 rounded-full border-2 border-botao px-6 py-3 text-sm font-bold uppercase tracking-[0.07em] transition-colors disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 rounded-full border-2 border-botao px-6 py-3 text-sm font-bold uppercase tracking-[0.07em] transition-colors disabled:cursor-not-allowed disabled:opacity-50";
 
 const variantes: Record<Variante, string> = {
   primario: "bg-botao text-botao-texto hover:brightness-110",

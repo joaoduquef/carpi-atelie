@@ -41,9 +41,8 @@
   --rodape-texto: var(--creme-claro);
   --erro: #9c2f48;
   --sucesso: #2f6b45;
-  /* profundidade: contorno dos blocos, sombra deslocada e o fundo atrás da moldura */
+  /* linhas: contorno dos blocos e o fundo atrás da moldura */
   --contorno: var(--roma-escuro);
-  --sombra: var(--tinta);
   --entorno: #efdfc6;
   color-scheme: light;
 }
@@ -71,7 +70,6 @@ html.apagadas {
   --erro: #f8c3ce;
   --sucesso: #b9e3c6;
   --contorno: rgb(248 195 206 / 0.55);
-  --sombra: rgb(0 0 0 / 0.6);
   --entorno: #250b13;
   color-scheme: dark;
 }
@@ -125,7 +123,7 @@ body {
   color: var(--texto);
 }
 
-/* ---------- Profundidade (teste) ---------- */
+/* ---------- Linhas: moldura e contornos ---------- */
 
 /* Moldura: o site inteiro dentro de um quadro com contorno, como nas referências */
 .moldura-site {
@@ -141,21 +139,10 @@ body {
   }
 }
 
-/* Blocos e cards: contorno fino + sombra deslocada, como se estivessem "colados" sobre a página */
+/* Blocos e cards: contorno fino */
 .rounded-bloco,
 .rounded-card {
   border: 1.5px solid var(--contorno);
-  box-shadow: 5px 5px 0 var(--sombra);
-}
-
-/* Botões com o mesmo relevo, que "afunda" ao clicar */
-.botao-relevo {
-  box-shadow: 3px 3px 0 var(--sombra);
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
-.botao-relevo:active:not(:disabled) {
-  transform: translate(3px, 3px);
-  box-shadow: 0 0 0 var(--sombra);
 }
 
 /* Campos de texto com contorno da marca */
