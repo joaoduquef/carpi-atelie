@@ -66,12 +66,10 @@ export default async function Inicio() {
         </div>
         <div className="grid content-center justify-items-start gap-5">
           <TituloSecao id="titulo-sobre">Sobre o ateliê</TituloSecao>
-          {/* TEXTO PROVISÓRIO: escrever o texto definitivo do ateliê */}
           <p className="max-w-[56ch] text-lg leading-relaxed">
-            A CARPI é um ateliê de abajures de design autoral. Cada peça é produzida sob encomenda, em PETG translúcido,
-            para levar cor durante o dia e uma luz quente e macia à noite.
+            A CARPI é um ateliê de design de iluminação. Nossas peças, produzidas sob encomenda em PETG translúcido, vivem dois momentos: de
+            dia, são design; à noite, são luz.
           </p>
-          <p className="text-sm text-texto-suave">Texto provisório: os donos vão escrever a versão final.</p>
           <BotaoLink href="/sobre" variante="secundario">
             Conheça o ateliê
           </BotaoLink>
