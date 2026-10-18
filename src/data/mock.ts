@@ -21,7 +21,7 @@ const modelos: Modelo[] = [
     status: "ativo",
     especificacoes: [
       { rotulo: "Altura", valor: "30,6 cm" },
-      { rotulo: "Largura", valor: "20,7 cm (saia ondulada); base com Ø 12 cm" },
+      { rotulo: "Largura", valor: "21,7 cm (saia ondulada); base com Ø 12 cm" },
       { rotulo: "Material", valor: "PETG translúcido" },
       { rotulo: "Lâmpada", valor: "LED 6 W, 3000 K (luz quente), bivolt, inclusa" },
       { rotulo: "Peso", valor: "Aproximadamente 550 a 700 g" },

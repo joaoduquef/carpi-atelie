@@ -11,7 +11,7 @@ insert into public.modelos (slug, nome, descricao, preco_centavos, status, espec
    'Um abajur de saia ondulada em PETG translúcido. Apagado, é uma peça de cor; aceso, espalha uma luz quente e macia pelo ambiente.',
    29900, 'ativo',
    '[{"rotulo":"Altura","valor":"30,6 cm"},
-     {"rotulo":"Largura","valor":"20,7 cm (saia ondulada); base com Ø 12 cm"},
+     {"rotulo":"Largura","valor":"21,7 cm (saia ondulada); base com Ø 12 cm"},
      {"rotulo":"Material","valor":"PETG translúcido"},
      {"rotulo":"Lâmpada","valor":"LED 6 W, 3000 K (luz quente), bivolt, inclusa"},
      {"rotulo":"Peso","valor":"Aproximadamente 550 a 700 g"},
