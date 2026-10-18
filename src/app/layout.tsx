@@ -11,8 +11,16 @@ import "./globals.css";
 
 const liberation = localFont({
   src: [
-    { path: "../../public/fonts/LiberationSans-Regular.woff2", weight: "400", style: "normal" },
-    { path: "../../public/fonts/LiberationSans-Bold.woff2", weight: "700", style: "normal" },
+    {
+      path: "../../public/fonts/LiberationSans-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/LiberationSans-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
   ],
   variable: "--fonte-liberation",
   display: "swap",
@@ -29,7 +37,14 @@ export const metadata: Metadata = {
     siteName: LOJA.nome,
     title: LOJA.titulo,
     description: LOJA.descricao,
-    images: [{ url: "/products/babi/ambiente-1.jpg", width: 1600, height: 1200, alt: "Abajur Babi" }],
+    images: [
+      {
+        url: "/products/babi/ambiente-1.jpg",
+        width: 1600,
+        height: 1200,
+        alt: "Abajur Babi",
+      },
+    ],
   },
 };
 
@@ -38,7 +53,9 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR" className={liberation.variable} suppressHydrationWarning>
       <head>
@@ -47,25 +64,32 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="min-h-dvh font-sans antialiased">
         <LuzesProvider>
           <LojaProvider>
-            <a
-              href="#conteudo"
-              className="sr-only z-50 rounded-full bg-botao px-4 py-2 text-botao-texto focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
-            >
-              Pular para o conteúdo
-            </a>
-            <div
-              className="bg-botao px-4 pb-2 text-center text-[0.8rem] font-bold tracking-[0.04em] text-botao-texto"
-              style={{ paddingTop: "calc(8px + env(safe-area-inset-top, 0px))" }}
-            >
-              {LOJA.anuncio}
-            </div>
-            <Cabecalho />
-            <main id="conteudo" className="mx-auto w-full max-w-6xl px-4 pt-6 pb-14 sm:px-6">
-              {children}
-            </main>
-            <div className="grid gap-10">
-              <Newsletter />
-              <Rodape />
+            <div className="moldura-site">
+              <a
+                href="#conteudo"
+                className="sr-only z-50 rounded-full bg-botao px-4 py-2 text-botao-texto focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+              >
+                Pular para o conteúdo
+              </a>
+              <div
+                className="bg-botao px-4 pb-2 text-center text-[0.8rem] font-bold tracking-[0.04em] text-botao-texto"
+                style={{
+                  paddingTop: "calc(8px + env(safe-area-inset-top, 0px))",
+                }}
+              >
+                {LOJA.anuncio}
+              </div>
+              <Cabecalho />
+              <main
+                id="conteudo"
+                className="mx-auto w-full max-w-6xl px-4 pt-6 pb-14 sm:px-6"
+              >
+                {children}
+              </main>
+              <div className="grid gap-10">
+                <Newsletter />
+                <Rodape />
+              </div>
             </div>
             <Aviso />
           </LojaProvider>

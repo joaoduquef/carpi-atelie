@@ -19,8 +19,8 @@ export function CardProduto({ produto, priority = false }: { produto: ProdutoCar
   const href = urlProduto(modelo.slug, variacao.cor);
 
   return (
-    <article className="@container relative grid min-w-0 content-start gap-1.5 self-start">
-      <Link href={href} className={`grid aspect-[1/1.02] w-full place-items-center rounded-card ${cor.fundo}`} aria-label={nome}>
+    <article className="@container relative grid min-w-0 content-start self-start overflow-hidden rounded-card bg-superficie">
+      <Link href={href} className={`grid aspect-[1/1.02] w-full place-items-center ${cor.fundo}`} aria-label={nome}>
         <ImagemAbajur
           apagado={imagemApagado}
           aceso={imagemAceso}
@@ -46,7 +46,7 @@ export function CardProduto({ produto, priority = false }: { produto: ProdutoCar
       </div>
       <Link
         href={href}
-        className="flex flex-col gap-0.5 rounded-[14px] bg-superficie px-3 py-2.5 text-[0.92rem] @[220px]:flex-row @[220px]:items-baseline @[220px]:justify-between @[220px]:gap-2"
+        className="flex flex-col gap-0.5 border-t-[1.5px] border-[var(--contorno)] bg-superficie px-3 py-2.5 text-[0.92rem] @[220px]:flex-row @[220px]:items-baseline @[220px]:justify-between @[220px]:gap-2"
       >
         <NomeProduto modelo={modelo.nome} cor={variacao.cor} />
         {modelo.precoCentavos !== null && (
