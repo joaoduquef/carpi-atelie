@@ -117,6 +117,7 @@ Outros comandos: `npm run build` (gera a versão de produção) e `npm run lint`
 | Desenho técnico da Babi | Gerado pelo arquivo `scripts/desenho-tecnico-babi.py` (as medidas ficam no topo dele). Rode `python3 scripts/desenho-tecnico-babi.py` para criar o `desenho-tecnico.svg`, gere o `.png` a partir dele e aumente o número em `src/lib/fotos.ts`. |
 | Foto de João e Nalu (página Sobre nós) | `public/sobre/joao-e-nalu.jpg` — retrato (em pé, proporção 4 × 5), fundo branco. Depois de trocar, aumente o número em `src/lib/fotos.ts`. |
 | E-mail, Instagram, CNPJ, razão social, texto da barra do topo | `src/config/loja.ts` |
+| Abrir as vendas (tirar o aviso "Vendas abrem em breve") | `src/config/loja.ts`, trocar `vendasAbertas: false` por `true` (só depois da Fase 4) |
 | Preço, descrição e medidas (até a Fase 2) | `src/data/mock.ts` |
 | Cores e efeito das luzes | `src/app/globals.css` (bloco `:root` para as cores; seção "Luzes" para o efeito de apagar) |
 | Textos das páginas | `src/app/<nome-da-página>/page.tsx`. Os textos marcados como provisórios precisam de revisão. |

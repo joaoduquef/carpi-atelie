@@ -3,7 +3,12 @@
 export const LOJA = {
   nome: "CARPI Ateliê",
   dominio: "carpiatelie.com.br",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://carpiatelie.com.br",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.carpiatelie.com.br",
+  /**
+   * false enquanto o pagamento de verdade não estiver pronto (Fase 4): a sacola mostra
+   * "Vendas abrem em breve" no lugar de "Finalizar compra". Troque para true para abrir as vendas.
+   */
+  vendasAbertas: false,
   email: "carpiatelie@gmail.com",
   instagram: "carpiatelie",
   razaoSocial: "69.666.538 JOAO DUQUE DA SILVA FILHO",

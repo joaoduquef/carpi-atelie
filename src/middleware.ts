@@ -1,9 +1,10 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { LOJA } from "@/config/loja";
 import { SUPABASE_CHAVE_PUBLICA, SUPABASE_URL, supabaseConfigurado } from "@/lib/supabase/config";
 
-// Páginas que exigem conta
-const PROTEGIDAS = ["/minha-conta", "/finalizar-compra"];
+// Páginas que exigem conta (com as vendas fechadas, /finalizar-compra só mostra o aviso)
+const PROTEGIDAS = ["/minha-conta", ...(LOJA.vendasAbertas ? ["/finalizar-compra"] : [])];
 
 export async function middleware(request: NextRequest) {
   if (!supabaseConfigurado) return NextResponse.next();

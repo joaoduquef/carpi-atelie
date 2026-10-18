@@ -4,8 +4,9 @@ import { usePathname } from "next/navigation";
 import { useState, useTransition } from "react";
 import { inscreverNewsletter } from "@/app/conta/newsletter";
 import { Botao } from "@/components/ui/Botao";
+import { LOJA } from "@/config/loja";
 
-const ESCONDER_EM = ["/finalizar-compra", "/entrar", "/cadastro", "/recuperar-senha", "/nova-senha"];
+const ESCONDER_EM = [...(LOJA.vendasAbertas ? ["/finalizar-compra"] : []), "/entrar", "/cadastro", "/recuperar-senha", "/nova-senha"];
 
 export function Newsletter() {
   const caminho = usePathname();

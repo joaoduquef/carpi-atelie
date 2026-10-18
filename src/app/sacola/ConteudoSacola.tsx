@@ -12,6 +12,8 @@ import { Quantidade } from "@/components/ui/Quantidade";
 import { TituloSecao } from "@/components/ui/TituloSecao";
 import { urlProduto } from "@/lib/catalogo";
 import { formatarReais, precoPix } from "@/lib/dinheiro";
+import { LOJA } from "@/config/loja";
+import { AvisoVendasEmBreve } from "@/components/loja/AvisoVendasEmBreve";
 
 export function ConteudoSacola() {
   const { sacola, carregado, alterarQuantidade, remover } = useLoja();
@@ -68,13 +70,19 @@ export function ConteudoSacola() {
             <p className="text-sm text-texto-suave">
               ou <strong className="text-texto">{formatarReais(precoPix(subtotal))} no Pix</strong> (5% de desconto)
             </p>
-            <BotaoLink href="/finalizar-compra" className="w-full">
-              Finalizar compra
-            </BotaoLink>
+            {LOJA.vendasAbertas ? (
+              <BotaoLink href="/finalizar-compra" className="w-full">
+                Finalizar compra
+              </BotaoLink>
+            ) : (
+              <AvisoVendasEmBreve />
+            )}
             <Link href="/colecao" className="justify-self-center text-sm text-link underline underline-offset-4">
               Continuar comprando
             </Link>
-            <p className="text-sm text-texto-suave">Para finalizar, você entra na sua conta. Os itens da sacola continuam guardados.</p>
+            {LOJA.vendasAbertas && (
+              <p className="text-sm text-texto-suave">Para finalizar, você entra na sua conta. Os itens da sacola continuam guardados.</p>
+            )}
           </aside>
         </div>
       )}
