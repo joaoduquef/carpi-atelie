@@ -25,9 +25,11 @@ export default async function Inicio() {
             Abajures feitos com carinho.
           </h1>
           <p className="max-w-[44ch] text-lg leading-relaxed text-texto-suave">Ateliê de abajures feitos por encomendas.</p>
-          <div className="flex flex-wrap gap-2.5">
-            <BotaoLink href="/colecao">Ver a coleção</BotaoLink>
-            <BotaoLuzes />
+          <div className="flex w-full gap-2.5 sm:w-auto">
+            <BotaoLink href="/colecao" className="max-sm:flex-1 max-sm:px-3 max-sm:text-[0.72rem] max-sm:tracking-[0.04em] whitespace-nowrap">
+              Ver a coleção
+            </BotaoLink>
+            <BotaoLuzes className="max-sm:flex-1 max-sm:px-3 max-sm:text-[0.72rem] max-sm:tracking-[0.04em] whitespace-nowrap" />
           </div>
         </div>
         <DestaqueBabi produtos={destaque} corInicial="damasco" />

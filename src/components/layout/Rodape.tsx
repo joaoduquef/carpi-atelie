@@ -37,11 +37,11 @@ export function Rodape() {
           <span>
             {LOJA.nome} · {LOJA.razaoSocial} · CNPJ {LOJA.cnpj}
           </span>
-          <ul aria-label="Formas de pagamento" className="flex flex-wrap gap-2">
+          <ul aria-label="Formas de pagamento" className="flex flex-wrap gap-1.5">
             {LOJA.meiosPagamento.map((m) => (
               <li key={m.arquivo}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/payments/${m.arquivo}.svg`} alt={m.nome} title={m.nome} width={52} height={33} className="h-[33px] w-[52px]" loading="lazy" />
+                <img src={`/payments/${m.arquivo}.svg`} alt={m.nome} title={m.nome} width={38} height={24} className="h-6 w-[38px]" loading="lazy" />
               </li>
             ))}
           </ul>

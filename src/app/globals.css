@@ -3,7 +3,7 @@
 /*
   Paleta CARPI: só três cores, o rosa da marca, o branco e o preto (texto).
   O "rosa-suave" é o mesmo rosa bem diluído no branco, para separar áreas sem linhas.
-  O botão "Acender o abajur" (.apagadas no <html>) não muda o site: só escurece o fundo de
+  O botão "Apagar as luzes" (.apagadas no <html>) não muda o site: só escurece o fundo de
   cada abajur e acende a peça (veja "Luzes", abaixo).
 */
 :root {

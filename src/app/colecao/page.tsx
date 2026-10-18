@@ -4,6 +4,7 @@ import { ehCorValida, listarCores, listarEmBreve, listarProdutos } from "@/lib/c
 import { carregarCatalogo } from "@/lib/catalogo-servidor";
 import { CardEmBreve } from "@/components/produto/CardEmBreve";
 import { CardProduto } from "@/components/produto/CardProduto";
+import { BotaoLuzes } from "@/components/luzes/BotaoLuzes";
 import { TituloSecao } from "@/components/ui/TituloSecao";
 
 export const metadata: Metadata = {
@@ -25,7 +26,10 @@ export default async function Colecao({ searchParams }: { searchParams: Promise<
 
   return (
     <div className="grid gap-6">
-      <TituloSecao como="h1">A coleção</TituloSecao>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <TituloSecao como="h1">A coleção</TituloSecao>
+        <BotaoLuzes className="max-sm:px-4 max-sm:py-2 max-sm:text-xs" />
+      </div>
 
       <nav aria-label="Filtrar por cor" className="flex flex-wrap gap-2">
         {filtros.map((f) => {
