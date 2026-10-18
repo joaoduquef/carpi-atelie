@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { listarEmBreve, listarProdutos } from "@/lib/catalogo";
+import { carregarCatalogo } from "@/lib/catalogo-servidor";
 import { DestaqueBabi } from "@/components/inicio/DestaqueBabi";
 import { Logo } from "@/components/layout/Logo";
 import { BotaoLuzes } from "@/components/luzes/BotaoLuzes";
@@ -9,9 +10,11 @@ import { Carrossel, ItemCarrossel } from "@/components/produto/Carrossel";
 import { BotaoLink } from "@/components/ui/Botao";
 import { TituloSecao } from "@/components/ui/TituloSecao";
 
-export default function Inicio() {
-  const produtos = listarProdutos();
-  const emBreve = listarEmBreve();
+export default async function Inicio() {
+  const cat = await carregarCatalogo();
+  const produtos = listarProdutos(cat);
+  const emBreve = listarEmBreve(cat);
+  const destaque = produtos.filter((p) => p.modelo.slug === produtos[0]?.modelo.slug);
 
   return (
     <div className="grid gap-14">
@@ -26,7 +29,7 @@ export default function Inicio() {
             <BotaoLuzes />
           </div>
         </div>
-        <DestaqueBabi produtos={produtos} />
+        <DestaqueBabi produtos={destaque} corInicial="damasco" />
       </section>
 
       <section aria-labelledby="titulo-colecao" className="grid gap-5">

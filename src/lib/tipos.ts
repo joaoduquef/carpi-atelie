@@ -1,14 +1,15 @@
-// Tipos do catálogo. Espelham as tabelas planejadas para o Supabase (Fase 2).
+// Tipos do catálogo. Espelham as tabelas do Supabase (supabase/migrations).
 
-export type CorSlug = "mare" | "damasco" | "roma";
+export type CorSlug = string; // "mare", "damasco", "roma"...
 
 export type Cor = {
   slug: CorSlug;
   nome: string; // "Maré"
   /** cor do próprio abajur (bolinhas do seletor, brilho no modo noite) */
   hex: string;
-  /** classe de fundo do card/galeria para esta cor */
-  fundo: "bg-bloco-mare" | "bg-bloco-damasco" | "bg-bloco-rosa";
+  /** classe CSS do fundo do card para esta cor (ver classeFundo em catalogo.ts) */
+  fundo: string;
+  ordem: number;
 };
 
 export type StatusModelo = "ativo" | "em_breve" | "inativo";
@@ -16,11 +17,13 @@ export type StatusModelo = "ativo" | "em_breve" | "inativo";
 export type TipoImagem = "apagado" | "aceso" | "ambiente" | "desenho_tecnico";
 
 export type Imagem = {
+  modeloSlug: string;
   tipo: TipoImagem;
   url: string;
   alt: string;
   /** null = vale para todas as cores do modelo */
   cor: CorSlug | null;
+  ordem: number;
 };
 
 export type Variacao = {
@@ -45,6 +48,15 @@ export type Modelo = {
   prazoProducaoDias: number;
   embalagem: { pesoKg: number; larguraCm: number; alturaCm: number; comprimentoCm: number };
   ordem: number;
+};
+
+export type Catalogo = {
+  cores: Cor[];
+  modelos: Modelo[];
+  variacoes: Variacao[];
+  imagens: Imagem[];
+  /** unidades disponíveis por variação (estoque − reservas) */
+  disponivel: Record<string, number>;
 };
 
 export type ItemSacola = { variacaoId: string; quantidade: number };

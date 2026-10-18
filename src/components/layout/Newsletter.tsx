@@ -1,10 +1,11 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { inscreverNewsletter } from "@/app/conta/newsletter";
 import { Botao } from "@/components/ui/Botao";
 
-const ESCONDER_EM = ["/finalizar-compra", "/entrar", "/cadastro", "/recuperar-senha"];
+const ESCONDER_EM = ["/finalizar-compra", "/entrar", "/cadastro", "/recuperar-senha", "/nova-senha"];
 
 export function Newsletter() {
   const caminho = usePathname();
@@ -12,26 +13,21 @@ export function Newsletter() {
   const [aceite, setAceite] = useState(false);
   const [estado, setEstado] = useState<"livre" | "erro" | "ok">("livre");
   const [mensagem, setMensagem] = useState("");
+  const [enviando, iniciar] = useTransition();
 
   if (ESCONDER_EM.some((c) => caminho.startsWith(c))) return null;
 
   function enviar(e: React.FormEvent) {
     e.preventDefault();
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
-      setEstado("erro");
-      setMensagem("Digite um e-mail válido, como nome@exemplo.com.");
-      return;
-    }
-    if (!aceite) {
-      setEstado("erro");
-      setMensagem("Marque a caixa para autorizar o envio de e-mails.");
-      return;
-    }
-    // Fase 2: salvar na tabela "newsletter" do Supabase
-    setEstado("ok");
-    setMensagem("Pronto! Você vai receber as novidades do ateliê.");
-    setEmail("");
-    setAceite(false);
+    iniciar(async () => {
+      const r = await inscreverNewsletter(email, aceite);
+      setEstado(r.erro ? "erro" : "ok");
+      setMensagem(r.erro ?? r.ok ?? "");
+      if (r.ok) {
+        setEmail("");
+        setAceite(false);
+      }
+    });
   }
 
   return (
@@ -58,7 +54,9 @@ export function Newsletter() {
             placeholder="seu@email.com"
             className="min-w-0 flex-[1_1_220px] rounded-full border border-linha bg-fundo px-4 py-2.5 text-texto placeholder:text-texto-suave/70"
           />
-          <Botao type="submit">Quero receber</Botao>
+          <Botao type="submit" disabled={enviando}>
+            {enviando ? "Enviando…" : "Quero receber"}
+          </Botao>
         </div>
         <label className="flex items-center gap-2.5 text-sm text-texto-suave">
           <input

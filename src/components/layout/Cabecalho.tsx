@@ -10,7 +10,7 @@ import { Logo } from "./Logo";
 import { MenuLateral } from "./MenuLateral";
 import { LINKS_PRINCIPAIS } from "./navegacao";
 
-export function Cabecalho() {
+export function Cabecalho({ nomeUsuario }: { nomeUsuario: string | null }) {
   const caminho = usePathname();
   const { totalItens, favoritos } = useLoja();
   const [menuAberto, setMenuAberto] = useState(false);
@@ -39,7 +39,7 @@ export function Cabecalho() {
 
       <div className="flex items-center gap-1.5">
         <span className="hidden md:contents">
-          <LinkIcone href="/minha-conta" aria-label="Minha conta">
+          <LinkIcone href={nomeUsuario ? "/minha-conta" : "/entrar"} aria-label={nomeUsuario ? `Minha conta (${nomeUsuario})` : "Entrar"}>
             <IconeConta />
           </LinkIcone>
         </span>
@@ -62,7 +62,7 @@ export function Cabecalho() {
         </BotaoIcone>
       </div>
 
-      <MenuLateral aberto={menuAberto} aoFechar={() => setMenuAberto(false)} />
+      <MenuLateral aberto={menuAberto} aoFechar={() => setMenuAberto(false)} nomeUsuario={nomeUsuario} />
     </header>
   );
 }

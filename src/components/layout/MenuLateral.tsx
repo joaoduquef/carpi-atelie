@@ -12,7 +12,7 @@ import { Logo } from "./Logo";
 import { LINKS_AJUDA } from "./navegacao";
 
 /** Painel do celular. Usa <dialog> para ter foco preso, tecla Esc e fundo escurecido. */
-export function MenuLateral({ aberto, aoFechar }: { aberto: boolean; aoFechar: () => void }) {
+export function MenuLateral({ aberto, aoFechar, nomeUsuario }: { aberto: boolean; aoFechar: () => void; nomeUsuario: string | null }) {
   const ref = useRef<HTMLDialogElement>(null);
   const caminho = usePathname();
   const { totalItens, favoritos } = useLoja();
@@ -34,7 +34,9 @@ export function MenuLateral({ aberto, aoFechar }: { aberto: boolean; aoFechar: (
     { href: "/colecao", rotulo: "Coleção" },
     { href: "/favoritos", rotulo: "Favoritos", extra: favoritos.length ? `${favoritos.length} ${favoritos.length === 1 ? "peça" : "peças"}` : "" },
     { href: "/sacola", rotulo: "Sacola", extra: totalItens ? `${totalItens} ${totalItens === 1 ? "item" : "itens"}` : "" },
-    { href: "/minha-conta", rotulo: "Minha conta", extra: "entrar ou cadastrar" },
+    nomeUsuario
+      ? { href: "/minha-conta", rotulo: "Minha conta", extra: `olá, ${nomeUsuario}` }
+      : { href: "/entrar", rotulo: "Entrar", extra: "ou criar conta" },
     { href: "/sobre", rotulo: "Sobre nós" },
     { href: "/contato", rotulo: "Contato" },
   ];

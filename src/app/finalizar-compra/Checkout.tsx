@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useCatalogo } from "@/components/loja/CatalogoProvider";
 import { useLoja } from "@/components/loja/LojaProvider";
 import { montarLinhas } from "@/components/loja/itensSacola";
 import { MiniaturaAbajur } from "@/components/loja/MiniaturaAbajur";
@@ -31,7 +32,8 @@ function Etapa({ numero, titulo, children }: { numero: number; titulo: string; c
 
 export function Checkout() {
   const { sacola, carregado } = useLoja();
-  const linhas = montarLinhas(sacola);
+  const cat = useCatalogo();
+  const linhas = montarLinhas(cat, sacola);
   const subtotal = linhas.reduce((s, l) => s + l.subtotal, 0);
   const producao = Math.max(2, ...linhas.map((l) => l.modelo.prazoProducaoDias));
 
@@ -199,7 +201,7 @@ export function Checkout() {
               <li key={l.variacao.id} className="flex items-center gap-3">
                 <MiniaturaAbajur linha={l} tamanho="w-14" />
                 <div className="grid">
-                  <NomeProduto modelo={l.modelo.nome} cor={l.variacao.cor} className="text-[0.95rem]" />
+                  <NomeProduto modelo={l.modelo.nome} cor={l.cor.nome} className="text-[0.95rem]" />
                   <span className="text-sm text-texto-suave tabular-nums">
                     {l.quantidade} × {formatarReais(l.precoUnitario)}
                   </span>

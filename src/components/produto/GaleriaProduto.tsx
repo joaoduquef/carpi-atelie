@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { CORES } from "@/data/mock";
-import type { CorSlug, Imagem } from "@/lib/tipos";
+import { classeFundo } from "@/lib/catalogo";
+import type { Cor, Imagem } from "@/lib/tipos";
 import { ImagemAbajur } from "@/components/luzes/ImagemAbajur";
 
 type Vista = { chave: string; rotulo: string; render: "abajur" | "aceso" | "foto"; imagem: Imagem };
@@ -14,12 +14,11 @@ export function GaleriaProduto({
   aceso,
   extras,
 }: {
-  cor: CorSlug;
+  cor: Cor;
   apagado: Imagem;
   aceso: Imagem;
   extras: Imagem[];
 }) {
-  const c = CORES[cor];
   const vistas: Vista[] = [
     { chave: "apagado", rotulo: "Apagado", render: "abajur", imagem: apagado },
     { chave: "aceso", rotulo: "Aceso", render: "aceso", imagem: aceso },
@@ -35,12 +34,12 @@ export function GaleriaProduto({
 
   return (
     <div className="grid gap-2.5 sm:grid-cols-[64px_1fr]">
-      <div className={`relative grid aspect-[1/1.05] place-items-center overflow-hidden rounded-bloco sm:order-2 ${c.fundo}`}>
+      <div className={`relative grid aspect-[1/1.05] place-items-center overflow-hidden rounded-bloco sm:order-2 ${classeFundo(cor)}`}>
         {vista.render === "abajur" && (
-          <ImagemAbajur apagado={apagado} aceso={aceso} corBrilho={c.hex} sizes="(max-width: 768px) 80vw, 420px" priority className="h-[80%]" />
+          <ImagemAbajur apagado={apagado} aceso={aceso} corBrilho={cor.hex} sizes="(max-width: 768px) 80vw, 420px" priority className="h-[80%]" />
         )}
         {vista.render === "aceso" && (
-          <div className="relative aspect-[8/11] h-[80%]" style={{ filter: `drop-shadow(0 0 18px ${c.hex}cc) drop-shadow(0 0 48px ${c.hex}cc)` }}>
+          <div className="relative aspect-[8/11] h-[80%]" style={{ filter: `drop-shadow(0 0 18px ${cor.hex}cc) drop-shadow(0 0 48px ${cor.hex}cc)` }}>
             <Image src={aceso.url} alt={aceso.alt} fill sizes="(max-width: 768px) 80vw, 420px" className="object-contain" />
           </div>
         )}

@@ -1,16 +1,14 @@
-import { nomeCor } from "@/lib/catalogo";
-import type { CorSlug } from "@/lib/tipos";
-
 /** "BABI  maré": modelo em caixa alta e negrito, dois espaços, cor em minúsculas. */
-export function NomeProduto({ modelo, cor, className = "" }: { modelo: string; cor?: CorSlug; className?: string }) {
+export function NomeProduto({ modelo, cor, className = "" }: { modelo: string; cor?: string; className?: string }) {
   return (
     <span className={`nome-produto ${className}`}>
       <b className="tracking-[0.1em]">{modelo.toLocaleUpperCase("pt-BR")}</b>
-      {cor ? `  ${nomeCor(cor).toLocaleLowerCase("pt-BR")}` : null}
+      {cor ? `  ${cor.toLocaleLowerCase("pt-BR")}` : null}
     </span>
   );
 }
 
-export function textoNomeProduto(modelo: string, cor: CorSlug) {
-  return `${modelo} ${nomeCor(cor)}`;
+/** Versão em texto corrido ("Babi Maré"), para títulos de página e leitores de tela. */
+export function textoNomeProduto(modelo: string, cor: string) {
+  return `${modelo} ${cor}`;
 }

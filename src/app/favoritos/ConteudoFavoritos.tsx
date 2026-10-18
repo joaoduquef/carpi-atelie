@@ -1,5 +1,6 @@
 "use client";
 
+import { useCatalogo } from "@/components/loja/CatalogoProvider";
 import { useLoja } from "@/components/loja/LojaProvider";
 import { CardProduto } from "@/components/produto/CardProduto";
 import { BotaoLink } from "@/components/ui/Botao";
@@ -7,11 +8,12 @@ import { TituloSecao } from "@/components/ui/TituloSecao";
 import { buscarVariacao, produtoCard, type ProdutoCard } from "@/lib/catalogo";
 
 export function ConteudoFavoritos() {
+  const cat = useCatalogo();
   const { favoritos, carregado } = useLoja();
   const produtos = favoritos
     .map((id) => {
-      const v = buscarVariacao(id);
-      return v && produtoCard(v);
+      const v = buscarVariacao(cat, id);
+      return v && produtoCard(cat, v);
     })
     .filter((p): p is ProdutoCard => Boolean(p));
 

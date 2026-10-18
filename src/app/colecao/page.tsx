@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CORES, ORDEM_CORES } from "@/data/mock";
-import { ehCorValida, listarEmBreve, listarProdutos } from "@/lib/catalogo";
+import { ehCorValida, listarCores, listarEmBreve, listarProdutos } from "@/lib/catalogo";
+import { carregarCatalogo } from "@/lib/catalogo-servidor";
 import { CardEmBreve } from "@/components/produto/CardEmBreve";
 import { CardProduto } from "@/components/produto/CardProduto";
 import { TituloSecao } from "@/components/ui/TituloSecao";
@@ -13,11 +13,15 @@ export const metadata: Metadata = {
 
 export default async function Colecao({ searchParams }: { searchParams: Promise<{ cor?: string }> }) {
   const { cor } = await searchParams;
-  const filtro = ehCorValida(cor) ? cor : undefined;
-  const produtos = listarProdutos(filtro);
-  const emBreve = filtro ? [] : listarEmBreve();
+  const cat = await carregarCatalogo();
+  const filtro = ehCorValida(cat, cor) ? cor : undefined;
+  const produtos = listarProdutos(cat, filtro);
+  const emBreve = filtro ? [] : listarEmBreve(cat);
 
-  const filtros = [{ valor: undefined, rotulo: "Todas" }, ...ORDEM_CORES.map((c) => ({ valor: c, rotulo: CORES[c].nome }))];
+  const filtros = [
+    { valor: undefined, rotulo: "Todas", hex: "" },
+    ...listarCores(cat).map((c) => ({ valor: c.slug, rotulo: c.nome, hex: c.hex })),
+  ];
 
   return (
     <div className="grid gap-6">
@@ -36,7 +40,7 @@ export default async function Colecao({ searchParams }: { searchParams: Promise<
                 ativo ? "border-botao bg-botao font-bold text-botao-texto" : "border-linha bg-superficie text-texto"
               }`}
             >
-              {f.valor && <span aria-hidden className="h-3.5 w-3.5 rounded-full" style={{ background: CORES[f.valor].hex }} />}
+              {f.valor && <span aria-hidden className="h-3.5 w-3.5 rounded-full" style={{ background: f.hex }} />}
               {f.rotulo}
             </Link>
           );

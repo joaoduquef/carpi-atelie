@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useCatalogo } from "@/components/loja/CatalogoProvider";
 import { useLoja, MAX_POR_ITEM } from "@/components/loja/LojaProvider";
 import { montarLinhas } from "@/components/loja/itensSacola";
 import { MiniaturaAbajur } from "@/components/loja/MiniaturaAbajur";
@@ -14,7 +15,8 @@ import { formatarReais, precoPix } from "@/lib/dinheiro";
 
 export function ConteudoSacola() {
   const { sacola, carregado, alterarQuantidade, remover } = useLoja();
-  const linhas = montarLinhas(sacola);
+  const cat = useCatalogo();
+  const linhas = montarLinhas(cat, sacola);
   const subtotal = linhas.reduce((s, l) => s + l.subtotal, 0);
   const producao = Math.max(0, ...linhas.map((l) => l.modelo.prazoProducaoDias));
 
@@ -32,11 +34,11 @@ export function ConteudoSacola() {
           <ul className="grid rounded-card border border-linha bg-superficie px-5" aria-label="Itens da sacola">
             {linhas.map((l) => (
               <li key={l.variacao.id} className="grid grid-cols-[64px_1fr] items-center gap-x-4 gap-y-2 border-b border-linha py-4 last:border-b-0 sm:grid-cols-[76px_1fr_auto]">
-                <Link href={urlProduto(l.modelo.slug, l.variacao.cor)} aria-label={`Ver ${textoNomeProduto(l.modelo.nome, l.variacao.cor)}`}>
+                <Link href={urlProduto(l.modelo.slug, l.variacao.cor)} aria-label={`Ver ${textoNomeProduto(l.modelo.nome, l.cor.nome)}`}>
                   <MiniaturaAbajur linha={l} tamanho="w-16 sm:w-[76px]" />
                 </Link>
                 <div className="grid min-w-0 justify-items-start gap-2">
-                  <NomeProduto modelo={l.modelo.nome} cor={l.variacao.cor} />
+                  <NomeProduto modelo={l.modelo.nome} cor={l.cor.nome} />
                   <Quantidade
                     valor={l.quantidade}
                     max={MAX_POR_ITEM}
