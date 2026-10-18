@@ -8,7 +8,7 @@ export function CardEmBreve({ modelo }: { modelo: Modelo }) {
         <span className="absolute top-3 left-3 rounded-full bg-selo px-2.5 py-0.5 text-xs font-bold text-selo-texto">
           Em breve
         </span>
-        <span className="texto-no-abajur mr-[-0.2em] text-[min(3rem,17cqi)] font-bold tracking-[0.2em] text-destaque">
+        <span className="mr-[-0.2em] text-[min(3rem,17cqi)] font-bold tracking-[0.2em] text-destaque">
           {modelo.nome.toLocaleUpperCase("pt-BR")}
         </span>
       </div>

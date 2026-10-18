@@ -91,7 +91,7 @@ export function DestaqueBabi({
           <NomeProduto
             modelo={atual.modelo.nome}
             cor={atual.cor.nome}
-            className="texto-no-abajur ml-1 min-w-[9.5em]"
+            className="ml-1 min-w-[9.5em]"
           />
         </div>
       </div>
