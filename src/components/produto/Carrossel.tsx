@@ -34,7 +34,7 @@ export function Carrossel({ children, rotulo }: { children: React.ReactNode; rot
         role="region"
         aria-label={rotulo}
         tabIndex={0}
-        className="sem-barra grid snap-x snap-mandatory auto-cols-[232px] sm:auto-cols-[264px] grid-flow-col gap-3 overflow-x-auto pb-1"
+        className="sem-barra grid snap-x snap-mandatory auto-cols-[232px] sm:auto-cols-[264px] grid-flow-col gap-3 overflow-x-auto -mx-3 px-3 -my-3 py-3 scroll-px-3"
       >
         {children}
       </div>

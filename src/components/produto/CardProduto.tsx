@@ -17,7 +17,7 @@ export function CardProduto({ produto, priority = false }: { produto: ProdutoCar
   const href = urlProduto(modelo.slug, variacao.cor);
 
   return (
-    <article className="group @container relative grid min-w-0 content-start gap-2.5 self-start">
+    <article className="group @container relative grid min-w-0 content-start gap-2.5 self-start transition-transform duration-300 ease-out hover:z-10 hover:scale-[1.04] focus-within:z-10 focus-within:scale-[1.04] motion-reduce:transition-none">
       <Link href={href} className={`grid aspect-[1/1.08] w-full place-items-center overflow-hidden rounded-card ${classeFundo(cor)} transition-colors duration-500 group-hover:bg-[color-mix(in_srgb,var(--rosa)_13%,var(--fundo))]`} aria-label={nome}>
         <ImagemAbajur
           apagado={imagemApagado}
@@ -25,7 +25,7 @@ export function CardProduto({ produto, priority = false }: { produto: ProdutoCar
           corBrilho={cor.hex}
           sizes="(max-width: 640px) 50vw, 240px"
           priority={priority}
-          className="h-[78%] transition-transform duration-500 ease-out group-hover:scale-[1.07] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+          className="h-[78%]"
         />
       </Link>
       <div className="absolute top-2.5 right-2.5 grid gap-1.5">
