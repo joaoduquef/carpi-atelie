@@ -120,7 +120,7 @@ export function GaleriaProduto({
               aria-label="Foto anterior"
               onPointerDown={(e) => e.stopPropagation()}
               onClick={() => irPara(indice - 1)}
-              className="absolute top-1/2 left-3 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/85 text-destaque transition-colors hover:bg-white"
+              className="absolute top-1/2 left-3 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/85 text-rosa transition-colors hover:bg-white"
             >
               <IconeVoltar width={20} height={20} />
             </button>
@@ -129,7 +129,7 @@ export function GaleriaProduto({
               aria-label="Próxima foto"
               onPointerDown={(e) => e.stopPropagation()}
               onClick={() => irPara(indice + 1)}
-              className="absolute top-1/2 right-3 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/85 text-destaque transition-colors hover:bg-white"
+              className="absolute top-1/2 right-3 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/85 text-rosa transition-colors hover:bg-white"
             >
               <IconeAvancar width={20} height={20} />
             </button>

@@ -3,12 +3,12 @@
 import { useLuzes } from "./LuzesProvider";
 import { Botao } from "@/components/ui/Botao";
 
-/** "Acender as luzes" acende o abajur (o fundo escurece em volta); "Apagar as luzes" apaga. */
+/** "Apagar as luzes" deixa o site em bordô e acende os abajures; "Acender as luzes" volta ao normal. */
 export function BotaoLuzes({ className = "", variante = "secundario" }: { className?: string; variante?: "primario" | "secundario" }) {
-  const { apagadas: abajurAceso, alternar } = useLuzes();
+  const { apagadas, alternar } = useLuzes();
   return (
-    <Botao type="button" variante={variante} onClick={alternar} aria-pressed={abajurAceso} className={className}>
-      {abajurAceso ? "Apagar as luzes" : "Acender as luzes"}
+    <Botao type="button" variante={variante} onClick={alternar} aria-pressed={apagadas} className={className}>
+      {apagadas ? "Acender as luzes" : "Apagar as luzes"}
     </Botao>
   );
 }

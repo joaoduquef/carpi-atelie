@@ -3,8 +3,8 @@
 /*
   Paleta CARPI: só três cores, o rosa da marca, o branco e o preto (texto).
   O "rosa-suave" é o mesmo rosa bem diluído no branco, para separar áreas sem linhas.
-  O botão "Acender as luzes" (.apagadas no <html>) não muda o site: só escurece o fundo de
-  cada abajur e acende a peça (veja "Luzes", abaixo).
+  O botão "Apagar as luzes" (.apagadas no <html>) troca o site para a paleta noturna,
+  só bordô e branco, e acende os abajures devagar (veja "Luzes", abaixo).
 */
 :root {
   /* paleta noturna e cores dos produtos */
@@ -53,6 +53,35 @@
   --erro: var(--rosa);
   --sucesso: var(--preto);
   color-scheme: light;
+}
+
+html.apagadas {
+  /* noite: só o bordô e o branco (o bordô um pouco mais claro separa áreas) */
+  --fundo: var(--noite);
+  --superficie: color-mix(in srgb, var(--branco) 7%, var(--noite));
+  --texto: var(--branco);
+  --texto-suave: color-mix(in srgb, var(--branco) 78%, var(--noite));
+  --titulo: var(--branco);
+  --destaque: var(--branco);
+  --link: var(--branco);
+  --linha: rgb(255 255 255 / 0.25);
+  --bloco-mare: var(--superficie);
+  --bloco-rosa: var(--superficie);
+  --bloco-damasco: var(--superficie);
+  --bloco-amarelo: var(--superficie);
+  --texto-em-bloco: var(--branco);
+  --texto-em-mare: var(--branco);
+  --botao: var(--branco);
+  --botao-texto: var(--noite);
+  --icone-fundo: color-mix(in srgb, var(--branco) 12%, var(--noite));
+  --icone: var(--branco);
+  --selo: var(--branco);
+  --selo-texto: var(--noite);
+  --rodape: color-mix(in srgb, #000 28%, var(--noite));
+  --rodape-texto: var(--branco);
+  --erro: var(--branco);
+  --sucesso: var(--branco);
+  color-scheme: dark;
 }
 
 
@@ -123,8 +152,28 @@ h3 {
 }
 
 /* ---------- Luzes ----------
-   Ao apagar: primeiro o fundo do abajur escurece, depois a peça acende devagar.
-   Ao acender: primeiro a peça apaga, depois o fundo clareia. */
+   Ao apagar: primeiro o site escurece para o bordô, depois as peças acendem devagar.
+   Ao acender: primeiro as peças apagam, depois o site clareia. */
+
+/* troca de cores do site inteiro (a classe fica no <html> só durante a troca) */
+html.transicao-luzes *:not(.abajur-aceso, .abajur-apagado, .abajur-brilho, .logo-claro, .logo-escuro),
+html.transicao-luzes *::before,
+html.transicao-luzes *::after {
+  transition:
+    background-color 0.9s ease-in-out,
+    color 0.9s ease-in-out,
+    border-color 0.9s ease-in-out,
+    outline-color 0.9s ease-in-out !important;
+}
+html.transicao-luzes.acendendo *:not(.abajur-aceso, .abajur-apagado, .abajur-brilho, .logo-claro, .logo-escuro) {
+  transition-delay: 1s !important; /* espera as peças apagarem */
+}
+html.transicao-luzes body {
+  transition: background-color 0.9s ease-in-out, color 0.9s ease-in-out;
+}
+html.transicao-luzes.acendendo body {
+  transition-delay: 1s;
+}
 
 .fundo-abajur {
   position: relative;
@@ -137,21 +186,14 @@ h3 {
   z-index: -1;
   border-radius: inherit;
   pointer-events: none;
-  /* o fundo escurece para um rosa fechado, mas em volta do abajur continua clarinho,
-     como se a peça iluminasse o espaço ao redor */
-  background: radial-gradient(
-    ellipse 75% 70% at 50% 46%,
-    color-mix(in srgb, var(--brilho, #f6c28b) 10%, transparent) 0%,
-    transparent 30%,
-    rgb(170 52 78 / 0.55) 68%,
-    rgb(140 40 62 / 0.82) 100%
-  );
+  /* um brilho suave na cor da peça, atrás dela */
+  background: radial-gradient(ellipse 55% 50% at 50% 46%, color-mix(in srgb, var(--brilho, #f6c28b) 22%, transparent), transparent 75%);
   opacity: 0;
-  transition: opacity 1.6s ease-in-out 1s; /* acendendo a luz da casa: espera o abajur apagar */
+  transition: opacity 1.2s ease-in-out;
 }
 html.apagadas .fundo-abajur::before {
   opacity: 1;
-  transition: opacity 1.4s ease-in-out 0s; /* apagando a luz da casa: escurece primeiro */
+  transition: opacity 2.4s ease-in-out 0.8s;
 }
 
 /* Abajur: troca da foto apagada para a acesa, com brilho na cor da variação */
@@ -179,6 +221,16 @@ html.apagadas .abajur-brilho {
 }
 
 
+
+.logo-escuro {
+  opacity: 0;
+}
+html.apagadas .logo-escuro {
+  opacity: 1;
+}
+html.apagadas .logo-claro {
+  opacity: 0;
+}
 
 /* Nomes de produto: "BABI  maré", com dois espaços preservados */
 .nome-produto {

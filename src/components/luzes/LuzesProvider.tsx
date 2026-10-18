@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 
 const CHAVE = "carpi:luzes";
 
@@ -13,6 +13,7 @@ export const scriptLuzes = `try{if(sessionStorage.getItem("${CHAVE}")==="apagada
 
 export function LuzesProvider({ children }: { children: React.ReactNode }) {
   const [apagadas, setApagadas] = useState(false);
+  const timer = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     setApagadas(document.documentElement.classList.contains("apagadas"));
@@ -21,7 +22,12 @@ export function LuzesProvider({ children }: { children: React.ReactNode }) {
   const alternar = useCallback(() => {
     const raiz = document.documentElement;
     const novo = !raiz.classList.contains("apagadas");
+    // a classe de transição fica só durante a troca, para o resto do site não ficar "lento"
+    raiz.classList.add("transicao-luzes");
+    raiz.classList.toggle("acendendo", !novo);
     raiz.classList.toggle("apagadas", novo);
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => raiz.classList.remove("transicao-luzes", "acendendo"), 2200);
     try {
       sessionStorage.setItem(CHAVE, novo ? "apagadas" : "acesas");
     } catch {
