@@ -1,6 +1,7 @@
 import "server-only";
 import { cache } from "react";
 import { CATALOGO_FICTICIO } from "@/data/mock";
+import { foto } from "@/lib/fotos";
 import { supabasePublico } from "@/lib/supabase/servidor";
 import type { Catalogo, Especificacao, StatusModelo, TipoImagem } from "@/lib/tipos";
 
@@ -49,7 +50,7 @@ export const carregarCatalogo = cache(async (): Promise<Catalogo> => {
       modeloSlug: i.modelo_slug,
       cor: i.cor_slug,
       tipo: i.tipo as TipoImagem,
-      url: i.url,
+      url: i.url.startsWith("/") ? foto(i.url) : i.url, // fotos do próprio site ganham a versão anti-cache
       alt: i.alt,
       ordem: i.ordem,
     })),

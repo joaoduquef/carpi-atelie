@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { foto } from "@/lib/fotos";
 import { CartaoTexto, PaginaTexto } from "@/components/ui/PaginaTexto";
 
 export const metadata: Metadata = { title: "Sobre nós", description: "Conheça o CARPI Ateliê, de abajures de design autoral feitos sob encomenda." };
@@ -8,7 +9,7 @@ export default function Sobre() {
   return (
     <PaginaTexto titulo="Sobre nós" provisorio>
       <div className="relative min-h-72 overflow-hidden rounded-bloco">
-        <Image src="/products/babi/ambiente-1.jpg" alt="Abajur Babi aceso sobre um aparador" fill sizes="(max-width: 768px) 100vw, 560px" className="object-cover" />
+        <Image src={foto("/products/babi/ambiente-1.jpg")} alt="Abajur Babi rosa sobre uma escrivaninha de madeira" fill sizes="(max-width: 768px) 100vw, 560px" className="object-cover" />
       </div>
       <div className="grid gap-3">
         <CartaoTexto titulo="O ateliê" tom="rosa">

@@ -42,9 +42,9 @@ export const metadata: Metadata = {
     description: LOJA.descricao,
     images: [
       {
-        url: "/products/babi/ambiente-1.jpg",
-        width: 1600,
-        height: 1200,
+        url: "/products/babi/ambiente-1.jpg?v=4",
+        width: 1436,
+        height: 1436,
         alt: "Abajur Babi",
       },
     ],
@@ -72,34 +72,36 @@ export default async function RootLayout({
         <LuzesProvider>
           <CatalogoProvider catalogo={catalogo}>
             <LojaProvider usuarioId={usuario?.id ?? null}>
-              <a
-                href="#conteudo"
-                className="sr-only z-50 rounded-full bg-botao px-4 py-2 text-botao-texto focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
-              >
-                Pular para o conteúdo
-              </a>
-              <div
-                className="bg-botao px-4 pb-2 text-center text-[0.8rem] font-bold tracking-[0.04em] text-botao-texto"
-                style={{
-                  paddingTop: "calc(8px + env(safe-area-inset-top, 0px))",
-                }}
-              >
-                {LOJA.anuncio}
-              </div>
-              <Cabecalho
-                nomeUsuario={
-                  usuario ? usuario.nome.split(" ")[0] || "Minha conta" : null
-                }
-              />
-              <main
-                id="conteudo"
-                className="mx-auto w-full max-w-6xl px-4 pt-6 pb-14 sm:px-6"
-              >
-                {children}
-              </main>
-              <div className="grid gap-10">
-                <Newsletter />
-                <Rodape />
+              <div className="moldura-site">
+                <a
+                  href="#conteudo"
+                  className="sr-only z-50 rounded-full bg-botao px-4 py-2 text-botao-texto focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+                >
+                  Pular para o conteúdo
+                </a>
+                <div
+                  className="bg-botao px-4 pb-2 text-center text-[0.8rem] font-bold tracking-[0.04em] text-botao-texto"
+                  style={{
+                    paddingTop: "calc(8px + env(safe-area-inset-top, 0px))",
+                  }}
+                >
+                  {LOJA.anuncio}
+                </div>
+                <Cabecalho
+                  nomeUsuario={
+                    usuario ? usuario.nome.split(" ")[0] || "Minha conta" : null
+                  }
+                />
+                <main
+                  id="conteudo"
+                  className="mx-auto w-full max-w-6xl px-4 pt-6 pb-14 sm:px-6"
+                >
+                  {children}
+                </main>
+                <div className="grid gap-10">
+                  <Newsletter />
+                  <Rodape />
+                </div>
               </div>
               <Aviso />
             </LojaProvider>

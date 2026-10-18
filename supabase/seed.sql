@@ -35,6 +35,6 @@ select 'babi', c.slug, t.tipo::public.tipo_imagem, '/products/babi/' || c.slug |
 
 insert into public.imagens (modelo_slug, cor_slug, tipo, url, alt, ordem)
 select 'babi', null, x.tipo::public.tipo_imagem, x.url, x.alt, x.ordem
-  from (values ('ambiente', '/products/babi/ambiente-1.jpg', 'Abajur Babi sobre um aparador', 10),
+  from (values ('ambiente', '/products/babi/ambiente-1.jpg', 'Abajur Babi rosa sobre uma escrivaninha de madeira', 10),
                ('desenho_tecnico', '/products/babi/desenho-tecnico.png', 'Desenho técnico do abajur Babi com medidas', 20)) as x (tipo, url, alt, ordem)
  where not exists (select 1 from public.imagens i where i.modelo_slug = 'babi' and i.tipo = x.tipo::public.tipo_imagem);

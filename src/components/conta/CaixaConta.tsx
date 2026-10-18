@@ -4,7 +4,7 @@ import { supabaseConfigurado } from "@/lib/supabase/config";
 export function CaixaConta({ titulo, children }: { titulo: string; children: React.ReactNode }) {
   return (
     <div className="mx-auto grid w-full max-w-md gap-5">
-      <TituloSecao como="h1" className="text-center">
+      <TituloSecao como="h1" centralizado className="text-center">
         {titulo}
       </TituloSecao>
       <div className="grid gap-4 rounded-bloco border border-linha bg-superficie px-6 py-7">{children}</div>

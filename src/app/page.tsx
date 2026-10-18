@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { foto } from "@/lib/fotos";
 import { listarEmBreve, listarProdutos } from "@/lib/catalogo";
 import { carregarCatalogo } from "@/lib/catalogo-servidor";
 import { DestaqueBabi } from "@/components/inicio/DestaqueBabi";
@@ -51,8 +52,8 @@ export default async function Inicio() {
       <section aria-labelledby="titulo-sobre" className="grid gap-3 md:grid-cols-[1.1fr_1fr]">
         <div className="relative aspect-[4/3] overflow-hidden rounded-bloco bg-bloco-rosa">
           <Image
-            src="/products/babi/ambiente-1.jpg"
-            alt="Abajur Babi aceso sobre um aparador"
+            src={foto("/products/babi/ambiente-1.jpg")}
+            alt="Abajur Babi rosa sobre uma escrivaninha de madeira"
             fill
             sizes="(max-width: 768px) 100vw, 560px"
             className="object-cover"

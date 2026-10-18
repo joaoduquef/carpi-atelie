@@ -41,6 +41,8 @@
   --rodape-texto: var(--creme-claro);
   --erro: #9c2f48;
   --sucesso: #2f6b45;
+  /* linhas: contorno da moldura, dos blocos e dos cards */
+  --contorno: var(--roma-escuro);
   color-scheme: light;
 }
 
@@ -66,6 +68,7 @@ html.apagadas {
   --rodape: color-mix(in srgb, #000 30%, var(--noite));
   --erro: #f8c3ce;
   --sucesso: #b9e3c6;
+  --contorno: rgb(248 195 206 / 0.55);
   color-scheme: dark;
 }
 
@@ -116,6 +119,34 @@ html.apagadas {
 body {
   background: var(--fundo);
   color: var(--texto);
+}
+
+/* ---------- Linhas: moldura e contornos ---------- */
+
+/* Moldura: o site inteiro dentro de um quadro com contorno, como nas referências */
+.moldura-site {
+  margin: 10px;
+  border: 1.5px solid var(--contorno);
+  border-radius: 34px;
+  background: var(--fundo);
+  overflow: clip;
+}
+@media (min-width: 640px) {
+  .moldura-site {
+    margin: 18px;
+  }
+}
+
+/* Blocos e cards: contorno fino */
+.rounded-bloco,
+.rounded-card {
+  border: 1.5px solid var(--contorno);
+}
+
+/* Campos de texto com contorno da marca */
+input:not([type="checkbox"]):not([type="radio"]),
+select {
+  border-color: var(--contorno) !important;
 }
 
 h1,

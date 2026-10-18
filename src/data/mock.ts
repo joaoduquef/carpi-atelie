@@ -1,5 +1,6 @@
 // Catálogo fictício, usado só enquanto o Supabase não estiver configurado
 // (por exemplo, no link de teste da Vercel antes de colar as chaves).
+import { foto } from "@/lib/fotos";
 import type { Catalogo, Cor, Imagem, Modelo, Variacao } from "@/lib/tipos";
 
 const cores: Cor[] = [
@@ -62,17 +63,17 @@ const imagens: Imagem[] = [
       modeloSlug: "babi",
       cor: c.slug,
       tipo,
-      url: `/products/babi/${c.slug}-${tipo}.png`,
+      url: foto(`/products/babi/${c.slug}-${tipo}.png`),
       alt: `Abajur Babi ${c.nome} ${tipo}`,
       ordem: c.ordem,
     })),
   ),
-  { modeloSlug: "babi", cor: null, tipo: "ambiente", url: "/products/babi/ambiente-1.jpg", alt: "Abajur Babi sobre um aparador", ordem: 10 },
+  { modeloSlug: "babi", cor: null, tipo: "ambiente", url: foto("/products/babi/ambiente-1.jpg"), alt: "Abajur Babi rosa sobre uma escrivaninha de madeira", ordem: 10 },
   {
     modeloSlug: "babi",
     cor: null,
     tipo: "desenho_tecnico",
-    url: "/products/babi/desenho-tecnico.png",
+    url: foto("/products/babi/desenho-tecnico.png"),
     alt: "Desenho técnico do abajur Babi com medidas",
     ordem: 20,
   },
