@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+/*
+  Paleta CARPI (aprovada). As cores "de papel" (fundo, texto, título...) mudam
+  quando as luzes se apagam: a classe .apagadas no <html> troca os valores.
+*/
+:root {
+  --creme: #f7eddc;
+  --creme-claro: #fbf6ec;
+  --roma: #e2627f;
+  --roma-escuro: #b63a55;
+  --roma-texto: #9c2f48;
+  --rosa-claro: #f8c3ce;
+  --mare: #a9ccdd;
+  --mare-escuro: #336a89;
+  --damasco: #ee8e3e;
+  --damasco-claro: #fbd2a5;
+  --amarelo: #f6d27a;
+  --tinta: #3a2228;
+  --noite: #3a1420;
+
+  --fundo: var(--creme);
+  --superficie: var(--creme-claro);
+  --texto: var(--tinta);
+  --texto-suave: #5e464b;
+  --titulo: var(--roma-escuro);
+  --destaque: var(--roma-texto);
+  --link: var(--mare-escuro);
+  --linha: rgb(182 58 85 / 0.32);
+  --bloco-mare: var(--mare);
+  --bloco-rosa: var(--rosa-claro);
+  --bloco-damasco: var(--damasco-claro);
+  --bloco-amarelo: var(--amarelo);
+  --texto-em-bloco: var(--roma-texto);
+  --texto-em-mare: var(--tinta);
+  --botao: var(--roma-escuro);
+  --botao-texto: var(--creme-claro);
+  --icone-fundo: var(--rosa-claro);
+  --icone: var(--roma-escuro);
+  --rodape: var(--roma-escuro);
+  --rodape-texto: var(--creme-claro);
+  --erro: #9c2f48;
+  --sucesso: #2f6b45;
+  color-scheme: light;
+}
+
+html.apagadas {
+  --fundo: var(--noite);
+  --superficie: color-mix(in srgb, var(--creme) 8%, var(--noite));
+  --texto: var(--creme);
+  --texto-suave: color-mix(in srgb, var(--creme) 82%, var(--noite));
+  --titulo: var(--rosa-claro);
+  --destaque: var(--rosa-claro);
+  --link: var(--mare);
+  --linha: rgb(248 195 206 / 0.3);
+  --bloco-mare: color-mix(in srgb, var(--mare) 20%, var(--noite));
+  --bloco-rosa: color-mix(in srgb, var(--rosa-claro) 20%, var(--noite));
+  --bloco-damasco: color-mix(in srgb, var(--damasco-claro) 20%, var(--noite));
+  --bloco-amarelo: color-mix(in srgb, var(--amarelo) 20%, var(--noite));
+  --texto-em-bloco: var(--creme);
+  --texto-em-mare: var(--creme);
+  --botao: var(--rosa-claro);
+  --botao-texto: var(--noite);
+  --icone-fundo: color-mix(in srgb, var(--creme) 14%, var(--noite));
+  --icone: var(--rosa-claro);
+  --rodape: color-mix(in srgb, #000 30%, var(--noite));
+  --erro: #f8c3ce;
+  --sucesso: #b9e3c6;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: var(--fonte-liberation), Arimo, Arial, Helvetica, sans-serif;
+
+  --color-creme: var(--creme);
+  --color-creme-claro: var(--creme-claro);
+  --color-roma: var(--roma);
+  --color-roma-escuro: var(--roma-escuro);
+  --color-roma-texto: var(--roma-texto);
+  --color-rosa-claro: var(--rosa-claro);
+  --color-mare: var(--mare);
+  --color-mare-escuro: var(--mare-escuro);
+  --color-damasco: var(--damasco);
+  --color-damasco-claro: var(--damasco-claro);
+  --color-amarelo: var(--amarelo);
+  --color-tinta: var(--tinta);
+  --color-noite: var(--noite);
+
+  --color-fundo: var(--fundo);
+  --color-superficie: var(--superficie);
+  --color-texto: var(--texto);
+  --color-texto-suave: var(--texto-suave);
+  --color-titulo: var(--titulo);
+  --color-destaque: var(--destaque);
+  --color-link: var(--link);
+  --color-linha: var(--linha);
+  --color-bloco-mare: var(--bloco-mare);
+  --color-bloco-rosa: var(--bloco-rosa);
+  --color-bloco-damasco: var(--bloco-damasco);
+  --color-bloco-amarelo: var(--bloco-amarelo);
+  --color-texto-em-bloco: var(--texto-em-bloco);
+  --color-texto-em-mare: var(--texto-em-mare);
+  --color-botao: var(--botao);
+  --color-botao-texto: var(--botao-texto);
+  --color-icone-fundo: var(--icone-fundo);
+  --color-icone: var(--icone);
+  --color-rodape: var(--rodape);
+  --color-rodape-texto: var(--rodape-texto);
+  --color-erro: var(--erro);
+  --color-sucesso: var(--sucesso);
+
+  --radius-bloco: 28px;
+  --radius-card: 18px;
+}
+
+body {
+  background: var(--fundo);
+  color: var(--texto);
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+:focus-visible {
+  outline: 3px solid var(--link);
+  outline-offset: 3px;
+}
+
+/* Transição suave ao apagar/acender (desligada para quem prefere menos movimento) */
+html.transicao-luzes,
+html.transicao-luzes *,
+html.transicao-luzes *::before,
+html.transicao-luzes *::after {
+  transition:
+    background-color 0.6s ease,
+    color 0.6s ease,
+    border-color 0.6s ease,
+    opacity 0.6s ease,
+    filter 0.6s ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.transicao-luzes,
+  html.transicao-luzes *,
+  html.transicao-luzes *::before,
+  html.transicao-luzes *::after {
+    transition: none !important;
+  }
+}
+
+/* Abajur: troca da foto apagada para a acesa, com brilho na cor da variação */
+.abajur-aceso {
+  opacity: 0;
+}
+html.apagadas .abajur-aceso {
+  opacity: 1;
+}
+html.apagadas .abajur-apagado {
+  opacity: 0;
+}
+html.apagadas .abajur-brilho {
+  filter: drop-shadow(0 0 18px var(--brilho)) drop-shadow(0 0 48px var(--brilho));
+}
+
+.logo-escuro {
+  opacity: 0;
+}
+html.apagadas .logo-escuro {
+  opacity: 1;
+}
+html.apagadas .logo-claro {
+  opacity: 0;
+}
+
+/* Nomes de produto: "BABI  maré", com dois espaços preservados */
+.nome-produto {
+  white-space: pre;
+}
+
+.sem-barra {
+  scrollbar-width: none;
+}
+.sem-barra::-webkit-scrollbar {
+  display: none;
+}
