@@ -58,7 +58,7 @@ export function Newsletter() {
             {enviando ? "Enviando…" : "Quero receber"}
           </Botao>
         </div>
-        <label className="flex items-center gap-2.5 text-sm text-texto-suave">
+        <label className="mt-3 flex items-center gap-2.5 text-sm text-texto-suave">
           <input
             type="checkbox"
             checked={aceite}
