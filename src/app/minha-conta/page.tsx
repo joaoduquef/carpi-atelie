@@ -62,7 +62,7 @@ async function carregarConta(): Promise<DadosConta | null> {
 
 function Bloco({ titulo, children, id }: { titulo: string; children: React.ReactNode; id: string }) {
   return (
-    <section id={id} aria-labelledby={`t-${id}`} className="grid scroll-mt-6 content-start gap-4 rounded-bloco bg-superficie px-5 py-6 sm:px-7">
+    <section id={id} aria-labelledby={`t-${id}`} className="grid scroll-mt-28 content-start gap-4 rounded-bloco bg-superficie px-5 py-6 sm:px-7">
       <h2 id={`t-${id}`} className="text-base font-bold tracking-[0.08em] text-titulo uppercase">
         {titulo}
       </h2>

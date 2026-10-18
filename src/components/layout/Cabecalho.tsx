@@ -16,10 +16,10 @@ export function Cabecalho({ nomeUsuario }: { nomeUsuario: string | null }) {
   const [menuAberto, setMenuAberto] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 bg-fundo/95 backdrop-blur-md" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+    <header className="sticky top-0 z-40 border-b border-rosa/20 bg-fundo/95 backdrop-blur-md" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-4 sm:px-6 sm:py-5">
       <Link href="/" aria-label="CARPI Ateliê, página inicial" className="block">
-        <Logo className="h-9 w-[122px]" />
+        <Logo className="h-10 w-[136px] sm:h-11 sm:w-[149px]" />
       </Link>
 
       <nav aria-label="Principal" className="hidden items-center gap-1 text-[0.82rem] font-bold tracking-[0.1em] uppercase md:flex">

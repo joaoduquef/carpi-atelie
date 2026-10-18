@@ -194,7 +194,7 @@ export function Checkout() {
           </Etapa>
         </div>
 
-        <aside aria-label="Resumo do pedido" className="grid gap-4 rounded-card bg-superficie px-5 py-5 md:sticky md:top-4">
+        <aside aria-label="Resumo do pedido" className="grid gap-4 rounded-card bg-superficie px-5 py-5 md:sticky md:top-32">
           <h2 className="text-base font-bold tracking-[0.08em] text-titulo uppercase">Resumo</h2>
           <ul className="grid gap-3">
             {linhas.map((l) => (
