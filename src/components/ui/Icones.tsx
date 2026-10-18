@@ -85,3 +85,9 @@ export const IconeInstagram = (p: Props) => (
     <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
   </Base>
 );
+
+export const IconeAvancar = (p: Props) => (
+  <Base {...p}>
+    <path d="M9 18l6-6-6-6" />
+  </Base>
+);

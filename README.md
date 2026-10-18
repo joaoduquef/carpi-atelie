@@ -114,6 +114,7 @@ Outros comandos: `npm run build` (gera a versão de produção) e `npm run lint`
 |---|---|
 | Logo | `public/brand/logo.svg` (rosa) e `public/brand/logo-creme.svg` (branco, para fundos escuros). Troque mantendo os nomes. |
 | Fotos da Babi | `public/products/babi/` — `mare-apagado.png`, `mare-aceso.png`, `damasco-…`, `roma-…` (recortadas, fundo transparente), `ambiente-1.jpg` e `desenho-tecnico.png`. Mantenha os nomes e as fotos recortadas em pé (proporção 8 × 11). Depois de trocar, aumente o número em `src/lib/fotos.ts` para o site não mostrar a foto antiga guardada em cache. |
+| Desenho técnico da Babi | Gerado pelo arquivo `scripts/desenho-tecnico-babi.py` (as medidas ficam no topo dele). Rode `python3 scripts/desenho-tecnico-babi.py` para criar o `desenho-tecnico.svg`, gere o `.png` a partir dele e aumente o número em `src/lib/fotos.ts`. |
 | Foto de João e Nalu (página Sobre nós) | `public/sobre/joao-e-nalu.jpg` — retrato (em pé, proporção 4 × 5), fundo branco. Depois de trocar, aumente o número em `src/lib/fotos.ts`. |
 | E-mail, Instagram, CNPJ, razão social, texto da barra do topo | `src/config/loja.ts` |
 | Preço, descrição e medidas (até a Fase 2) | `src/data/mock.ts` |

@@ -1,10 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { classeFundo } from "@/lib/catalogo";
 import type { Cor, Imagem } from "@/lib/tipos";
 import { ImagemAbajur } from "@/components/luzes/ImagemAbajur";
+import { IconeAvancar, IconeVoltar } from "@/components/ui/Icones";
+
+/** Distância mínima (px) do arraste para trocar de foto. */
+const ARRASTE_MINIMO = 40;
 
 type Vista = {
   chave: string;
@@ -34,14 +38,32 @@ export function GaleriaProduto({
       imagem: img,
     })),
   ];
-  const [ativa, setAtiva] = useState(vistas[0].chave);
-  const vista = vistas.find((v) => v.chave === ativa) ?? vistas[0];
+  const [indice, setIndice] = useState(0);
+  const vista = vistas[indice] ?? vistas[0];
+  const ativa = vista.chave;
+  const inicioArraste = useRef<number | null>(null);
+
+  function irPara(i: number) {
+    setIndice((i + vistas.length) % vistas.length);
+  }
 
   return (
-    <div className="grid gap-2.5 sm:grid-cols-[64px_1fr]">
+    <div className="grid gap-2.5 sm:grid-cols-[64px_1fr] md:h-full">
       <div
-        style={{ "--brilho": `${cor.hex}cc` } as React.CSSProperties}
-        className={`fundo-abajur grid aspect-[1/1.05] place-items-center overflow-hidden rounded-bloco sm:order-2 ${classeFundo(cor)}`}
+        style={{ "--brilho": `${cor.hex}cc`, touchAction: "pan-y" } as React.CSSProperties}
+        className={`fundo-abajur relative grid aspect-[1/1.05] cursor-grab place-items-center overflow-hidden rounded-bloco select-none active:cursor-grabbing sm:order-2 md:aspect-auto md:h-full md:min-h-[460px] [&_img]:pointer-events-none ${classeFundo(cor)}`}
+        onPointerDown={(e) => {
+          inicioArraste.current = e.clientX;
+        }}
+        onPointerUp={(e) => {
+          if (inicioArraste.current === null) return;
+          const dx = e.clientX - inicioArraste.current;
+          inicioArraste.current = null;
+          if (Math.abs(dx) >= ARRASTE_MINIMO) irPara(indice + (dx < 0 ? 1 : -1));
+        }}
+        onPointerCancel={() => {
+          inicioArraste.current = null;
+        }}
       >
         {vista.render === "abajur" && (
           <ImagemAbajur
@@ -82,19 +104,41 @@ export function GaleriaProduto({
             }
           />
         )}
+        {vistas.length > 1 && (
+          <>
+            <button
+              type="button"
+              aria-label="Foto anterior"
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={() => irPara(indice - 1)}
+              className="absolute top-1/2 left-3 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/85 text-destaque transition-colors hover:bg-white"
+            >
+              <IconeVoltar width={20} height={20} />
+            </button>
+            <button
+              type="button"
+              aria-label="Próxima foto"
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={() => irPara(indice + 1)}
+              className="absolute top-1/2 right-3 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/85 text-destaque transition-colors hover:bg-white"
+            >
+              <IconeAvancar width={20} height={20} />
+            </button>
+          </>
+        )}
       </div>
       <div
         role="group"
         aria-label="Fotos do produto"
         className="flex gap-2 sm:order-1 sm:grid sm:content-start"
       >
-        {vistas.map((v) => (
+        {vistas.map((v, i) => (
           <button
             key={v.chave}
             type="button"
             aria-pressed={v.chave === ativa}
             aria-label={v.rotulo}
-            onClick={() => setAtiva(v.chave)}
+            onClick={() => setIndice(i)}
             className={`relative grid aspect-square w-16 place-items-center overflow-hidden rounded-xl bg-superficie ${
               v.chave === ativa
                 ? "outline-2 outline-offset-1 outline-destaque"

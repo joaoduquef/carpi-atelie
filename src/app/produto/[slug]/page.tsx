@@ -97,7 +97,7 @@ export default async function PaginaProduto({ params, searchParams }: Props) {
           <IconeVoltar width={16} height={16} /> Coleção
         </Link>
 
-        <div className="grid items-start gap-4 md:grid-cols-[1.1fr_1fr]">
+        <div className="grid items-start gap-4 md:grid-cols-[1.1fr_1fr] md:items-stretch">
           <GaleriaProduto key={cor} cor={corObj} apagado={apagado} aceso={aceso} extras={extras} />
 
           <div className="grid gap-5 rounded-bloco bg-superficie px-5 py-6 sm:px-7">
@@ -108,12 +108,12 @@ export default async function PaginaProduto({ params, searchParams }: Props) {
               <BotaoFavorito variacaoId={variacao.id} nome={nome} />
             </div>
             <div className="grid gap-1">
-              <p className="text-[1.6rem] font-bold text-destaque tabular-nums">{formatarReais(preco)}</p>
+              <p className="mb-2 text-[2.1rem] leading-tight font-bold text-destaque tabular-nums">{formatarReais(preco)}</p>
               <p className="text-sm text-texto-suave">
-                <strong className="text-texto">{formatarReais(precoPix(preco))} no Pix</strong> (5% de desconto)
+                <span className="text-texto">{formatarReais(precoPix(preco))} no Pix</span> (5% de desconto)
               </p>
               <p className="text-sm text-texto-suave">
-                ou 1x sem juros no cartão, ou até {maiorParcela.vezes}x com juros da operadora
+                ou 1x sem juros no cartão, ou até {maiorParcela.vezes}x com juros
               </p>
             </div>
 
@@ -153,7 +153,7 @@ export default async function PaginaProduto({ params, searchParams }: Props) {
       <div className="grid gap-2.5">
         <Acordeao titulo="Medidas e desenho técnico" tom="rosa" aberto>
           <div className="grid items-start gap-4 md:grid-cols-[1fr_1.3fr]">
-            <dl className="grid grid-cols-[max-content_1fr] gap-x-5 gap-y-2 text-[0.95rem]">
+            <dl className="grid grid-cols-[max-content_1fr] gap-x-5 gap-y-4 text-[0.95rem]">
               {modelo.especificacoes.map((e) => (
                 <div key={e.rotulo} className="contents">
                   <dt className="font-bold">{e.rotulo}</dt>
