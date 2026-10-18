@@ -70,3 +70,18 @@ export const IconeVoltar = (p: Props) => (
     <path d="M15 18l-6-6 6-6" />
   </Base>
 );
+
+export const IconeEmail = (p: Props) => (
+  <Base {...p}>
+    <rect x="3" y="5" width="18" height="14" rx="2" />
+    <path d="m3 7 9 6 9-6" />
+  </Base>
+);
+
+export const IconeInstagram = (p: Props) => (
+  <Base {...p}>
+    <rect x="3" y="3" width="18" height="18" rx="5" />
+    <circle cx="12" cy="12" r="4" />
+    <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
+  </Base>
+);

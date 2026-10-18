@@ -38,9 +38,12 @@ export function CartaoTexto({
   titulo,
   tom = "creme",
   largo = false,
+  icone,
   children,
 }: {
   titulo?: string;
+  /** ícone ao lado do título, no rosa da marca */
+  icone?: React.ReactNode;
   tom?: TomCartao;
   largo?: boolean;
   children: React.ReactNode;
@@ -50,7 +53,12 @@ export function CartaoTexto({
     <section
       className={`grid content-start gap-3 rounded-bloco px-6 py-6 leading-relaxed text-texto sm:px-8 ${t.fundo} ${largo ? "md:col-span-2" : ""} [&_a]:font-bold [&_a]:underline [&_a]:underline-offset-4 [&_li]:ml-5 [&_li]:list-disc [&_ul]:grid [&_ul]:gap-1.5`}
     >
-      {titulo && <h2 className={`text-lg font-bold tracking-[0.04em] ${t.titulo}`}>{titulo}</h2>}
+      {titulo && (
+        <h2 className={`flex items-center gap-2.5 text-lg font-bold tracking-[0.04em] ${t.titulo}`}>
+          {icone}
+          {titulo}
+        </h2>
+      )}
       {children}
     </section>
   );
