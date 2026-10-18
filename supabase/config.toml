@@ -244,6 +244,16 @@ otp_expiry = 3600
 # admin_email = "admin@email.com"
 # sender_name = "Admin"
 
+# E-mails da CARPI em português (no Supabase online, cole o mesmo conteúdo em
+# Authentication → Emails → Templates; veja o README)
+[auth.email.template.confirmation]
+subject = "Confirme o seu e-mail · CARPI Ateliê"
+content_path = "./supabase/templates/confirmacao.html"
+
+[auth.email.template.recovery]
+subject = "Crie uma nova senha · CARPI Ateliê"
+content_path = "./supabase/templates/recuperacao.html"
+
 # Uncomment to customize email template
 # [auth.email.template.invite]
 # subject = "You have been invited"

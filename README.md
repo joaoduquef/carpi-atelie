@@ -6,22 +6,86 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 
 | Fase | O que entra | Situação |
 |---|---|---|
-| 1. Visual | Todas as páginas com dados fictícios, paleta, fonte, celular e "Apagar as luzes" | **Pronta para teste** |
-| 2. Banco de dados | Supabase, cadastro e login, produtos e estoque vindos do banco | A fazer |
+| 1. Visual | Todas as páginas, paleta, fonte, celular e "Apagar as luzes" | **Aprovada** |
+| 2. Banco de dados | Supabase, cadastro e login, produtos e estoque vindos do banco | **Pronta para teste** (precisa configurar o Supabase, veja abaixo) |
 | 3. Sacola e checkout | Cupons, frete pelo Melhor Envio, frete grátis no Sudeste | A fazer |
 | 4. Pagamento | Pagar.me e PagBank em teste, cartão e Pix, baixa de estoque | A fazer |
 | 5. Painel admin | Produtos, pedidos, status, rastreio, cupons, newsletter, e-mails | A fazer |
 | 6. Publicação | Vercel, domínio, checklist final | A fazer |
 
-### O que ainda é simulado na Fase 1
+### O que ainda é simulado
 
 - **Frete:** qualquer CEP de 01000-000 a 39999-999 (Sudeste) dá "Grátis"; os outros dão R$ 39,90. O valor real vem do Melhor Envio na Fase 3.
 - **Cupom:** só o cupom de teste `CARPI10` (10% a partir de R$ 100). Os cupons reais serão criados no painel.
 - **Juros do cartão:** valores de exemplo (2,99% ao mês). Os reais vêm do intermediador.
 - **Pix:** o QR Code é um desenho, não paga nada.
-- **Entrar, cadastro e Minha conta:** só a tela, com uma conta fictícia ("Ana Souza").
-- **Newsletter:** mostra a mensagem de sucesso, mas ainda não salva o e-mail.
-- **Sacola, favoritos e luzes apagadas** já funcionam de verdade e ficam guardados no navegador.
+- **Sem o Supabase configurado:** o catálogo vem de `src/data/mock.ts` e as telas de conta mostram uma conta fictícia ("Ana Souza").
+- **Com o Supabase configurado (Fase 2):** cadastro, login, recuperação de senha, Minha conta, newsletter e catálogo funcionam de verdade. Sacola e favoritos ficam no navegador e passam para a conta quando a cliente entra.
+
+## Fase 2: configurar o Supabase (banco de dados e contas)
+
+Enquanto isto não for feito, o site funciona com os dados fictícios e as telas de conta mostram um aviso de demonstração. Leva uns 20 minutos.
+
+**1. Criar o projeto**
+1. Crie uma conta grátis em https://supabase.com (pode entrar com o GitHub).
+2. Clique em **New project**. Nome: `carpi-atelie`. Região: **South America (São Paulo)**.
+3. Crie uma senha forte para o banco e guarde num gerenciador de senhas. Ninguém (nem eu) precisa dela no dia a dia.
+
+**2. Criar as tabelas**
+1. No menu da esquerda, abra **SQL Editor** → **New query**.
+2. No GitHub, abra o arquivo `supabase/migrations/20261018000001_inicial.sql`, clique em **Raw**, copie tudo, cole no SQL Editor e clique em **Run**. Deve aparecer "Success".
+3. Faça o mesmo com `supabase/seed.sql` (cadastra a Babi, a Isa, a Manu e as três cores).
+
+**3. Endereços do site**
+Em **Authentication → URL Configuration**:
+- **Site URL:** o link fixo da Vercel (por exemplo `https://carpi-atelie.vercel.app`). Na Fase 6 trocamos por `https://carpiatelie.com.br`.
+- **Redirect URLs:** adicione `https://carpi-atelie.vercel.app/**` (o seu link da Vercel seguido de `/**`).
+
+**4. E-mails em português**
+Em **Authentication → Emails → Templates**:
+- **Confirm signup:** assunto `Confirme o seu e-mail · CARPI Ateliê`; no corpo, cole o conteúdo de `supabase/templates/confirmacao.html`.
+- **Reset password:** assunto `Crie uma nova senha · CARPI Ateliê`; no corpo, cole `supabase/templates/recuperacao.html`.
+
+Esses modelos fazem o link funcionar mesmo se a cliente abrir o e-mail em outro aparelho.
+
+> **Importante sobre os e-mails:** sem um serviço de e-mail próprio, o Supabase só envia e-mails para quem faz parte da equipe do projeto, e poucos por hora. Para testar agora, usem os e-mails de vocês (o dono do projeto já faz parte da equipe; para incluir a outra pessoa: **Organization → Team → Invite**). Antes de abrir a loja, configuramos um serviço de envio (Resend, grátis até 3.000 e-mails por mês) com o domínio carpiatelie.com.br, que também vai enviar os e-mails de status dos pedidos.
+
+**5. Ligar o site ao Supabase**
+1. No Supabase, abra **Project Settings → API Keys** e copie: **Project URL**, a **Publishable key** e a **Secret key**.
+2. Na Vercel, abra o projeto → **Settings → Environment Variables** e crie:
+
+| Nome | Valor |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Project URL |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Publishable key |
+| `SUPABASE_SECRET_KEY` | Secret key (marque como **Sensitive**) |
+| `NEXT_PUBLIC_SITE_URL` | o link fixo da Vercel |
+
+3. Em **Deployments**, clique nos três pontinhos da publicação mais recente → **Redeploy**.
+
+A chave secreta dá acesso total ao banco: nunca a coloque no código, em prints ou em mensagens (nem para mim).
+
+**6. Testar**
+Crie uma conta no site com o e-mail de vocês, confirme pelo link do e-mail, adicione um endereço e coloque algo na sacola. No Supabase, em **Table Editor**, vocês veem os dados nas tabelas `perfis`, `enderecos` e `sacola_itens`.
+
+**7. Tornar vocês dois administradores** (vai servir para o painel da Fase 5)
+Depois que os dois criarem conta no site, rode no SQL Editor, trocando pelos e-mails de vocês:
+```sql
+update public.perfis set papel = 'admin' where email in ('email1@exemplo.com', 'email2@exemplo.com');
+```
+
+### Onde ficam os dados dos clientes (LGPD)
+
+- Tudo fica no banco do Supabase, no projeto de vocês, na região de São Paulo: perfis (nome, e-mail, CPF, telefone), endereços, favoritos, sacola, pedidos e inscritos na newsletter.
+- Senhas ficam criptografadas pelo próprio Supabase; nem vocês conseguem ver.
+- Dados de cartão nunca são guardados (Fase 4).
+- Cada cliente só enxerga os próprios dados (regras de segurança "RLS" em todas as tabelas). Só quem tem papel `admin` vê tudo.
+- Pedidos de exclusão feitos em Minha conta aparecem na coluna `exclusao_solicitada_em` da tabela `perfis`. A lei pede resposta em até 15 dias; na Fase 5 isso aparece no painel.
+
+### Backup
+
+- O plano grátis do Supabase **não** tem backup automático que vocês possam baixar, e pausa o projeto depois de 7 dias sem uso. Antes de abrir a loja, recomendo o plano **Pro** (cerca de US$ 25 por mês), que tem backup diário dos últimos 7 dias.
+- Backup manual a qualquer momento: em **Table Editor**, abra cada tabela → **Export → CSV**. Guarde os arquivos num lugar seguro (eles têm dados pessoais).
 
 ## Como ver o site no celular (sem instalar nada)
 
@@ -83,4 +147,5 @@ Os valores em dinheiro circulam sempre em centavos. O que aparece no navegador s
 
 - Chaves e senhas ficam só no arquivo `.env.local` (que nunca vai para o GitHub). O modelo das variáveis está em `.env.example`.
 - Dados de cartão nunca passam pelo nosso servidor (tokenização do intermediador, Fase 4).
-- Onde os dados dos clientes ficam e como fazer backup: será explicado aqui na Fase 2.
+- Onde ficam os dados dos clientes e como fazer backup: veja "Fase 2: configurar o Supabase", acima.
+- Login, cadastro, pagamento e newsletter têm limite de tentativas por IP (tabela `tentativas`), além dos limites do próprio Supabase.
