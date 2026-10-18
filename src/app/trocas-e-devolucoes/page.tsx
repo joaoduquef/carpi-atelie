@@ -24,8 +24,8 @@ export default function TrocasEDevolucoes() {
       </CartaoTexto>
       <CartaoTexto titulo="Peça com defeito ou danificada no transporte" tom="damasco">
         <p>
-          Se a sua peça chegar com algum problema, fale com a gente em até 7 dias, com fotos da embalagem e do abajur. Trocamos a peça ou devolvemos
-          o valor, como você preferir.
+          Se a sua peça chegar com algum problema, fale com a gente em até 7 dias, com fotos da embalagem e do abajur. Após avaliarmos a situação,
+          trocamos a peça ou devolvemos o valor, como você preferir.
         </p>
       </CartaoTexto>
     </PaginaTexto>

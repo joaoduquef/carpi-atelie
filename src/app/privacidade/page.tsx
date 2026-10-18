@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { LOJA } from "@/config/loja";
 import { CartaoTexto, PaginaTexto } from "@/components/ui/PaginaTexto";
 
@@ -25,18 +24,12 @@ export default function Privacidade() {
       <CartaoTexto titulo="Dados que não guardamos" tom="mare">
         <p>Não guardamos os dados do seu cartão. Eles vão direto para o intermediador de pagamento, que é certificado para isso.</p>
       </CartaoTexto>
-      <CartaoTexto titulo="Com quem compartilhamos" tom="damasco">
+      <CartaoTexto titulo="Com quem compartilhamos" tom="damasco" largo>
         <ul>
           <li>Intermediador de pagamento (para processar a cobrança).</li>
           <li>Transportadora (nome, endereço e telefone, para a entrega).</li>
           <li>Serviços de hospedagem e banco de dados que mantêm o site funcionando.</li>
         </ul>
-      </CartaoTexto>
-      <CartaoTexto titulo="Seus direitos" tom="amarelo">
-        <p>
-          Você pode ver, corrigir e pedir a exclusão dos seus dados a qualquer momento em <Link href="/minha-conta">Minha conta</Link> ou pelo e-mail{" "}
-          <span className="font-bold select-all">{LOJA.email}</span>. Dados de pedidos podem ser mantidos pelo prazo exigido pela legislação fiscal.
-        </p>
       </CartaoTexto>
       <CartaoTexto titulo="Cookies e armazenamento no navegador" largo>
         <p>Usamos o armazenamento do navegador só para lembrar a sua sacola, os seus favoritos e, enquanto você navega, se o abajur está aceso.</p>
