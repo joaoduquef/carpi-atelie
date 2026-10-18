@@ -157,8 +157,11 @@ export default async function PaginaProduto({ params, searchParams }: Props) {
               ))}
             </dl>
             {desenho && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={desenho.url} alt={desenho.alt} className="w-full rounded-xl bg-white p-2" loading="lazy" />
+              <a href={desenho.url} target="_blank" rel="noreferrer" className="grid gap-1.5 !no-underline">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={desenho.url} alt={desenho.alt} className="w-full rounded-xl bg-white p-2" loading="lazy" />
+                <span className="text-center text-xs">Toque no desenho para ver em tamanho grande</span>
+              </a>
             )}
           </div>
         </Acordeao>
