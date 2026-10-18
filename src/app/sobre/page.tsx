@@ -21,7 +21,7 @@ export default function Sobre() {
         <CartaoTexto titulo="Cor de dia, luz à noite" tom="mare">
           <p>
             Durante o dia, o abajur é uma peça de cor na sua casa. À noite, a luz atravessa o material e deixa o ambiente quente e acolhedor. Aqui no
-            site, você vê essa diferença no botão “Apagar as luzes”.
+            site, você vê essa diferença no botão “Acender o abajur”.
           </p>
         </CartaoTexto>
         <CartaoTexto titulo="Feito para você" tom="damasco">

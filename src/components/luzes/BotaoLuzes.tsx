@@ -7,7 +7,7 @@ export function BotaoLuzes({ className = "", variante = "secundario" }: { classN
   const { apagadas, alternar } = useLuzes();
   return (
     <Botao type="button" variante={variante} onClick={alternar} aria-pressed={apagadas} className={className}>
-      {apagadas ? "Acender as luzes" : "Apagar as luzes"}
+      {apagadas ? "Apagar o abajur" : "Acender o abajur"}
     </Botao>
   );
 }

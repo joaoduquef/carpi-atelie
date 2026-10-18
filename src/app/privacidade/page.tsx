@@ -39,7 +39,7 @@ export default function Privacidade() {
         </p>
       </CartaoTexto>
       <CartaoTexto titulo="Cookies e armazenamento no navegador" largo>
-        <p>Usamos o armazenamento do navegador só para lembrar a sua sacola, os seus favoritos e a escolha de luzes acesas ou apagadas.</p>
+        <p>Usamos o armazenamento do navegador só para lembrar a sua sacola, os seus favoritos e, enquanto você navega, se o abajur está aceso.</p>
       </CartaoTexto>
     </PaginaTexto>
   );

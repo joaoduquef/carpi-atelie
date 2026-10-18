@@ -9,7 +9,7 @@ type Luzes = { apagadas: boolean; alternar: () => void };
 const LuzesContext = createContext<Luzes>({ apagadas: false, alternar: () => {} });
 
 /** Roda antes da página aparecer, para não piscar quando a escolha salva é "apagadas". */
-export const scriptLuzes = `try{if(localStorage.getItem("${CHAVE}")==="apagadas")document.documentElement.classList.add("apagadas")}catch(e){}`;
+export const scriptLuzes = `try{if(sessionStorage.getItem("${CHAVE}")==="apagadas")document.documentElement.classList.add("apagadas")}catch(e){}`;
 
 export function LuzesProvider({ children }: { children: React.ReactNode }) {
   const [apagadas, setApagadas] = useState(false);
@@ -23,7 +23,7 @@ export function LuzesProvider({ children }: { children: React.ReactNode }) {
     const novo = !raiz.classList.contains("apagadas");
     raiz.classList.toggle("apagadas", novo);
     try {
-      localStorage.setItem(CHAVE, novo ? "apagadas" : "acesas");
+      sessionStorage.setItem(CHAVE, novo ? "apagadas" : "acesas");
     } catch {
       // navegação privada ou armazenamento bloqueado: a escolha vale só nesta página
     }
