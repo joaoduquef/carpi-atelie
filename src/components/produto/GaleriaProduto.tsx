@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { classeFundo } from "@/lib/catalogo";
 import type { Cor, Imagem } from "@/lib/tipos";
 import { ImagemAbajur } from "@/components/luzes/ImagemAbajur";
+import { useLuzes } from "@/components/luzes/LuzesProvider";
 import { IconeAvancar, IconeVoltar } from "@/components/ui/Icones";
 
 /** Distância mínima (px) do arraste para trocar de foto. */
@@ -43,6 +44,14 @@ export function GaleriaProduto({
   const ativa = vista.chave;
   const inicioArraste = useRef<number | null>(null);
 
+  // Ao apagar ou acender as luzes, volta para a foto do abajur, que mostra a peça acendendo ou apagando.
+  const { apagadas } = useLuzes();
+  const luzesAntes = useRef(apagadas);
+  useEffect(() => {
+    if (luzesAntes.current !== apagadas) setIndice(0);
+    luzesAntes.current = apagadas;
+  }, [apagadas]);
+
   function irPara(i: number) {
     setIndice((i + vistas.length) % vistas.length);
   }
@@ -51,7 +60,7 @@ export function GaleriaProduto({
     <div className="grid gap-2.5 sm:grid-cols-[64px_1fr] md:h-full">
       <div
         style={{ "--brilho": `${cor.hex}cc`, touchAction: "pan-y" } as React.CSSProperties}
-        className={`fundo-abajur relative grid aspect-[1/1.05] cursor-grab place-items-center overflow-hidden rounded-bloco select-none active:cursor-grabbing sm:order-2 md:aspect-auto md:h-full md:min-h-[460px] [&_img]:pointer-events-none ${classeFundo(cor)}`}
+        className={`${vista.render === "abajur" ? "fundo-abajur" : ""} relative grid aspect-[1/1.05] cursor-grab place-items-center overflow-hidden rounded-bloco select-none active:cursor-grabbing sm:order-2 md:aspect-auto md:h-full md:min-h-[460px] [&_img]:pointer-events-none ${classeFundo(cor)}`}
         onPointerDown={(e) => {
           inicioArraste.current = e.clientX;
         }}
