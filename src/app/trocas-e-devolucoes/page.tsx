@@ -10,7 +10,7 @@ export default function TrocasEDevolucoes() {
       <CartaoTexto titulo="Direito de arrependimento (7 dias)" tom="rosa" largo>
         <p>
           Pelo Código de Defesa do Consumidor (art. 49), compras feitas pela internet podem ser canceladas em até <strong>7 dias corridos</strong> a
-          partir do recebimento do produto, sem precisar explicar o motivo. Nesse caso, devolvemos o valor integral pago, incluindo o frete.
+          partir do recebimento do produto, sem precisar explicar o motivo. Nesse caso, devolvemos o valor integral pago pelo produto.
         </p>
       </CartaoTexto>
       <CartaoTexto titulo="Como pedir" tom="mare">
