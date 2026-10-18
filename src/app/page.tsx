@@ -21,13 +21,10 @@ export default async function Inicio() {
     <div className="grid gap-20 sm:gap-24">
       <section aria-label="Destaque" className="grid items-center gap-8 md:grid-cols-[1fr_1.05fr] md:gap-12">
         <div className="grid justify-items-start gap-6 md:py-8">
-          <p className="text-xs font-bold tracking-[0.22em] text-destaque uppercase">Ateliê de abajures · feito sob encomenda</p>
-          <h1 className="text-[clamp(2.4rem,6vw,4.25rem)] leading-[1.02] font-bold tracking-[-0.01em] text-titulo">
+          <h1 className="text-[clamp(2.4rem,6vw,4.25rem)] leading-[1.02] font-bold tracking-[-0.01em] text-destaque">
             Abajures feitos com carinho.
           </h1>
-          <p className="max-w-[44ch] text-lg leading-relaxed text-texto-suave">
-            Peças em PETG translúcido que colorem o ambiente de dia e espalham uma luz quente à noite.
-          </p>
+          <p className="max-w-[44ch] text-lg leading-relaxed text-texto-suave">Ateliê de abajures feitos por encomendas.</p>
           <div className="flex flex-wrap gap-2.5">
             <BotaoLink href="/colecao">Ver a coleção</BotaoLink>
             <BotaoLuzes />
