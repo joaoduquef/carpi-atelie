@@ -124,7 +124,7 @@ Outros comandos: `npm run build` (gera a versão de produção) e `npm run lint`
 ## Identidade visual (decisões aprovadas)
 
 - **Três cores:** rosa da marca `#B63A55`, branco e preto `#171717` (só nos textos). Um rosa bem diluído (`#FAF1F3`) separa áreas, no lugar de linhas.
-- **Apagar as luzes**: o site continua igual; só o fundo de cada abajur escurece e a peça acende devagar, com brilho na cor dela. Botão na página inicial, na coleção, na página do produto e no menu do celular. Ao acender as luzes de novo, a peça apaga primeiro e depois o fundo clareia.
+- **Apagar as luzes**: o site continua igual; o fundo de cada abajur escurece para um rosa fechado, mas em volta da peça continua clarinho, e a peça acende devagar, com brilho na cor dela. Botão na página inicial, na coleção, na página do produto e no menu do celular. Ao acender as luzes de novo, a peça apaga primeiro e depois o fundo clareia.
 - **Logo:** no rosa da marca (`public/brand/logo.svg`).
 - **Nome dos produtos:** `BABI  maré` (modelo em caixa alta, dois espaços, cor em minúsculas).
 - **Página inicial enxuta:** cores do destaque passam sozinhas; só o preço cheio nos cards; Pix, medidas, cuidados, pagamentos e "como funciona" ficam na página do produto.
