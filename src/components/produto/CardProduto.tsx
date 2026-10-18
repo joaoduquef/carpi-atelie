@@ -17,15 +17,15 @@ export function CardProduto({ produto, priority = false }: { produto: ProdutoCar
   const href = urlProduto(modelo.slug, variacao.cor);
 
   return (
-    <article className="@container relative grid min-w-0 content-start gap-2.5 self-start">
-      <Link href={href} className={`grid aspect-[1/1.08] w-full place-items-center rounded-card ${classeFundo(cor)}`} aria-label={nome}>
+    <article className="group @container relative grid min-w-0 content-start gap-2.5 self-start">
+      <Link href={href} className={`grid aspect-[1/1.08] w-full place-items-center overflow-hidden rounded-card ${classeFundo(cor)} transition-colors duration-500 group-hover:bg-[color-mix(in_srgb,var(--rosa)_13%,var(--fundo))]`} aria-label={nome}>
         <ImagemAbajur
           apagado={imagemApagado}
           aceso={imagemAceso}
           corBrilho={cor.hex}
           sizes="(max-width: 640px) 50vw, 240px"
           priority={priority}
-          className="h-[78%]"
+          className="h-[78%] transition-transform duration-500 ease-out group-hover:scale-[1.07] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
         />
       </Link>
       <div className="absolute top-2.5 right-2.5 grid gap-1.5">
@@ -53,7 +53,7 @@ export function CardProduto({ produto, priority = false }: { produto: ProdutoCar
         href={href}
         className="flex flex-col gap-0.5 px-1 text-[0.95rem] @[220px]:flex-row @[220px]:items-baseline @[220px]:justify-between @[220px]:gap-2"
       >
-        <NomeProduto modelo={modelo.nome} cor={cor.nome} />
+        <NomeProduto modelo={modelo.nome} cor={cor.nome} className="transition-colors group-hover:text-destaque" />
         {modelo.precoCentavos !== null && (
           <span className="font-bold whitespace-nowrap text-destaque tabular-nums">
             {formatarReais(modelo.precoCentavos)}

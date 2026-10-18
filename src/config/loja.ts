@@ -12,7 +12,15 @@ export const LOJA = {
   titulo: "CARPI Ateliê | Abajures feitos com carinho",
   descricao:
     "Abajures de design autoral, feitos sob encomenda no CARPI Ateliê. Frete grátis para todo o Sudeste.",
-  meiosPagamento: ["Pix", "Visa", "Mastercard", "Elo", "Amex", "Hipercard"],
+  /** logos em /public/payments/<arquivo>.svg */
+  meiosPagamento: [
+    { nome: "Pix", arquivo: "pix" },
+    { nome: "Visa", arquivo: "visa" },
+    { nome: "Mastercard", arquivo: "mastercard" },
+    { nome: "Elo", arquivo: "elo" },
+    { nome: "American Express", arquivo: "amex" },
+    { nome: "Hipercard", arquivo: "hipercard" },
+  ],
 } as const;
 
 export const urlInstagram = `https://instagram.com/${LOJA.instagram}`;
