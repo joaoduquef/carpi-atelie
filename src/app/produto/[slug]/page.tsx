@@ -38,7 +38,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const img = imagemDa(cat, slug, c, "apagado");
   return {
     title: textoNomeProduto(modelo.nome, nomeCor(cat, c)),
-    description: modelo.descricao,
+    description: modelo.descricao.replace(/\s+/g, " "),
     alternates: { canonical: `/produto/${slug}` },
     openGraph: { images: img ? [{ url: img.url, alt: img.alt }] : undefined },
   };
@@ -73,7 +73,7 @@ export default async function PaginaProduto({ params, searchParams }: Props) {
     "@context": "https://schema.org",
     "@type": "Product",
     name: nome,
-    description: modelo.descricao,
+    description: modelo.descricao.replace(/\s+/g, " "),
     sku: variacao.sku,
     color: corObj.nome,
     brand: { "@type": "Brand", name: LOJA.nome },
@@ -116,7 +116,11 @@ export default async function PaginaProduto({ params, searchParams }: Props) {
               </p>
             </div>
 
-            <p className="max-w-[60ch] text-[0.95rem]">{modelo.descricao}</p>
+            <div className="grid max-w-[60ch] gap-3 text-[0.95rem]">
+              {modelo.descricao.split(/\n\s*\n/).map((paragrafo) => (
+                <p key={paragrafo}>{paragrafo}</p>
+              ))}
+            </div>
 
             <div className="grid gap-2">
               <span className="text-xs font-bold tracking-[0.08em] text-texto-suave uppercase" id="rotulo-cor">

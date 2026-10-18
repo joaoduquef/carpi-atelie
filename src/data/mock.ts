@@ -16,7 +16,7 @@ const modelos: Modelo[] = [
     slug: "babi",
     nome: "Babi",
     descricao:
-      "Um abajur de saia ondulada em PETG translúcido. Apagado, é uma peça de cor; aceso, espalha uma luz quente e macia pelo ambiente.",
+      "Um abajur de saia ondulada, feito para ser visto mesmo quando apagado. A cúpula translúcida ganha outra vida quando acesa, espalhando uma luz quente e suave pelo ambiente.\n\nAcompanha parte elétrica e lâmpada, pronto para iluminar seu espaço.",
     precoCentavos: 29900,
     status: "ativo",
     especificacoes: [
