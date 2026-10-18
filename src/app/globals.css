@@ -56,29 +56,31 @@
 }
 
 html.apagadas {
+  /* noite: só o bordô e o branco (o bordô um pouco mais claro separa áreas) */
   --fundo: var(--noite);
-  --superficie: color-mix(in srgb, var(--creme) 8%, var(--noite));
-  --texto: var(--creme);
-  --texto-suave: color-mix(in srgb, var(--creme) 82%, var(--noite));
-  --titulo: var(--rosa-claro);
-  --destaque: var(--rosa-claro);
-  --link: var(--mare);
-  --linha: rgb(248 195 206 / 0.3);
-  --bloco-mare: color-mix(in srgb, var(--mare) 20%, var(--noite));
-  --bloco-rosa: color-mix(in srgb, var(--rosa-claro) 20%, var(--noite));
-  --bloco-damasco: color-mix(in srgb, var(--damasco-claro) 20%, var(--noite));
-  --bloco-amarelo: color-mix(in srgb, var(--amarelo) 20%, var(--noite));
-  --texto-em-bloco: var(--creme);
-  --texto-em-mare: var(--creme);
-  --botao: var(--rosa-claro);
+  --superficie: color-mix(in srgb, var(--branco) 7%, var(--noite));
+  --texto: var(--branco);
+  --texto-suave: color-mix(in srgb, var(--branco) 78%, var(--noite));
+  --titulo: var(--branco);
+  --destaque: var(--branco);
+  --link: var(--branco);
+  --linha: rgb(255 255 255 / 0.25);
+  --bloco-mare: var(--superficie);
+  --bloco-rosa: var(--superficie);
+  --bloco-damasco: var(--superficie);
+  --bloco-amarelo: var(--superficie);
+  --texto-em-bloco: var(--branco);
+  --texto-em-mare: var(--branco);
+  --botao: var(--branco);
   --botao-texto: var(--noite);
-  --icone-fundo: color-mix(in srgb, var(--creme) 14%, var(--noite));
-  --icone: var(--rosa-claro);
-  --rodape: color-mix(in srgb, #000 30%, var(--noite));
-  --selo: var(--rosa-claro);
+  --icone-fundo: color-mix(in srgb, var(--branco) 12%, var(--noite));
+  --icone: var(--branco);
+  --selo: var(--branco);
   --selo-texto: var(--noite);
-  --erro: #f8c3ce;
-  --sucesso: #b9e3c6;
+  --rodape: color-mix(in srgb, #000 28%, var(--noite));
+  --rodape-texto: var(--branco);
+  --erro: var(--branco);
+  --sucesso: var(--branco);
   color-scheme: dark;
 }
 
