@@ -24,7 +24,7 @@ export default async function Inicio() {
           <h1 className="text-[clamp(2.4rem,6vw,4.25rem)] leading-[1.02] font-bold tracking-[-0.01em] text-destaque">
             Abajures feitos com carinho.
           </h1>
-          <p className="max-w-[44ch] text-lg leading-relaxed text-texto-suave">Ateliê de abajures feitos por encomendas.</p>
+          <p className="-mt-4 max-w-[44ch] text-base leading-relaxed text-texto-suave">Ateliê de abajures feitos por encomendas.</p>
           <div className="flex w-full gap-2.5 sm:w-auto">
             <BotaoLink href="/colecao" className="max-sm:flex-1 max-sm:px-3 max-sm:text-[0.72rem] max-sm:tracking-[0.04em] whitespace-nowrap">
               Ver a coleção
