@@ -14,7 +14,7 @@ import {
   urlProduto,
 } from "@/lib/catalogo";
 import { carregarCatalogo } from "@/lib/catalogo-servidor";
-import { formatarReais, precoPix, calcularParcelas } from "@/lib/dinheiro";
+import { formatarReais, precoPix } from "@/lib/dinheiro";
 import { CardEmBreve } from "@/components/produto/CardEmBreve";
 import { CardProduto } from "@/components/produto/CardProduto";
 import { Carrossel, ItemCarrossel } from "@/components/produto/Carrossel";
@@ -63,7 +63,6 @@ export default async function PaginaProduto({ params, searchParams }: Props) {
   const extras = imagensDoModelo(cat, slug).filter((i) => i.tipo === "ambiente" || i.tipo === "desenho_tecnico");
   const desenho = extras.find((i) => i.tipo === "desenho_tecnico");
   const preco = modelo.precoCentavos;
-  const maiorParcela = calcularParcelas(preco).at(-1)!;
   const nome = textoNomeProduto(modelo.nome, corObj.nome);
   const disponivel = (cat.disponivel[variacao.id] ?? 0) > 0;
 
@@ -110,10 +109,10 @@ export default async function PaginaProduto({ params, searchParams }: Props) {
             <div className="grid gap-1">
               <p className="mb-2 text-[2.1rem] leading-tight font-bold text-destaque tabular-nums">{formatarReais(preco)}</p>
               <p className="text-sm text-texto-suave">
-                <span className="text-texto">{formatarReais(precoPix(preco))} no Pix</span> (5% de desconto)
+                <span className="text-texto">{formatarReais(precoPix(preco))} no Pix</span>
               </p>
               <p className="text-sm text-texto-suave">
-                ou 1x sem juros no cartão, ou até {maiorParcela.vezes}x com juros
+                ou 1x sem juros no cartão
               </p>
             </div>
 
