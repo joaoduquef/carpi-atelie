@@ -137,11 +137,15 @@ h3 {
   z-index: -1;
   border-radius: inherit;
   pointer-events: none;
-  /* escurece o fundo para um rosa mais fechado (como luz ambiente baixa);
-     no centro, um leve brilho na cor da peça */
-  background:
-    radial-gradient(ellipse 55% 50% at 50% 45%, color-mix(in srgb, var(--brilho, #f6c28b) 22%, transparent), transparent 72%),
-    radial-gradient(ellipse 110% 95% at 50% 45%, rgb(182 58 85 / 0.3), rgb(156 47 72 / 0.52));
+  /* o fundo escurece para um rosa fechado, mas em volta do abajur continua clarinho,
+     como se a peça iluminasse o espaço ao redor */
+  background: radial-gradient(
+    ellipse 75% 70% at 50% 46%,
+    color-mix(in srgb, var(--brilho, #f6c28b) 10%, transparent) 0%,
+    transparent 30%,
+    rgb(170 52 78 / 0.55) 68%,
+    rgb(140 40 62 / 0.82) 100%
+  );
   opacity: 0;
   transition: opacity 1.6s ease-in-out 1s; /* acendendo a luz da casa: espera o abajur apagar */
 }
