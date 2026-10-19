@@ -28,7 +28,7 @@ export async function supabaseServidor() {
  * (limite de tentativas, criar pedidos, webhooks). Nunca envie para o navegador.
  */
 export function supabaseAdmin() {
-  const chave = process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const chave = (process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY)?.trim();
   if (!supabaseConfigurado || !chave) return null;
   return createClient(SUPABASE_URL, chave, { auth: { persistSession: false, autoRefreshToken: false } });
 }

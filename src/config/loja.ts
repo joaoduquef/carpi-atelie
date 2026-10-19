@@ -1,9 +1,11 @@
 // Dados públicos da loja. Edite aqui para mudar o que aparece no rodapé e nas páginas de contato.
 
+import { normalizarUrl } from "@/lib/url";
+
 export const LOJA = {
   nome: "CARPI Ateliê",
   dominio: "carpiatelie.com.br",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.carpiatelie.com.br",
+  url: normalizarUrl(process.env.NEXT_PUBLIC_SITE_URL, "https://www.carpiatelie.com.br"),
   /**
    * false enquanto o pagamento de verdade não estiver pronto (Fase 4): a sacola mostra
    * "Vendas abrem em breve" no lugar de "Finalizar compra". Troque para true para abrir as vendas.
