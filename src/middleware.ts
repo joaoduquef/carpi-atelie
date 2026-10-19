@@ -9,31 +9,37 @@ const PROTEGIDAS = ["/minha-conta", ...(LOJA.vendasAbertas ? ["/finalizar-compra
 export async function middleware(request: NextRequest) {
   if (!supabaseConfigurado) return NextResponse.next();
 
-  let resposta = NextResponse.next({ request });
-  const sb = createServerClient(SUPABASE_URL, SUPABASE_CHAVE_PUBLICA, {
-    cookies: {
-      getAll: () => request.cookies.getAll(),
-      setAll: (lista) => {
-        lista.forEach(({ name, value }) => request.cookies.set(name, value));
-        resposta = NextResponse.next({ request });
-        lista.forEach(({ name, value, options }) => resposta.cookies.set(name, value, options));
+  try {
+    let resposta = NextResponse.next({ request });
+    const sb = createServerClient(SUPABASE_URL, SUPABASE_CHAVE_PUBLICA, {
+      cookies: {
+        getAll: () => request.cookies.getAll(),
+        setAll: (lista) => {
+          lista.forEach(({ name, value }) => request.cookies.set(name, value));
+          resposta = NextResponse.next({ request });
+          lista.forEach(({ name, value, options }) => resposta.cookies.set(name, value, options));
+        },
       },
-    },
-  });
+    });
 
-  // Renova a sessão (não remova esta linha)
-  const {
-    data: { user },
-  } = await sb.auth.getUser();
+    // Renova a sessão (não remova esta linha)
+    const {
+      data: { user },
+    } = await sb.auth.getUser();
 
-  const caminho = request.nextUrl.pathname;
-  if (!user && PROTEGIDAS.some((p) => caminho.startsWith(p))) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/entrar";
-    url.search = `?proximo=${encodeURIComponent(caminho)}`;
-    return NextResponse.redirect(url);
+    const caminho = request.nextUrl.pathname;
+    if (!user && PROTEGIDAS.some((p) => caminho.startsWith(p))) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/entrar";
+      url.search = `?proximo=${encodeURIComponent(caminho)}`;
+      return NextResponse.redirect(url);
+    }
+    return resposta;
+  } catch (e) {
+    // banco fora do ar ou chave errada: o site continua funcionando (sem login)
+    console.error("[middleware] falha ao falar com o Supabase", e);
+    return NextResponse.next();
   }
-  return resposta;
 }
 
 export const config = {

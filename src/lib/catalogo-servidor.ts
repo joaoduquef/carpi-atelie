@@ -5,10 +5,28 @@ import { foto } from "@/lib/fotos";
 import { supabasePublico } from "@/lib/supabase/servidor";
 import type { Catalogo, Especificacao, StatusModelo, TipoImagem } from "@/lib/tipos";
 
-/** Carrega o catálogo do Supabase (ou o fictício, se o Supabase ainda não foi configurado). */
+/**
+ * Carrega o catálogo do Supabase (ou o fictício, se o Supabase ainda não foi configurado).
+ * Se o banco falhar ou estiver vazio, usa o fictício e registra o erro nos logs da Vercel,
+ * para o site nunca sair do ar por causa do banco.
+ */
 export const carregarCatalogo = cache(async (): Promise<Catalogo> => {
   const sb = supabasePublico();
   if (!sb) return CATALOGO_FICTICIO;
+  try {
+    const catalogo = await lerCatalogo(sb);
+    if (catalogo.modelos.length === 0) {
+      console.error("[catalogo] o banco não tem modelos: rode supabase/seed.sql. Usando o catálogo fictício.");
+      return CATALOGO_FICTICIO;
+    }
+    return catalogo;
+  } catch (e) {
+    console.error("[catalogo] falha ao ler o Supabase. Usando o catálogo fictício.", e);
+    return CATALOGO_FICTICIO;
+  }
+});
+
+async function lerCatalogo(sb: NonNullable<ReturnType<typeof supabasePublico>>): Promise<Catalogo> {
 
   const [cores, modelos, variacoes, imagens, estoque] = await Promise.all([
     sb.from("cores").select("slug, nome, hex, fundo, ordem"),
@@ -58,4 +76,4 @@ export const carregarCatalogo = cache(async (): Promise<Catalogo> => {
       ((estoque.data ?? []) as { variacao_id: string; disponivel: number }[]).map((e) => [e.variacao_id, e.disponivel]),
     ),
   };
-});
+}

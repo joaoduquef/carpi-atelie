@@ -39,10 +39,15 @@ export type Usuario = { id: string; email: string; nome: string; papel: "cliente
 export const usuarioAtual = cache(async (): Promise<Usuario | null> => {
   const sb = await supabaseServidor();
   if (!sb) return null;
-  const { data } = await sb.auth.getUser();
-  if (!data.user) return null;
-  const { data: perfil } = await sb.from("perfis").select("nome, papel").eq("id", data.user.id).maybeSingle();
-  return { id: data.user.id, email: data.user.email ?? "", nome: perfil?.nome ?? "", papel: perfil?.papel ?? "cliente" };
+  try {
+    const { data } = await sb.auth.getUser();
+    if (!data.user) return null;
+    const { data: perfil } = await sb.from("perfis").select("nome, papel").eq("id", data.user.id).maybeSingle();
+    return { id: data.user.id, email: data.user.email ?? "", nome: perfil?.nome ?? "", papel: perfil?.papel ?? "cliente" };
+  } catch (e) {
+    console.error("[conta] falha ao ler a sessão no Supabase", e);
+    return null;
+  }
 });
 
 /** Cliente anônimo, sem sessão: enxerga só o que o público enxerga (usado para o catálogo da loja). */
