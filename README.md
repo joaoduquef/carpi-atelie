@@ -130,6 +130,7 @@ Outros comandos: `npm run build` (gera a versão de produção) e `npm run lint`
 - **Nome dos produtos:** `BABI  maré` (modelo em caixa alta, dois espaços, cor em minúsculas).
 - **Página inicial enxuta:** cores do destaque passam sozinhas; só o preço cheio nos cards; Pix, medidas, cuidados, pagamentos e "como funciona" ficam na página do produto.
 - **Cabeçalho fixo** no topo ao rolar a página.
+- **Navegação tradicional:** cada clique recarrega a página inteira (o navegador mostra o "carregando"). Para voltar à troca instantânea, tire `<NavegacaoCompleta />` de `src/app/layout.tsx`.
 - **Fonte:** Liberation Sans (licença SIL OFL, arquivo em `public/fonts/LICENSE-Liberation.txt`), hospedada no próprio site.
 - Todos os textos passam no contraste mínimo WCAG AA.
 

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { LOJA, urlInstagram } from "@/config/loja";
 import { LINKS_AJUDA } from "./navegacao";
 

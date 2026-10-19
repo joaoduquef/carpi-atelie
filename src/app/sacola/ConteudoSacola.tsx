@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { useCatalogo } from "@/components/loja/CatalogoProvider";
 import { useLoja, MAX_POR_ITEM } from "@/components/loja/LojaProvider";
 import { montarLinhas } from "@/components/loja/itensSacola";

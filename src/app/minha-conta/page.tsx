@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { redirect } from "next/navigation";
 import { BotaoSair, DadosPessoais, Enderecos, PedidoExclusao } from "@/components/conta/PartesConta";
 import { TituloSecao } from "@/components/ui/TituloSecao";

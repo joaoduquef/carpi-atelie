@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { useActionState, useState } from "react";
 import { cadastrar, definirNovaSenha, entrar, recuperarSenha, type Resultado } from "@/app/conta/acoes";
 import { Botao } from "@/components/ui/Botao";

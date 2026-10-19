@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { ehCorValida, listarCores, listarEmBreve, listarProdutos } from "@/lib/catalogo";
 import { carregarCatalogo } from "@/lib/catalogo-servidor";
 import { CardEmBreve } from "@/components/produto/CardEmBreve";

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 
 const tamanhos = { p: "h-8 w-8", m: "h-10 w-10" } as const;
 const tons = {

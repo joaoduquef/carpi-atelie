@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { foto } from "@/lib/fotos";
 import { listarEmBreve, listarProdutos } from "@/lib/catalogo";
 import { carregarCatalogo } from "@/lib/catalogo-servidor";

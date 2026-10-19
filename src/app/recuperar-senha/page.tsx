@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { AvisoDemo, CaixaConta } from "@/components/conta/CaixaConta";
 import { FormRecuperar } from "@/components/conta/Formularios";
 

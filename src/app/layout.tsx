@@ -10,6 +10,7 @@ import { carregarCatalogo } from "@/lib/catalogo-servidor";
 import { usuarioAtual } from "@/lib/supabase/servidor";
 import { LojaProvider } from "@/components/loja/LojaProvider";
 import { LuzesProvider, scriptLuzes } from "@/components/luzes/LuzesProvider";
+import { NavegacaoCompleta } from "@/components/layout/NavegacaoCompleta";
 import "./globals.css";
 
 const liberation = localFont({
@@ -69,6 +70,7 @@ export default async function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: scriptLuzes }} />
       </head>
       <body className="min-h-dvh font-sans antialiased">
+        <NavegacaoCompleta />
         <LuzesProvider>
           <CatalogoProvider catalogo={catalogo}>
             <LojaProvider usuarioId={usuario?.id ?? null}>

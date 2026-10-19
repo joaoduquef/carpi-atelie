@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { useEffect, useState } from "react";
 import { classeFundo, urlProduto, type ProdutoCard } from "@/lib/catalogo";
 import { ImagemAbajur } from "@/components/luzes/ImagemAbajur";

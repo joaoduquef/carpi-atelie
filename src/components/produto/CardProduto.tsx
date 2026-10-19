@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/Link";
 import { classeFundo, urlProduto, type ProdutoCard } from "@/lib/catalogo";
 import { formatarReais } from "@/lib/dinheiro";
 import { ImagemAbajur } from "@/components/luzes/ImagemAbajur";
