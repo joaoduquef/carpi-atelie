@@ -79,9 +79,23 @@ export async function cadastrar(_: Resultado, form: FormData): Promise<Resultado
     },
   });
   if (error) {
-    if (error.code === "weak_password") return { erro: "Senha fraca. Use pelo menos 8 caracteres, misturando letras e números.", campos };
-    if (error.code === "over_email_send_rate_limit") return MUITAS_TENTATIVAS;
-    return { erro: "Não foi possível criar a conta agora. Tente de novo em instantes.", campos };
+    // aparece nos Logs da Vercel, para descobrir a causa (não inclui senha nem chaves)
+    console.error("[cadastro] Supabase recusou o cadastro", { code: error.code, status: error.status, message: error.message });
+    switch (error.code) {
+      case "weak_password":
+        return { erro: "Senha fraca. Use pelo menos 8 caracteres, misturando letras e números.", campos };
+      case "user_already_exists":
+      case "email_exists":
+        return { erro: "Já existe uma conta com esse e-mail. Entre ou use \"Esqueci minha senha\".", campos };
+      case "over_email_send_rate_limit":
+      case "over_request_rate_limit":
+        return MUITAS_TENTATIVAS;
+      case "email_address_not_authorized":
+        return { erro: "Não conseguimos enviar o e-mail de confirmação para esse endereço agora. Tente mais tarde ou fale com a gente.", campos };
+      case "signup_disabled":
+        return { erro: "Os cadastros estão fechados no momento.", campos };
+    }
+    return { erro: `Não foi possível criar a conta agora. Tente de novo em instantes. (código: ${error.code ?? error.status ?? "desconhecido"})`, campos };
   }
   // Se a confirmação de e-mail estiver desligada no Supabase, a pessoa já entra direto.
   if (data.session) {
