@@ -2,7 +2,7 @@
 
 import Link from "@/components/ui/Link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLoja } from "@/components/loja/LojaProvider";
 import { BotaoIcone, Contador, LinkIcone } from "@/components/ui/BotaoIcone";
 import { IconeConta, IconeCoracao, IconeMenu, IconeSacola } from "@/components/ui/Icones";
@@ -14,9 +14,21 @@ export function Cabecalho({ nomeUsuario }: { nomeUsuario: string | null }) {
   const caminho = usePathname();
   const { totalItens, favoritos } = useLoja();
   const [menuAberto, setMenuAberto] = useState(false);
+  const [rolou, setRolou] = useState(false);
+
+  // ao rolar a página, o cabeçalho fica translúcido (o conteúdo aparece desfocado por trás)
+  useEffect(() => {
+    const aoRolar = () => setRolou(window.scrollY > 8);
+    aoRolar();
+    window.addEventListener("scroll", aoRolar, { passive: true });
+    return () => window.removeEventListener("scroll", aoRolar);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-rosa/20 bg-fundo/95 backdrop-blur-md" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
+    <header
+      className={`sticky top-0 z-40 border-b transition-[background-color,border-color] duration-300 ${
+        rolou ? "border-rosa/15 bg-fundo/55 backdrop-blur-xl backdrop-saturate-150" : "border-rosa/20 bg-fundo"
+      }`} style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-5 sm:px-6 sm:py-7">
       <Link href="/" aria-label="CARPI Ateliê, página inicial" className="block">
         <Logo className="h-11 w-[149px] sm:h-12 sm:w-[163px]" />

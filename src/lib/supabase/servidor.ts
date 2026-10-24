@@ -39,11 +39,15 @@ export type Usuario = { id: string; email: string; nome: string; papel: "cliente
 export const usuarioAtual = cache(async (): Promise<Usuario | null> => {
   const sb = await supabaseServidor();
   if (!sb) return null;
+  // sem cookie de sessão, ninguém está logado: evita ir ao banco
+  const temSessao = (await cookies()).getAll().some((c) => c.name.startsWith("sb-") && c.name.includes("-auth-token"));
+  if (!temSessao) return null;
   try {
-    const { data } = await sb.auth.getUser();
-    if (!data.user) return null;
-    const { data: perfil } = await sb.from("perfis").select("nome, papel").eq("id", data.user.id).maybeSingle();
-    return { id: data.user.id, email: data.user.email ?? "", nome: perfil?.nome ?? "", papel: perfil?.papel ?? "cliente" };
+    const { data } = await sb.auth.getClaims();
+    const id = data?.claims?.sub;
+    if (!id) return null;
+    const { data: perfil } = await sb.from("perfis").select("nome, papel").eq("id", id).maybeSingle();
+    return { id, email: String(data.claims.email ?? ""), nome: perfil?.nome ?? "", papel: perfil?.papel ?? "cliente" };
   } catch (e) {
     console.error("[conta] falha ao ler a sessão no Supabase", e);
     return null;

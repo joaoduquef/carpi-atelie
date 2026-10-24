@@ -1,4 +1,5 @@
 import "server-only";
+import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import { CATALOGO_FICTICIO } from "@/data/mock";
 import { foto } from "@/lib/fotos";
@@ -14,7 +15,7 @@ export const carregarCatalogo = cache(async (): Promise<Catalogo> => {
   const sb = supabasePublico();
   if (!sb) return CATALOGO_FICTICIO;
   try {
-    const catalogo = await lerCatalogo(sb);
+    const catalogo = await lerCatalogoGuardado();
     if (catalogo.modelos.length === 0) {
       console.error("[catalogo] o banco não tem modelos: rode supabase/seed.sql. Usando o catálogo fictício.");
       return CATALOGO_FICTICIO;
@@ -25,6 +26,20 @@ export const carregarCatalogo = cache(async (): Promise<Catalogo> => {
     return CATALOGO_FICTICIO;
   }
 });
+
+/**
+ * O catálogo muda pouco: fica guardado por 60 segundos, em vez de 5 consultas ao banco a cada página.
+ * (Preço e estoque são conferidos de novo no servidor na hora da compra.)
+ */
+const lerCatalogoGuardado = unstable_cache(
+  async () => {
+    const sb = supabasePublico();
+    if (!sb) return CATALOGO_FICTICIO;
+    return lerCatalogo(sb);
+  },
+  ["catalogo"],
+  { revalidate: 60, tags: ["catalogo"] },
+);
 
 async function lerCatalogo(sb: NonNullable<ReturnType<typeof supabasePublico>>): Promise<Catalogo> {
 
