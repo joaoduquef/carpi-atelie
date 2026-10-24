@@ -95,6 +95,8 @@ export async function cadastrar(_: Resultado, form: FormData): Promise<Resultado
       case "signup_disabled":
         return { erro: "Os cadastros estão fechados no momento.", campos };
     }
+    // status 0: o servidor do site nem conseguiu chegar ao Supabase (endereço errado ou projeto pausado)
+    if (!error.status) return { erro: "Não conseguimos falar com o nosso sistema de contas agora. Tente de novo em instantes. (código: sem conexão)", campos };
     return { erro: `Não foi possível criar a conta agora. Tente de novo em instantes. (código: ${error.code ?? error.status ?? "desconhecido"})`, campos };
   }
   // Se a confirmação de e-mail estiver desligada no Supabase, a pessoa já entra direto.
