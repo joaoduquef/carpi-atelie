@@ -13,8 +13,8 @@ export const LOJA = {
   vendasAbertas: false,
   /** Entrega (Fase 3). O frete é sempre calculado no servidor. */
   envio: {
-    /** CEP de onde as peças saem. Enquanto estiver vazio, o frete é simulado. */
-    cepOrigem: "",
+    /** CEP de onde as peças saem (Belo Horizonte, MG). Sem o token do Melhor Envio, o frete é simulado. */
+    cepOrigem: "31330680",
     /** "todas": a cliente escolhe entre as opções (até 4); "mais_barata": mostra só a mais barata. */
     opcoes: "todas" as "todas" | "mais_barata",
     /** Sudeste (SP, RJ, MG, ES): a opção mais barata sai grátis; nas outras, a cliente paga só a diferença. */

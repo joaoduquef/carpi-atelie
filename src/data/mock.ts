@@ -9,7 +9,8 @@ const cores: Cor[] = [
   { slug: "roma", nome: "Romã", hex: "#E8708B", fundo: "bloco-rosa", ordem: 3 },
 ];
 
-const embalagem = { pesoKg: 0.7, larguraCm: 25, alturaCm: 35, comprimentoCm: 25 };
+// caixa da Babi embalada: 25 × 25 cm de base, 35 cm de altura, 650 g no total
+const embalagem = { pesoKg: 0.65, larguraCm: 25, alturaCm: 35, comprimentoCm: 25 };
 
 const modelos: Modelo[] = [
   {
