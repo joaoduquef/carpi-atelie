@@ -1,7 +1,7 @@
 import "server-only";
 import { LOJA } from "@/config/loja";
 import { cepValido, ehSudeste, limparCep } from "@/lib/frete";
-import { cotarMelhorEnvio, melhorEnvioConfigurado, type PacoteFrete, type ServicoCotado } from "./melhor-envio";
+import { cotarMelhorEnvio, ErroMelhorEnvio, melhorEnvioConfigurado, type PacoteFrete, type ServicoCotado } from "./melhor-envio";
 
 export type OpcaoFrete = {
   id: string;
@@ -38,13 +38,23 @@ export async function cotarFrete(cepBruto: string, pacotes: PacoteFrete[], subto
   const origem = limparCep(LOJA.envio.cepOrigem);
   const real = melhorEnvioConfigurado() && cepValido(origem);
   let servicos: ServicoCotado[];
+  let recusas: string[] = [];
   try {
-    servicos = real ? await cotarMelhorEnvio(origem, cep, pacotes) : cotacaoSimulada(cep);
+    if (real) ({ servicos, recusas } = await cotarMelhorEnvio(origem, cep, pacotes));
+    else servicos = cotacaoSimulada(cep);
   } catch (e) {
-    console.error("[frete] falha ao cotar no Melhor Envio", e);
-    return { erro: "Não conseguimos calcular o frete agora. Tente de novo em instantes." };
+    console.error("[frete] falha ao cotar no Melhor Envio", e instanceof ErroMelhorEnvio ? e.message : e);
+    if (e instanceof ErroMelhorEnvio && (e.status === 401 || e.status === 403))
+      return { erro: `Não conseguimos calcular o frete agora. (código: ${e.status}, token do Melhor Envio recusado)` };
+    const codigo = e instanceof ErroMelhorEnvio ? `${e.status}${e.detalhe ? `, ${e.detalhe.slice(0, 120)}` : ""}` : "sem conexão";
+    return { erro: `Não conseguimos calcular o frete agora. Tente de novo em instantes. (código: ${codigo})` };
   }
-  if (servicos.length === 0) return { erro: "Não encontramos opções de entrega para este CEP. Confira se ele está certo." };
+  if (servicos.length === 0) {
+    console.error("[frete] nenhum serviço para o CEP", cep, recusas);
+    return {
+      erro: `Não encontramos opções de entrega para este CEP. Confira se ele está certo.${recusas[0] ? ` (${recusas[0].slice(0, 140)})` : ""}`,
+    };
+  }
 
   servicos.sort((a, b) => a.precoCentavos - b.precoCentavos || a.prazoMax - b.prazoMax);
   if (LOJA.envio.opcoes === "mais_barata") servicos = servicos.slice(0, 1);
