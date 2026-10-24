@@ -19,6 +19,8 @@ export type ServicoCotado = {
   id: string;
   transportadora: string;
   servico: string;
+  /** a cliente busca o pacote num ponto de retirada, em vez de receber em casa */
+  retirada?: boolean;
   precoCentavos: number;
   prazoMin: number;
   prazoMax: number;
@@ -105,10 +107,14 @@ export async function cotarMelhorEnvio(
     .filter((s) => !s.error && (s.custom_price ?? s.price))
     .map((s) => {
       const prazo = s.custom_delivery_range ?? s.delivery_range ?? { min: 0, max: 0 };
+      const transportadora = s.company?.name ?? "";
+      // "Loggi Ponto" com transportadora "Loggi" vira só "Ponto", para não repetir o nome
+      const servico = transportadora && s.name.toLowerCase().startsWith(`${transportadora.toLowerCase()} `) ? s.name.slice(transportadora.length + 1) : s.name;
       return {
         id: String(s.id),
-        transportadora: s.company?.name ?? "",
-        servico: s.name,
+        transportadora,
+        servico,
+        retirada: /ponto|centralizad|retira|agência|agencia/i.test(s.name),
         precoCentavos: Math.round(Number(s.custom_price ?? s.price) * 100),
         prazoMin: prazo.min,
         prazoMax: prazo.max,

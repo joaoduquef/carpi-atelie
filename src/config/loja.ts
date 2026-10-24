@@ -17,6 +17,8 @@ export const LOJA = {
     cepOrigem: "31330680",
     /** "todas": a cliente escolhe entre as opções (até 4); "mais_barata": mostra só a mais barata. */
     opcoes: "todas" as "todas" | "mais_barata",
+    /** esconde as opções em que a cliente busca o pacote num ponto de retirada (ex.: "Loggi Ponto") */
+    soEntregaNoEndereco: true,
     /** Sudeste (SP, RJ, MG, ES): a opção mais barata sai grátis; nas outras, a cliente paga só a diferença. */
     freteGratisSudeste: { ativo: true, minimoCentavos: 0 },
   },

@@ -56,6 +56,11 @@ export async function cotarFrete(cepBruto: string, pacotes: PacoteFrete[], subto
     };
   }
 
+  if (LOJA.envio.soEntregaNoEndereco) {
+    const emCasa = servicos.filter((s) => !s.retirada);
+    if (emCasa.length === 0) return { erro: "Não encontramos entrega no endereço para este CEP. Fale com a gente pelo e-mail." };
+    servicos = emCasa;
+  }
   servicos.sort((a, b) => a.precoCentavos - b.precoCentavos || a.prazoMax - b.prazoMax);
   if (LOJA.envio.opcoes === "mais_barata") servicos = servicos.slice(0, 1);
   else servicos = servicos.slice(0, 4);
