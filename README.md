@@ -9,7 +9,7 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 | 1. Visual | Todas as páginas, paleta, fonte, celular e "Apagar as luzes" | **Aprovada** |
 | 2. Banco de dados | Supabase, cadastro e login, produtos e estoque vindos do banco | **No ar** (www.carpiatelie.com.br ligado ao Supabase) |
 | 3. Sacola e checkout | Cupons, frete pelo Melhor Envio, frete grátis no Sudeste | **Pronta para teste** (veja "Fase 3: configurar" abaixo) |
-| 4. Pagamento | Pagar.me e PagBank em teste, cartão e Pix, baixa de estoque | A fazer |
+| 4. Pagamento | PagBank: Pix e cartão, aviso de pagamento, baixa de estoque | **Pronta para teste** (veja "Fase 4: configurar" abaixo) |
 | 5. Painel admin | Produtos, pedidos, status, rastreio, cupons, newsletter, e-mails | A fazer |
 | 6. Publicação | Vercel, domínio, checklist final | Domínio no ar; falta o checklist abaixo |
 
@@ -18,7 +18,7 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 - [ ] **E-mails pelo Resend** (resend.com, grátis até 3.000 por mês): sem isso, só os e-mails da equipe do Supabase recebem a confirmação de cadastro, e os e-mails saem em inglês. Passos: criar a conta, cadastrar o domínio carpiatelie.com.br e copiar os registros DNS para o Registro.br, ativar o SMTP no Supabase (**Authentication → Emails → SMTP Settings**: host `smtp.resend.com`, porta `465`, usuário `resend`, senha = API Key do Resend, remetente `contato@carpiatelie.com.br`) e colar os modelos de `supabase/templates/`.
 - [ ] **Mudar o banco para São Paulo:** hoje o projeto do Supabase está no Canadá (`ca-central-1`), por isso o servidor do site está em Washington (`iad1` em `vercel.json`). Criar um projeto novo na região South America (São Paulo), rodar `supabase/migrations/20261018000001_inicial.sql` e `supabase/seed.sql`, configurar as URLs, trocar as 3 variáveis do Supabase na Vercel e mudar `vercel.json` para `gru1`. Melhor fazer antes de ter clientes cadastrados.
 - [ ] **Tornar João e Nalu administradores** (passo 7 da Fase 2, abaixo).
-- [ ] **Pagamento de verdade** (Fase 4) e depois trocar `vendasAbertas` para `true` em `src/config/loja.ts`.
+- [ ] **PagBank oficial:** depois de testar no sandbox, gerar o token da conta real, trocar `PAGBANK_TOKEN` na Vercel e criar `PAGBANK_AMBIENTE` = `producao`. Depois trocar `vendasAbertas` para `true` em `src/config/loja.ts`.
 - [ ] **Planos pagos:** Vercel Pro (o plano grátis não permite uso comercial) e Supabase Pro (backup diário e sem pausa por falta de uso).
 - [ ] **Revisão dos textos provisórios** (políticas, trocas e pagamentos), de preferência com advogado ou contador.
 - [ ] **Redirecionar `carpi-atelie.vercel.app`** para www.carpiatelie.com.br e apagar o projeto duplicado `carpi-atelie-public` na Vercel.
@@ -28,9 +28,24 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 - **Frete:** enquanto o token do Melhor Envio e o CEP de origem não estiverem configurados, aparecem duas opções de exemplo (econômica e expressa). A regra do frete grátis no Sudeste já vale: a opção mais barata sai grátis e nas outras a cliente paga só a diferença.
 - **Cupom:** com o Supabase configurado, os cupons vêm da tabela `cupons` (até o painel da Fase 5, crie pelo SQL, veja abaixo). Sem o Supabase, só o cupom de teste `CARPI10`.
 - **Juros do cartão:** valores de exemplo (2,99% ao mês). Os reais vêm do intermediador.
-- **Pagamento:** ainda não é cobrado (Fase 4). O pedido é registrado como "Aguardando pagamento" e reserva o estoque por 30 minutos.
+- **Pagamento:** no sandbox do PagBank, nada é cobrado de verdade. O pedido fica "Aguardando pagamento" e reserva o estoque; sem pagamento em 1 hora, é cancelado sozinho e o estoque volta.
 - **Sem o Supabase configurado:** o catálogo vem de `src/data/mock.ts` e as telas de conta mostram uma conta fictícia ("Ana Souza").
 - **Com o Supabase configurado (Fase 2):** cadastro, login, recuperação de senha, Minha conta, newsletter e catálogo funcionam de verdade. Sacola e favoritos ficam no navegador e passam para a conta quando a cliente entra.
+
+## Fase 4: configurar (pagamento pelo PagBank)
+
+**1. Atualizar o banco** (obrigatório): no SQL Editor do Supabase, rode `supabase/migrations/20261025000001_pagamento.sql`. Ele cria as funções que confirmam o pagamento (baixa o estoque e conta o uso do cupom) e cancelam os pedidos sem pagamento.
+
+**2. Token de testes:** entre em https://developer.pagbank.com.br com a conta PagBank da empresa, abra a área de **sandbox** e gere o **token**. Na Vercel, crie `PAGBANK_TOKEN` (tipo **Secret**) e faça o Redeploy. Não crie `PAGBANK_AMBIENTE` enquanto estiver testando.
+
+**3. Testar** (como administrador, com as vendas fechadas): sacola → **Finalizar compra (teste)** → **Ir para o pagamento**.
+- **Cartão:** use os cartões de teste da documentação do PagBank (seção "Cartões de teste" do sandbox). O resultado (aprovado ou recusado) aparece na hora.
+- **Pix:** gere o código e use o simulador de pagamento do sandbox do PagBank. A tela confirma sozinha em alguns segundos. O sandbox pode pedir uma chave Pix cadastrada na conta de testes.
+- Pedido pago: aparece como **Pago** em Minha conta, o estoque baixa e a sacola esvazia.
+
+**4. Conta real:** quando os testes estiverem certos, gere o token da conta de produção, troque `PAGBANK_TOKEN`, crie `PAGBANK_AMBIENTE` = `producao`, faça o Redeploy e um pagamento real pequeno para conferir. Só então abra as vendas (`vendasAbertas: true`).
+
+O endereço de aviso de pagamento (`https://www.carpiatelie.com.br/api/pagbank/aviso`) vai junto em cada pedido, não precisa configurar no PagBank.
 
 ## Fase 3: configurar (sacola e finalização da compra)
 
@@ -113,7 +128,7 @@ update public.perfis set papel = 'admin' where email in ('email1@exemplo.com', '
 
 - Tudo fica no banco do Supabase, no projeto de vocês, na região de São Paulo: perfis (nome, e-mail, CPF, telefone), endereços, favoritos, sacola, pedidos e inscritos na newsletter.
 - Senhas ficam criptografadas pelo próprio Supabase; nem vocês conseguem ver.
-- Dados de cartão nunca são guardados (Fase 4).
+- Dados de cartão nunca são guardados: são criptografados no navegador da cliente e vão direto para o PagBank.
 - Cada cliente só enxerga os próprios dados (regras de segurança "RLS" em todas as tabelas). Só quem tem papel `admin` vê tudo.
 - Pedidos de exclusão feitos em Minha conta aparecem na coluna `exclusao_solicitada_em` da tabela `perfis`. A lei pede resposta em até 15 dias; na Fase 5 isso aparece no painel.
 
@@ -186,6 +201,7 @@ Os valores em dinheiro circulam sempre em centavos. O que aparece no navegador s
 ## Segurança e dados
 
 - Chaves e senhas ficam só no arquivo `.env.local` (que nunca vai para o GitHub). O modelo das variáveis está em `.env.example`.
-- Dados de cartão nunca passam pelo nosso servidor (tokenização do intermediador, Fase 4).
+- Dados de cartão nunca passam pelo nosso servidor: o SDK do PagBank criptografa o cartão no navegador e o servidor só recebe o texto cifrado.
+- O aviso de pagamento do PagBank (`/api/pagbank/aviso`) tem a assinatura conferida (`x-authenticity-token`) e, mesmo assim, o site só marca como pago depois de consultar o pedido no PagBank com o próprio token. Um aviso falso não aprova nada.
 - Onde ficam os dados dos clientes e como fazer backup: veja "Fase 2: configurar o Supabase", acima.
 - Login, cadastro, pagamento e newsletter têm limite de tentativas por IP (tabela `tentativas`), além dos limites do próprio Supabase.

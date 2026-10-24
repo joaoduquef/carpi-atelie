@@ -37,7 +37,7 @@ function resumoDoEndereco(e: EnderecoConta) {
 }
 
 export function Checkout({ cliente: inicial, enderecos, teste }: { cliente: DadosCliente; enderecos: EnderecoConta[]; teste: boolean }) {
-  const { sacola, carregado, esvaziar } = useLoja();
+  const { sacola, carregado } = useLoja();
   const cat = useCatalogo();
   const linhasVisuais = montarLinhas(cat, sacola);
 
@@ -51,7 +51,8 @@ export function Checkout({ cliente: inicial, enderecos, teste }: { cliente: Dado
   const [salvarEndereco, setSalvarEndereco] = useState(true);
   const [freteId, setFreteId] = useState<string | undefined>();
   const [pagamento, setPagamento] = useState<FormaPagamento>("pix");
-  const [parcelas, setParcelas] = useState(1);
+  // as parcelas são escolhidas na tela de pagamento, junto com o cartão
+  const parcelas = 1;
   const [codigoCupom, setCodigoCupom] = useState("");
   const [cupom, setCupom] = useState("");
   const [cupomAberto, setCupomAberto] = useState(false);
@@ -124,9 +125,8 @@ export function Checkout({ cliente: inicial, enderecos, teste }: { cliente: Dado
       setEnviando(false);
       return;
     }
-    esvaziar();
-    // espera a sacola vazia ser gravada antes de sair da página
-    window.setTimeout(() => window.location.assign(`/minha-conta?pedido=${r.numero}#pedidos`), 500);
+    // a sacola só é esvaziada quando o pagamento for aprovado
+    window.location.assign(`/pedido/${r.id}/pagamento`);
   }
 
   if (carregado && sacola.length === 0) {
@@ -139,7 +139,6 @@ export function Checkout({ cliente: inicial, enderecos, teste }: { cliente: Dado
   }
 
   const freteEscolhido = resumo?.frete?.opcoes.find((o) => o.id === resumo.frete?.escolhidaId) ?? null;
-  const parcelaAtual = resumo?.parcelas[parcelas - 1];
   const camposNovos = (campo: keyof EnderecoEntrega) => ({
     value: novo[campo],
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => setNovo((n) => ({ ...n, [campo]: campo === "cep" ? formatarCep(e.target.value) : e.target.value })),
@@ -154,7 +153,7 @@ export function Checkout({ cliente: inicial, enderecos, teste }: { cliente: Dado
       <TituloSecao como="h1">Finalizar compra</TituloSecao>
       {teste && (
         <p className="rounded-card bg-bloco-amarelo px-4 py-3 text-sm text-texto-em-bloco">
-          Modo de teste (só administradores): as vendas ainda estão fechadas. O pedido é registrado de verdade, mas nenhum pagamento é cobrado.
+          Modo de teste (só administradores): as vendas ainda estão fechadas. O pedido é registrado de verdade; o pagamento usa o ambiente de testes do PagBank enquanto o token for o do sandbox.
         </p>
       )}
 
@@ -266,19 +265,9 @@ export function Checkout({ cliente: inicial, enderecos, teste }: { cliente: Dado
             {pagamento === "pix" ? (
               <p className="text-sm">Pague com 5% de desconto nos produtos. O QR Code e o código copia e cola aparecem depois de confirmar o pedido.</p>
             ) : (
-              <div className="grid gap-1">
-                <label htmlFor="parcelas" className="text-sm font-bold">
-                  Parcelas
-                </label>
-                <select id="parcelas" value={parcelas} onChange={(e) => setParcelas(Number(e.target.value))} className={classeEntrada}>
-                  {(resumo?.parcelas ?? []).map((p) => (
-                    <option key={p.vezes} value={p.vezes}>
-                      {p.semJuros ? `1x de ${formatarReais(p.valorParcelaCentavos)} sem juros` : `${p.vezes}x de ${formatarReais(p.valorParcelaCentavos)} (total ${formatarReais(p.totalCentavos)})`}
-                    </option>
-                  ))}
-                </select>
-                <span className="text-xs text-texto-suave">Os dados do cartão são pedidos na próxima etapa, direto no intermediador de pagamento.</span>
-              </div>
+              <p className="text-sm">
+                Em até 12x, com juros a partir de 2x. Você escolhe as parcelas e digita os dados do cartão na próxima etapa.
+              </p>
             )}
           </Etapa>
         </div>
@@ -360,11 +349,6 @@ export function Checkout({ cliente: inicial, enderecos, teste }: { cliente: Dado
               )}
               <dt className="pt-1.5 text-lg font-bold text-destaque">Total</dt>
               <dd className="pt-1.5 text-right text-lg font-bold text-destaque">{formatarReais(resumo.totalCentavos)}</dd>
-              {pagamento === "cartao" && parcelaAtual && parcelaAtual.vezes > 1 && (
-                <dd className="col-span-2 text-right text-sm text-texto-suave">
-                  {parcelaAtual.vezes}x de {formatarReais(parcelaAtual.valorParcelaCentavos)}
-                </dd>
-              )}
             </dl>
           )}
 
@@ -375,7 +359,7 @@ export function Checkout({ cliente: inicial, enderecos, teste }: { cliente: Dado
           ))}
 
           <Botao type="button" className="w-full" disabled={!podeFinalizar} onClick={finalizar}>
-            {enviando ? "Registrando…" : teste ? "Registrar pedido de teste" : "Confirmar pedido"}
+            {enviando ? "Registrando…" : "Ir para o pagamento"}
           </Botao>
           {!freteEscolhido && !resumo?.erroFrete && <p className="text-xs text-texto-suave">Preencha o endereço para continuar.</p>}
           {erro && (

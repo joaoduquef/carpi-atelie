@@ -63,4 +63,4 @@ export type EntradaPedido = EntradaResumo & {
   salvarEndereco: boolean;
 };
 
-export type RespostaPedido = { erro: string } | { numero: number };
+export type RespostaPedido = { erro: string } | { id: string; numero: number };

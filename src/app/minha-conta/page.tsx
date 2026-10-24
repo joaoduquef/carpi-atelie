@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import Link from "@/components/ui/Link";
 import { redirect } from "next/navigation";
 import { BotaoSair, DadosPessoais, Enderecos, PedidoExclusao } from "@/components/conta/PartesConta";
+import { BotaoLink } from "@/components/ui/Botao";
 import { TituloSecao } from "@/components/ui/TituloSecao";
 import { CONTA_DEMO, ROTULO_STATUS, type DadosConta, type StatusPedido } from "@/lib/conta";
 import { formatarData } from "@/lib/datas";
 import { formatarReais } from "@/lib/dinheiro";
+import { limparVencidos } from "@/lib/pagamento/servico";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 
 export const metadata: Metadata = { title: "Minha conta", robots: { index: false } };
@@ -24,6 +26,7 @@ const corStatus: Record<StatusPedido, string> = {
 async function carregarConta(): Promise<DadosConta | null> {
   const sb = await supabaseServidor();
   if (!sb) return CONTA_DEMO;
+  await limparVencidos(); // pedidos sem pagamento há mais de 1 hora viram "cancelado"
   const { data: auth } = await sb.auth.getUser();
   if (!auth.user) return null;
 
@@ -175,6 +178,11 @@ export default async function MinhaConta({ searchParams }: { searchParams: Promi
                     </span>
                     <strong className="text-texto tabular-nums">{formatarReais(p.totalCentavos)}</strong>
                   </div>
+                  {p.status === "aguardando_pagamento" && !demo && (
+                    <BotaoLink href={`/pedido/${p.id}/pagamento`} className="justify-self-start">
+                      Pagar agora
+                    </BotaoLink>
+                  )}
                   {p.codigoRastreio && (
                     <p className="text-sm">
                       Código de rastreio: <strong className="select-all">{p.codigoRastreio}</strong>

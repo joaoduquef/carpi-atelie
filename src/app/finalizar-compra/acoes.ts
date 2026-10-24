@@ -121,5 +121,6 @@ export async function criarPedido(entrada: EntradaPedido): Promise<RespostaPedid
     await sbCliente.from("perfis").update({ cpf: cliente.cpf, telefone: cliente.telefone }).eq("id", usuario.id);
   }
 
-  return { numero: (data as { numero: number }).numero };
+  const criado = data as { id: string; numero: number };
+  return { id: criado.id, numero: criado.numero };
 }
