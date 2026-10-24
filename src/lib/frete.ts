@@ -1,14 +1,4 @@
-// Frete da Fase 1: cotação SIMULADA. Na Fase 3 a cotação vem da API do Melhor Envio,
-// sempre calculada no servidor.
-
-export type CotacaoFrete = {
-  transportadora: string;
-  /** valor cobrado do cliente, em centavos (0 = grátis) */
-  valorCentavos: number;
-  /** prazo só da transportadora, em dias úteis */
-  prazoMin: number;
-  prazoMax: number;
-};
+// Ajudantes de CEP, usados na tela e no servidor. A cotação do frete fica em src/lib/checkout/frete.ts.
 
 export function limparCep(cep: string): string {
   return cep.replace(/\D/g, "");
@@ -27,14 +17,4 @@ export function cepValido(cep: string): boolean {
 export function ehSudeste(cep: string): boolean {
   const n = Number(limparCep(cep));
   return n >= 1000000 && n <= 39999999;
-}
-
-export function cotarFreteSimulado(cep: string): CotacaoFrete {
-  if (ehSudeste(cep)) return { transportadora: "Jadlog", valorCentavos: 0, prazoMin: 2, prazoMax: 4 };
-  return { transportadora: "Jadlog", valorCentavos: 3990, prazoMin: 5, prazoMax: 9 };
-}
-
-/** Prazo exibido = produção + transportadora. */
-export function prazoTotal(cotacao: CotacaoFrete, producaoDias: number) {
-  return { min: cotacao.prazoMin + producaoDias, max: cotacao.prazoMax + producaoDias };
 }

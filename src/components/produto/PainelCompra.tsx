@@ -29,7 +29,7 @@ export function PainelCompra({
       </div>
       <BotaoLuzes />
       <div className="border-t border-linha pt-4">
-        <CalculoFrete producaoDias={producaoDias} id="cep-produto" />
+        <CalculoFrete producaoDias={producaoDias} itens={[{ variacaoId, quantidade }]} id="cep-produto" />
       </div>
     </div>
   );

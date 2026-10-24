@@ -29,10 +29,12 @@ async function carregarConta(): Promise<DadosConta | null> {
 
   const [perfil, enderecos, pedidos] = await Promise.all([
     sb.from("perfis").select("nome, email, cpf, telefone, exclusao_solicitada_em").eq("id", auth.user.id).single(),
-    sb.from("enderecos").select("*").order("padrao", { ascending: false }).order("criado_em"),
+    // filtra pelo dono: o administrador enxerga os dados de todos no banco, mas aqui é a conta dele
+    sb.from("enderecos").select("*").eq("perfil_id", auth.user.id).order("padrao", { ascending: false }).order("criado_em"),
     sb
       .from("pedidos")
       .select("id, numero, criado_em, status, total_centavos, forma_pagamento, parcelas, codigo_rastreio, url_rastreio, transportadora, pedido_itens(nome, quantidade)")
+      .eq("perfil_id", auth.user.id)
       .order("criado_em", { ascending: false }),
   ]);
 
@@ -82,7 +84,7 @@ function NomeItem({ nome }: { nome: string }) {
   );
 }
 
-export default async function MinhaConta({ searchParams }: { searchParams: Promise<{ "bem-vindo"?: string; senha?: string }> }) {
+export default async function MinhaConta({ searchParams }: { searchParams: Promise<{ "bem-vindo"?: string; senha?: string; pedido?: string }> }) {
   const params = await searchParams;
   const dados = await carregarConta();
   if (!dados) redirect("/entrar?proximo=/minha-conta");
@@ -104,6 +106,11 @@ export default async function MinhaConta({ searchParams }: { searchParams: Promi
       {params["bem-vindo"] && (
         <p role="status" className="rounded-card bg-bloco-mare px-5 py-3 text-sm font-bold text-texto-em-mare">
           E-mail confirmado. Boas-vindas à CARPI!
+        </p>
+      )}
+      {params.pedido && /^\d+$/.test(params.pedido) && (
+        <p role="status" className="rounded-card bg-bloco-mare px-5 py-3 text-sm font-bold text-texto-em-mare">
+          Pedido #{params.pedido} registrado! Ele aparece abaixo, em Pedidos, aguardando pagamento.
         </p>
       )}
       {params.senha === "ok" && (

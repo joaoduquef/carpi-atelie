@@ -187,7 +187,7 @@ export async function salvarEndereco(_: Resultado, form: FormData): Promise<Resu
   if (!(UFS as readonly string[]).includes(e.uf)) return { erro: "Escolha o estado." };
 
   const id = texto(form, "id");
-  const { count } = await ctx.sb.from("enderecos").select("id", { count: "exact", head: true });
+  const { count } = await ctx.sb.from("enderecos").select("id", { count: "exact", head: true }).eq("perfil_id", ctx.user.id);
   if (!count) e.padrao = true; // o primeiro endereço vira o padrão
   const { error } = id
     ? await ctx.sb.from("enderecos").update(e).eq("id", id)

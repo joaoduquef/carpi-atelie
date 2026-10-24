@@ -16,7 +16,7 @@ import { LOJA } from "@/config/loja";
 import { AvisoVendasEmBreve } from "@/components/loja/AvisoVendasEmBreve";
 
 export function ConteudoSacola() {
-  const { sacola, carregado, alterarQuantidade, remover } = useLoja();
+  const { sacola, carregado, ehAdmin, alterarQuantidade, remover } = useLoja();
   const cat = useCatalogo();
   const linhas = montarLinhas(cat, sacola);
   const subtotal = linhas.reduce((s, l) => s + l.subtotal, 0);
@@ -58,7 +58,7 @@ export function ConteudoSacola() {
 
           <aside aria-label="Resumo da sacola" className="grid gap-4 rounded-card bg-superficie px-5 py-5">
             <h2 className="text-base font-bold tracking-[0.08em] text-titulo uppercase">Resumo</h2>
-            <CalculoFrete producaoDias={producao || 2} id="cep-sacola" />
+            <CalculoFrete producaoDias={producao || 2} itens={sacola} id="cep-sacola" />
             <dl className="grid grid-cols-[1fr_auto] gap-x-3 gap-y-1.5 border-t border-linha pt-3 text-[0.95rem] tabular-nums">
               <dt>Subtotal</dt>
               <dd className="text-right">{formatarReais(subtotal)}</dd>
@@ -70,9 +70,9 @@ export function ConteudoSacola() {
             <p className="text-sm text-texto-suave">
               ou <strong className="text-texto">{formatarReais(precoPix(subtotal))} no Pix</strong> (5% de desconto)
             </p>
-            {LOJA.vendasAbertas ? (
+            {LOJA.vendasAbertas || ehAdmin ? (
               <BotaoLink href="/finalizar-compra" className="w-full">
-                Finalizar compra
+                {LOJA.vendasAbertas ? "Finalizar compra" : "Finalizar compra (teste)"}
               </BotaoLink>
             ) : (
               <AvisoVendasEmBreve />

@@ -28,6 +28,16 @@ export const carregarCatalogo = cache(async (): Promise<Catalogo> => {
 });
 
 /**
+ * Catálogo lido agora, sem a cópia guardada: usado na hora de calcular e criar o pedido,
+ * para o preço cobrado ser sempre o do banco.
+ */
+export async function carregarCatalogoAtual(): Promise<Catalogo> {
+  const sb = supabasePublico();
+  if (!sb) return CATALOGO_FICTICIO;
+  return lerCatalogo(sb);
+}
+
+/**
  * O catálogo muda pouco: fica guardado por 60 segundos, em vez de 5 consultas ao banco a cada página.
  * (Preço e estoque são conferidos de novo no servidor na hora da compra.)
  */

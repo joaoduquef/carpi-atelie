@@ -11,6 +11,15 @@ export const LOJA = {
    * "Vendas abrem em breve" no lugar de "Finalizar compra". Troque para true para abrir as vendas.
    */
   vendasAbertas: false,
+  /** Entrega (Fase 3). O frete é sempre calculado no servidor. */
+  envio: {
+    /** CEP de onde as peças saem. Enquanto estiver vazio, o frete é simulado. */
+    cepOrigem: "",
+    /** "todas": a cliente escolhe entre as opções (até 4); "mais_barata": mostra só a mais barata. */
+    opcoes: "todas" as "todas" | "mais_barata",
+    /** Sudeste (SP, RJ, MG, ES): a opção mais barata sai grátis; nas outras, a cliente paga só a diferença. */
+    freteGratisSudeste: { ativo: true, minimoCentavos: 0 },
+  },
   email: "carpiatelie@gmail.com",
   instagram: "carpiatelie",
   razaoSocial: "69.666.538 JOAO DUQUE DA SILVA FILHO",

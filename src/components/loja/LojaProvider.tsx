@@ -4,11 +4,12 @@
 // juntados e sincronizados com o Supabase.
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { supabaseNavegador } from "@/lib/supabase/navegador";
+import { MAX_POR_ITEM } from "@/lib/limites-sacola";
 import type { ItemSacola } from "@/lib/tipos";
 
 const CHAVE_SACOLA = "carpi:sacola";
 const CHAVE_FAVORITOS = "carpi:favoritos";
-export const MAX_POR_ITEM = 9;
+export { MAX_POR_ITEM };
 
 function ler<T>(chave: string, padrao: T): T {
   try {
@@ -29,11 +30,15 @@ function gravar(chave: string, valor: unknown) {
 
 type Loja = {
   carregado: boolean;
+  /** administrador logado (pode testar a finalização com as vendas fechadas) */
+  ehAdmin: boolean;
   sacola: ItemSacola[];
   totalItens: number;
   adicionar: (variacaoId: string, quantidade?: number) => void;
   alterarQuantidade: (variacaoId: string, quantidade: number) => void;
   remover: (variacaoId: string) => void;
+  /** esvazia a sacola (depois de criar o pedido) */
+  esvaziar: () => void;
   favoritos: string[];
   ehFavorito: (variacaoId: string) => boolean;
   alternarFavorito: (variacaoId: string) => void;
@@ -49,7 +54,7 @@ function juntarSacolas(a: ItemSacola[], b: ItemSacola[]): ItemSacola[] {
   return [...mapa].map(([variacaoId, quantidade]) => ({ variacaoId, quantidade }));
 }
 
-export function LojaProvider({ usuarioId, children }: { usuarioId: string | null; children: React.ReactNode }) {
+export function LojaProvider({ usuarioId, ehAdmin = false, children }: { usuarioId: string | null; ehAdmin?: boolean; children: React.ReactNode }) {
   const [carregado, setCarregado] = useState(false);
   const [sincronizado, setSincronizado] = useState(false);
   const [sacola, setSacola] = useState<ItemSacola[]>([]);
@@ -156,6 +161,8 @@ export function LojaProvider({ usuarioId, children }: { usuarioId: string | null
     setSacola((atual) => atual.filter((i) => i.variacaoId !== variacaoId));
   }, []);
 
+  const esvaziar = useCallback(() => setSacola([]), []);
+
   const alternarFavorito = useCallback((variacaoId: string) => {
     setFavoritos((atual) =>
       atual.includes(variacaoId) ? atual.filter((f) => f !== variacaoId) : [...atual, variacaoId],
@@ -165,17 +172,19 @@ export function LojaProvider({ usuarioId, children }: { usuarioId: string | null
   const valor = useMemo<Loja>(
     () => ({
       carregado,
+      ehAdmin,
       sacola,
       totalItens: sacola.reduce((s, i) => s + i.quantidade, 0),
       adicionar,
       alterarQuantidade,
       remover,
+      esvaziar,
       favoritos,
       ehFavorito: (id) => favoritos.includes(id),
       alternarFavorito,
       aviso,
     }),
-    [carregado, sacola, favoritos, aviso, adicionar, alterarQuantidade, remover, alternarFavorito],
+    [carregado, ehAdmin, sacola, favoritos, aviso, adicionar, alterarQuantidade, remover, esvaziar, alternarFavorito],
   );
 
   return <LojaContext.Provider value={valor}>{children}</LojaContext.Provider>;

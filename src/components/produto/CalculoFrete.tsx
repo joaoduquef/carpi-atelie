@@ -1,27 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { simularFrete } from "@/app/frete/acoes";
+import type { OpcaoFreteResumo } from "@/lib/checkout/tipos";
 import { formatarReais } from "@/lib/dinheiro";
-import { cepValido, cotarFreteSimulado, formatarCep, prazoTotal, type CotacaoFrete } from "@/lib/frete";
+import { cepValido, formatarCep } from "@/lib/frete";
+import type { ItemSacola } from "@/lib/tipos";
 import { Botao } from "@/components/ui/Botao";
 
-export function CalculoFrete({ producaoDias, id = "cep" }: { producaoDias: number; id?: string }) {
+/** Consulta de frete e prazo. O valor vem do servidor (Melhor Envio), igual ao da finalização da compra. */
+export function CalculoFrete({ producaoDias, itens, id = "cep" }: { producaoDias: number; itens: ItemSacola[]; id?: string }) {
   const [cep, setCep] = useState("");
-  const [cotacao, setCotacao] = useState<CotacaoFrete | null>(null);
+  const [opcoes, setOpcoes] = useState<OpcaoFreteResumo[] | null>(null);
   const [erro, setErro] = useState("");
+  const [calculando, iniciar] = useTransition();
 
   function calcular(e: React.FormEvent) {
     e.preventDefault();
     if (!cepValido(cep)) {
-      setCotacao(null);
+      setOpcoes(null);
       setErro("Digite os 8 números do CEP.");
       return;
     }
     setErro("");
-    setCotacao(cotarFreteSimulado(cep)); // Fase 3: cotação real pelo Melhor Envio, no servidor
+    iniciar(async () => {
+      const r = await simularFrete(cep, itens);
+      if ("erro" in r) {
+        setOpcoes(null);
+        setErro(r.erro);
+      } else setOpcoes(r.opcoes);
+    });
   }
-
-  const prazo = cotacao ? prazoTotal(cotacao, producaoDias) : null;
 
   return (
     <form onSubmit={calcular} className="grid gap-2" noValidate>
@@ -38,24 +47,23 @@ export function CalculoFrete({ producaoDias, id = "cep" }: { producaoDias: numbe
           onChange={(e) => setCep(formatarCep(e.target.value))}
           className="min-w-0 flex-[1_1_140px] rounded-full border border-linha bg-fundo px-4 py-2.5 text-texto"
         />
-        <Botao type="submit" variante="secundario">
-          Calcular
+        <Botao type="submit" variante="secundario" disabled={calculando}>
+          {calculando ? "Calculando…" : "Calcular"}
         </Botao>
       </div>
       <div role="status" className="text-sm">
         {erro && <p className="font-bold text-erro">{erro}</p>}
-        {cotacao && prazo && (
-          <>
-            <p>
-              <strong>{cotacao.valorCentavos === 0 ? "Grátis" : formatarReais(cotacao.valorCentavos)}</strong> · {cotacao.transportadora} · chega em{" "}
-              {prazo.min} a {prazo.max} dias úteis
-            </p>
-            <p className="text-texto-suave">
-              {producaoDias} dias úteis de produção + {cotacao.prazoMin} a {cotacao.prazoMax} de transporte
-            </p>
-          </>
+        {opcoes && (
+          <ul className="grid gap-1">
+            {opcoes.map((o) => (
+              <li key={o.id}>
+                <strong>{o.cobradoCentavos === 0 ? "Grátis" : formatarReais(o.cobradoCentavos)}</strong> · {o.transportadora}
+                {o.servico !== "simulada" && ` ${o.servico}`} · chega em {o.prazoMin} a {o.prazoMax} dias úteis
+              </li>
+            ))}
+          </ul>
         )}
-        {!cotacao && !erro && <p className="text-texto-suave">Produção em {producaoDias} dias úteis + transporte.</p>}
+        <p className="text-texto-suave">Produção em {producaoDias} dias úteis + transporte.</p>
       </div>
     </form>
   );

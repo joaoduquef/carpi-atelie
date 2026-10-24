@@ -73,7 +73,7 @@ export default async function RootLayout({
         <NavegacaoCompleta />
         <LuzesProvider>
           <CatalogoProvider catalogo={catalogo}>
-            <LojaProvider usuarioId={usuario?.id ?? null}>
+            <LojaProvider usuarioId={usuario?.id ?? null} ehAdmin={usuario?.papel === "admin"}>
               <>
                 <a
                   href="#conteudo"

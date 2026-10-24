@@ -8,7 +8,7 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 |---|---|---|
 | 1. Visual | Todas as páginas, paleta, fonte, celular e "Apagar as luzes" | **Aprovada** |
 | 2. Banco de dados | Supabase, cadastro e login, produtos e estoque vindos do banco | **No ar** (www.carpiatelie.com.br ligado ao Supabase) |
-| 3. Sacola e checkout | Cupons, frete pelo Melhor Envio, frete grátis no Sudeste | A fazer |
+| 3. Sacola e checkout | Cupons, frete pelo Melhor Envio, frete grátis no Sudeste | **Pronta para teste** (veja "Fase 3: configurar" abaixo) |
 | 4. Pagamento | Pagar.me e PagBank em teste, cartão e Pix, baixa de estoque | A fazer |
 | 5. Painel admin | Produtos, pedidos, status, rastreio, cupons, newsletter, e-mails | A fazer |
 | 6. Publicação | Vercel, domínio, checklist final | Domínio no ar; falta o checklist abaixo |
@@ -25,12 +25,37 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 
 ### O que ainda é simulado
 
-- **Frete:** qualquer CEP de 01000-000 a 39999-999 (Sudeste) dá "Grátis"; os outros dão R$ 39,90. O valor real vem do Melhor Envio na Fase 3.
-- **Cupom:** só o cupom de teste `CARPI10` (10% a partir de R$ 100). Os cupons reais serão criados no painel.
+- **Frete:** enquanto o token do Melhor Envio e o CEP de origem não estiverem configurados, aparecem duas opções de exemplo (econômica e expressa). A regra do frete grátis no Sudeste já vale: a opção mais barata sai grátis e nas outras a cliente paga só a diferença.
+- **Cupom:** com o Supabase configurado, os cupons vêm da tabela `cupons` (até o painel da Fase 5, crie pelo SQL, veja abaixo). Sem o Supabase, só o cupom de teste `CARPI10`.
 - **Juros do cartão:** valores de exemplo (2,99% ao mês). Os reais vêm do intermediador.
-- **Pix:** o QR Code é um desenho, não paga nada.
+- **Pagamento:** ainda não é cobrado (Fase 4). O pedido é registrado como "Aguardando pagamento" e reserva o estoque por 30 minutos.
 - **Sem o Supabase configurado:** o catálogo vem de `src/data/mock.ts` e as telas de conta mostram uma conta fictícia ("Ana Souza").
 - **Com o Supabase configurado (Fase 2):** cadastro, login, recuperação de senha, Minha conta, newsletter e catálogo funcionam de verdade. Sacola e favoritos ficam no navegador e passam para a conta quando a cliente entra.
+
+## Fase 3: configurar (sacola e finalização da compra)
+
+**1. Atualizar o banco** (obrigatório): no SQL Editor do Supabase, rode o arquivo `supabase/migrations/20261024000001_checkout.sql` (botão **Raw** no GitHub → copiar → colar → **Run**). Ele cria a função que registra os pedidos e reserva o estoque.
+
+**2. Testar como administrador:** com as vendas fechadas, só quem tem papel `admin` vê o botão "Finalizar compra (teste)" na sacola. O pedido de teste aparece em Minha conta e na tabela `pedidos`. Para apagar os pedidos de teste: `delete from public.pedidos;` no SQL Editor (as reservas de estoque saem junto).
+
+**3. Frete real (Melhor Envio):**
+1. Coloque o CEP de onde as peças saem em `src/config/loja.ts` (`envio.cepOrigem`) e confira as medidas e o peso da caixa de cada modelo (tabela `modelos`: `peso_kg`, `largura_cm`, `altura_cm`, `comprimento_cm`).
+2. Crie uma conta em https://sandbox.melhorenvio.com.br (testes) → **Configurações → Permissões de acesso → Gerar novo token**, com as permissões de cotação (`shipping-calculate`).
+3. Na Vercel, crie `MELHOR_ENVIO_TOKEN` (tipo **Secret**) com esse token e faça o Redeploy.
+4. Para usar a conta real (melhorenvio.com.br), gere o token lá e crie também `MELHOR_ENVIO_AMBIENTE` = `producao`.
+
+**4. Criar cupons** (até o painel da Fase 5), no SQL Editor:
+```sql
+-- 10% a partir de R$ 100, válido até o fim do ano, no máximo 50 usos
+insert into public.cupons (codigo, tipo, valor, valor_minimo_centavos, valido_ate, limite_usos)
+values ('BEMVINDA10', 'percentual', 10, 10000, '2026-12-31 23:59-03', 50);
+-- R$ 30 de desconto, sem mínimo
+insert into public.cupons (codigo, tipo, valor) values ('CARPI30', 'fixo', 3000);
+-- desligar um cupom
+update public.cupons set ativo = false where codigo = 'CARPI30';
+```
+
+**Regras da compra** (em `src/config/loja.ts`, bloco `envio`): mostrar todas as opções de frete ou só a mais barata, e o frete grátis no Sudeste (com valor mínimo, se quiserem). Preço, cupom, descontos e frete são sempre recalculados no servidor; o que a tela mostra é só uma cópia.
 
 ## Fase 2: configurar o Supabase (banco de dados e contas)
 
