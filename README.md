@@ -7,11 +7,20 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 | Fase | O que entra | Situação |
 |---|---|---|
 | 1. Visual | Todas as páginas, paleta, fonte, celular e "Apagar as luzes" | **Aprovada** |
-| 2. Banco de dados | Supabase, cadastro e login, produtos e estoque vindos do banco | **Pronta para teste** (precisa configurar o Supabase, veja abaixo) |
+| 2. Banco de dados | Supabase, cadastro e login, produtos e estoque vindos do banco | **No ar** (www.carpiatelie.com.br ligado ao Supabase) |
 | 3. Sacola e checkout | Cupons, frete pelo Melhor Envio, frete grátis no Sudeste | A fazer |
 | 4. Pagamento | Pagar.me e PagBank em teste, cartão e Pix, baixa de estoque | A fazer |
 | 5. Painel admin | Produtos, pedidos, status, rastreio, cupons, newsletter, e-mails | A fazer |
-| 6. Publicação | Vercel, domínio, checklist final | A fazer |
+| 6. Publicação | Vercel, domínio, checklist final | Domínio no ar; falta o checklist abaixo |
+
+### Pendências antes de abrir as vendas
+
+- [ ] **E-mails pelo Resend** (resend.com, grátis até 3.000 por mês): sem isso, só os e-mails da equipe do Supabase recebem a confirmação de cadastro, e os e-mails saem em inglês. Passos: criar a conta, cadastrar o domínio carpiatelie.com.br e copiar os registros DNS para o Registro.br, ativar o SMTP no Supabase (**Authentication → Emails → SMTP Settings**: host `smtp.resend.com`, porta `465`, usuário `resend`, senha = API Key do Resend, remetente `contato@carpiatelie.com.br`) e colar os modelos de `supabase/templates/`.
+- [ ] **Tornar João e Nalu administradores** (passo 7 da Fase 2, abaixo).
+- [ ] **Pagamento de verdade** (Fase 4) e depois trocar `vendasAbertas` para `true` em `src/config/loja.ts`.
+- [ ] **Planos pagos:** Vercel Pro (o plano grátis não permite uso comercial) e Supabase Pro (backup diário e sem pausa por falta de uso).
+- [ ] **Revisão dos textos provisórios** (políticas, trocas e pagamentos), de preferência com advogado ou contador.
+- [ ] **Redirecionar `carpi-atelie.vercel.app`** para www.carpiatelie.com.br e apagar o projeto duplicado `carpi-atelie-public` na Vercel.
 
 ### O que ainda é simulado
 
