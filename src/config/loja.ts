@@ -10,7 +10,7 @@ export const LOJA = {
    * false enquanto o pagamento de verdade não estiver pronto (Fase 4): a sacola mostra
    * "Vendas abrem em breve" no lugar de "Finalizar compra". Troque para true para abrir as vendas.
    */
-  vendasAbertas: false,
+  vendasAbertas: true,
   /** Entrega (Fase 3). O frete é sempre calculado no servidor. */
   envio: {
     /** CEP de onde as peças saem (Belo Horizonte, MG). Sem o token do Melhor Envio, o frete é simulado. */
