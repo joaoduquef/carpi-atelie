@@ -184,7 +184,7 @@ export default async function PaginaProduto({ params, searchParams }: Props) {
               </li>
             ))}
           </ol>
-          <p className="mt-3 max-w-[70ch] text-[0.95rem]">{LOJA.avisoImpressao}</p>
+          <p className="mt-3 text-[0.95rem]">{LOJA.avisoImpressao}</p>
         </Acordeao>
         <Acordeao titulo="Cuidados com a peça" tom="damasco">
           {/* TEXTO PROVISÓRIO */}
