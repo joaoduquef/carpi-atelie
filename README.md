@@ -166,7 +166,7 @@ Outros comandos: `npm run build` (gera a versão de produção) e `npm run lint`
 | Fotos da Babi | `public/products/babi/` — `mare-apagado.png`, `mare-aceso.png`, `damasco-…`, `roma-…` (recortadas, fundo transparente), `ambiente-1.jpg` e `desenho-tecnico.png`. Mantenha os nomes e as fotos recortadas em pé (proporção 8 × 11). Depois de trocar, aumente o número em `src/lib/fotos.ts` para o site não mostrar a foto antiga guardada em cache. |
 | Desenho técnico da Babi | Gerado pelo arquivo `scripts/desenho-tecnico-babi.py` (as medidas ficam no topo dele). Rode `python3 scripts/desenho-tecnico-babi.py` para criar o `desenho-tecnico.svg`, gere o `.png` a partir dele e aumente o número em `src/lib/fotos.ts`. |
 | Foto de João e Nalu (página Sobre nós) | `public/sobre/joao-e-nalu.jpg` — retrato (em pé, proporção 4 × 5), fundo branco. Depois de trocar, aumente o número em `src/lib/fotos.ts`. |
-| E-mail, Instagram, CNPJ, razão social, texto da barra do topo | `src/config/loja.ts` |
+| E-mail, Instagram, CNPJ, razão social, texto da barra do topo, aviso das marcas de impressão (fim da descrição de todos os produtos) | `src/config/loja.ts` |
 | Abrir as vendas (tirar o aviso "Vendas abrem em breve") | `src/config/loja.ts`, trocar `vendasAbertas: false` por `true` (só depois da Fase 4) |
 | Preço, descrição e medidas (até a Fase 2) | `src/data/mock.ts` |
 | Cores e efeito das luzes | `src/app/globals.css` (bloco `:root` para as cores; seção "Luzes" para o efeito de apagar) |

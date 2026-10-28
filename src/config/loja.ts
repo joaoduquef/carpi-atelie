@@ -27,6 +27,9 @@ export const LOJA = {
   razaoSocial: "69.666.538 JOAO DUQUE DA SILVA FILHO",
   cnpj: "69.666.538/0001-36",
   anuncio: "Frete grátis para todo o Sudeste",
+  /** aparece no fim da descrição de todos os produtos */
+  avisoImpressao:
+    "Como cada abajur é produzido sob encomenda, camada por camada, ele pode ter pequenas marcas e variações da impressão. Elas não são defeitos: são o registro de uma peça feita uma a uma, só para você.",
   titulo: "CARPI Ateliê | Abajures feitos com carinho",
   descricao:
     "Abajures de design autoral, feitos sob encomenda no CARPI Ateliê. Frete grátis para todo o Sudeste.",
