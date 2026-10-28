@@ -15,10 +15,10 @@ insert into public.modelos (slug, nome, descricao, preco_centavos, status, espec
      {"rotulo":"Material","valor":"PETG translúcido"},
      {"rotulo":"Lâmpada","valor":"LED 6 W, 3000 K (luz quente), bivolt, inclusa"},
      {"rotulo":"Peso","valor":"Aproximadamente 550 a 700 g"},
-     {"rotulo":"Produção","valor":"Feito sob encomenda em 2 dias úteis"}]'::jsonb,
-   2, 0.65, 25, 35, 25, 1),
-  ('isa', 'Isa', 'Novo modelo da CARPI, nas cores Maré, Damasco e Romã.', null, 'em_breve', '[]'::jsonb, 2, 0.65, 25, 35, 25, 2),
-  ('manu', 'Manu', 'Novo modelo da CARPI, nas cores Maré, Damasco e Romã.', null, 'em_breve', '[]'::jsonb, 2, 0.65, 25, 35, 25, 3)
+     {"rotulo":"Produção","valor":"Feito sob encomenda em 5 dias úteis"}]'::jsonb,
+   5, 0.65, 25, 35, 25, 1),
+  ('isa', 'Isa', 'Novo modelo da CARPI, nas cores Maré, Damasco e Romã.', null, 'em_breve', '[]'::jsonb, 5, 0.65, 25, 35, 25, 2),
+  ('manu', 'Manu', 'Novo modelo da CARPI, nas cores Maré, Damasco e Romã.', null, 'em_breve', '[]'::jsonb, 5, 0.65, 25, 35, 25, 3)
 on conflict (slug) do nothing;
 
 insert into public.variacoes (id, modelo_slug, cor_slug, sku, estoque, ativo)
