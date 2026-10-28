@@ -120,7 +120,6 @@ export default async function PaginaProduto({ params, searchParams }: Props) {
               {modelo.descricao.split(/\n\s*\n/).map((paragrafo) => (
                 <p key={paragrafo}>{paragrafo}</p>
               ))}
-              <p className="text-texto-suave">{LOJA.avisoImpressao}</p>
             </div>
 
             <div className="grid gap-2">
@@ -185,6 +184,7 @@ export default async function PaginaProduto({ params, searchParams }: Props) {
               </li>
             ))}
           </ol>
+          <p className="mt-3 max-w-[70ch] text-[0.95rem]">{LOJA.avisoImpressao}</p>
         </Acordeao>
         <Acordeao titulo="Cuidados com a peça" tom="damasco">
           {/* TEXTO PROVISÓRIO */}
