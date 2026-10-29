@@ -74,17 +74,33 @@ export function baseCartao(p: PedidoPagamento): number {
   return p.subtotal - p.descontoCupom + p.frete;
 }
 
-/** Marca como pago (só se o valor pago cobrir o total). Seguro chamar mais de uma vez. */
+/** Prazo para pagar: o pedido (e a reserva de estoque) vale 60 minutos depois de criado. */
+export const MINUTOS_PARA_PAGAR = 60;
+
+export function minutosRestantes(p: PedidoPagamento): number {
+  return Math.floor((new Date(p.criadoEm).getTime() + MINUTOS_PARA_PAGAR * 60_000 - Date.now()) / 60_000);
+}
+
+/**
+ * Marca como pago (só se o valor pago cobrir o total). Seguro chamar mais de uma vez.
+ * Também trata os casos raros: pagamento que chegou depois do pedido cancelado e pagamento em dobro.
+ */
 export async function confirmarSePago(pedidoId: string, idExterno: string): Promise<boolean> {
   const sb = supabaseAdmin();
   if (!sb) return false;
   const pedido = await lerPedido(pedidoId);
   if (!pedido) return false;
-  if (pedido.status !== "aguardando_pagamento") return pedido.status !== "cancelado";
+  const jaPago = pedido.status !== "aguardando_pagamento" && pedido.status !== "cancelado";
 
   const situacao = await consultarPedido(idExterno);
+  const { data: antes } = await sb.from("pagamentos").select("status").eq("provedor", "pagbank").eq("id_externo", idExterno).maybeSingle();
   await sb.from("pagamentos").update({ status: situacao.status }).eq("provedor", "pagbank").eq("id_externo", idExterno);
-  if (situacao.status !== "PAID") return false;
+  if (situacao.status !== "PAID") return jaPago;
+  if (jaPago) {
+    // outro pagamento deste pedido já tinha sido aprovado: este é em dobro e precisa ser estornado
+    if (antes?.status !== "PAID") console.error(`[ALERTA] pagamento em dobro no pedido ${pedido.numero} (${idExterno}): estorne no PagBank`);
+    return true;
+  }
   if (situacao.referencia && situacao.referencia !== pedidoId) {
     console.error("[pagamento] aviso de outro pedido", { pedidoId, idExterno, referencia: situacao.referencia });
     return false;
@@ -94,7 +110,9 @@ export async function confirmarSePago(pedidoId: string, idExterno: string): Prom
     return false;
   }
   const { error } = await sb.rpc("confirmar_pagamento", { p_pedido: pedidoId, p_observacao: `Pago no PagBank (${idExterno})` });
-  if (error) console.error("[pagamento] falha ao confirmar", error.message);
+  if (error?.message.includes("pago_sem_estoque"))
+    console.error(`[ALERTA] pedido ${pedido.numero} foi pago depois do prazo e a peça já acabou (${idExterno}): estorne no PagBank ou fale com a cliente`);
+  else if (error) console.error("[pagamento] falha ao confirmar", error.message);
   return !error;
 }
 

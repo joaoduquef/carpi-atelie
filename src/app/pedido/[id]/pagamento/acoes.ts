@@ -3,7 +3,7 @@
 import { calcularParcelas, PIX_DESCONTO } from "@/lib/dinheiro";
 import { dentroDoLimite } from "@/lib/limite";
 import { chavePublica, cobrarCartao, criarPix, ErroPagBank, pagbankConfigurado, parcelasPagBank, type PlanoParcela } from "@/lib/pagamento/pagbank";
-import { baseCartao, confirmarSePago, dadosCompra, lerPedido, type PedidoPagamento } from "@/lib/pagamento/servico";
+import { baseCartao, confirmarSePago, dadosCompra, lerPedido, minutosRestantes, type PedidoPagamento } from "@/lib/pagamento/servico";
 import { supabaseAdmin, usuarioAtual } from "@/lib/supabase/servidor";
 import { cpfValido, soDigitos } from "@/lib/validacao";
 
@@ -13,6 +13,7 @@ type Erro = { erro: string };
 async function pedidoDaCliente(pedidoId: string): Promise<Erro | { pedido: PedidoPagamento; usuarioId: string; ehAdmin: boolean }> {
   const usuario = await usuarioAtual();
   if (!usuario) return { erro: "Entre na sua conta para pagar." };
+  if (!supabaseAdmin()) return { erro: "O pagamento está indisponível no momento. Fale com a gente pelo e-mail." };
   const pedido = await lerPedido(pedidoId);
   if (!pedido || pedido.perfilId !== usuario.id) return { erro: "Pedido não encontrado." };
   return { pedido, usuarioId: usuario.id, ehAdmin: usuario.papel === "admin" };
@@ -24,6 +25,35 @@ function mensagemPagBank(e: unknown): string {
   return "Não conseguimos falar com o PagBank agora. Tente de novo em instantes. (código: sem conexão)";
 }
 
+/** Pix gerado para o pedido e ainda dentro da validade (pode ser pago a qualquer momento). */
+async function pixAberto(pedidoId: string) {
+  const { data } = await supabaseAdmin()!
+    .from("pagamentos")
+    .select("id_externo, expira_em, status")
+    .eq("pedido_id", pedidoId)
+    .eq("metodo", "pix")
+    .gt("expira_em", new Date().toISOString())
+    .order("criado_em", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  return data;
+}
+
+/** Antes de cobrar de outro jeito: se há um Pix aberto, vê se já foi pago; se não, pede para esperar ele vencer. */
+async function bloqueioPorPix(pedido: PedidoPagamento): Promise<Erro | null> {
+  const pix = await pixAberto(pedido.id);
+  if (!pix?.id_externo) return null;
+  if (await confirmarSePago(pedido.id, pix.id_externo).catch(() => false)) return { erro: "Este pedido já foi pago pelo Pix." };
+  const hora = new Date(pix.expira_em).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", timeZone: "America/Sao_Paulo" });
+  return { erro: `Já existe um Pix gerado para este pedido. Pague por ele ou, para usar o cartão, espere o código vencer (às ${hora}).` };
+}
+
+async function cancelarSeVencido(pedido: PedidoPagamento): Promise<Erro | null> {
+  if (minutosRestantes(pedido) >= 5) return null;
+  await supabaseAdmin()!.rpc("cancelar_pedido", { p_pedido: pedido.id, p_observacao: "Prazo de pagamento esgotado" });
+  return { erro: "O prazo para pagar este pedido terminou. Volte à sacola e finalize a compra de novo." };
+}
+
 // ------------------------------------------------------------------ trocar Pix ↔ cartão
 
 /** Recalcula o total para a nova forma de pagamento (o desconto do Pix só vale no Pix). */
@@ -32,6 +62,8 @@ export async function trocarForma(pedidoId: string, forma: "pix" | "cartao"): Pr
   if ("erro" in acesso) return acesso;
   const { pedido } = acesso;
   if (pedido.status !== "aguardando_pagamento") return { erro: "Este pedido não está mais aguardando pagamento." };
+  const bloqueio = await bloqueioPorPix(pedido);
+  if (bloqueio) return bloqueio;
   const produtos = pedido.subtotal - pedido.descontoCupom;
   const descontoPix = forma === "pix" ? Math.round(produtos * PIX_DESCONTO) : 0;
   const { error } = await supabaseAdmin()!
@@ -51,6 +83,8 @@ export async function gerarPix(pedidoId: string): Promise<Erro | { copiaECola: s
   if (pedido.status !== "aguardando_pagamento") return { erro: "Este pedido não está mais aguardando pagamento." };
   if (pedido.forma !== "pix") return { erro: "Escolha o Pix para gerar o código." };
   if (!pagbankConfigurado()) return { erro: "O pagamento ainda não está ligado (falta o token do PagBank)." };
+  const vencido = await cancelarSeVencido(pedido);
+  if (vencido) return vencido;
 
   const sb = supabaseAdmin()!;
   // reaproveita o Pix ainda válido deste pedido, com o mesmo valor
@@ -68,7 +102,8 @@ export async function gerarPix(pedidoId: string): Promise<Erro | { copiaECola: s
 
   if (!(await dentroDoLimite(`pix:${usuarioId}`, 10, 60 * 60))) return { erro: "Muitas tentativas seguidas. Espere alguns minutos." };
   try {
-    const pix = await criarPix(dadosCompra(pedido, pedido.total));
+    // o Pix vence junto com o prazo do pedido (no máximo 30 minutos)
+    const pix = await criarPix(dadosCompra(pedido, pedido.total), Math.min(30, minutosRestantes(pedido)));
     const { error: erroGravar } = await sb.from("pagamentos").insert({
       pedido_id: pedido.id,
       provedor: "pagbank",
@@ -101,24 +136,28 @@ export async function chaveCartao(): Promise<Erro | { chave: string }> {
   }
 }
 
-async function planos(pedido: PedidoPagamento, bin: string): Promise<PlanoParcela[]> {
+/** Parcelas do PagBank para o cartão; `reais: false` quando foi preciso usar a tabela de exemplo. */
+async function planos(pedido: PedidoPagamento, bin: string): Promise<{ lista: PlanoParcela[]; reais: boolean }> {
   const base = baseCartao(pedido);
   if (pagbankConfigurado() && /^\d{6}$/.test(bin)) {
     try {
       const p = await parcelasPagBank(base, bin);
-      if (p.length) return p;
+      if (p.length) return { lista: p, reais: true };
     } catch (e) {
       console.error("[pagamento] falha ao calcular parcelas no PagBank", e instanceof ErroPagBank ? e.message : e);
     }
   }
-  return calcularParcelas(base).map((p) => ({ vezes: p.vezes, valorParcelaCentavos: p.valorParcela, totalCentavos: p.total, semJuros: p.semJuros }));
+  return {
+    lista: calcularParcelas(base).map((p) => ({ vezes: p.vezes, valorParcelaCentavos: p.valorParcela, totalCentavos: p.total, semJuros: p.semJuros })),
+    reais: false,
+  };
 }
 
 /** Parcelas para o cartão digitado (pelos 6 primeiros números, que não são dado sensível). */
 export async function parcelasCartao(pedidoId: string, bin: string): Promise<Erro | { parcelas: PlanoParcela[] }> {
   const acesso = await pedidoDaCliente(pedidoId);
   if ("erro" in acesso) return acesso;
-  return { parcelas: await planos(acesso.pedido, soDigitos(bin).slice(0, 6)) };
+  return { parcelas: (await planos(acesso.pedido, soDigitos(bin).slice(0, 6))).lista };
 }
 
 export async function pagarCartao(
@@ -132,6 +171,12 @@ export async function pagarCartao(
   if (pedido.forma !== "cartao") return { erro: "Escolha o cartão para pagar com cartão." };
   if (!pagbankConfigurado()) return { erro: "O pagamento ainda não está ligado (falta o token do PagBank)." };
   if (!(await dentroDoLimite(`cartao:${usuarioId}`, 6, 60 * 60))) return { erro: "Muitas tentativas seguidas. Espere um pouco ou use o Pix." };
+  // uma cobrança por vez para o mesmo pedido (evita cobrar duas vezes num clique duplo)
+  if (!(await dentroDoLimite(`cartao-pedido:${pedido.id}`, 1, 20))) return { erro: "Já estamos processando este pagamento. Aguarde alguns segundos." };
+  const vencido = await cancelarSeVencido(pedido);
+  if (vencido) return vencido;
+  const bloqueio = await bloqueioPorPix(pedido);
+  if (bloqueio) return bloqueio;
 
   const titularNome = String(dados.titularNome ?? "").trim().slice(0, 60);
   const titularCpf = soDigitos(String(dados.titularCpf ?? ""));
@@ -140,8 +185,11 @@ export async function pagarCartao(
   if (typeof dados.criptografado !== "string" || dados.criptografado.length < 50) return { erro: "Confira os dados do cartão." };
 
   // o valor das parcelas é calculado aqui de novo, não vem do navegador
-  const plano = (await planos(pedido, soDigitos(dados.bin).slice(0, 6))).find((p) => p.vezes === Math.floor(dados.parcelas));
+  const tabela = await planos(pedido, soDigitos(dados.bin).slice(0, 6));
+  const plano = tabela.lista.find((p) => p.vezes === Math.floor(dados.parcelas));
   if (!plano) return { erro: "Escolha o número de parcelas." };
+  // parcelado só com os juros reais do PagBank (a tabela de exemplo poderia cobrar menos do que o PagBank desconta)
+  if (plano.vezes > 1 && !tabela.reais) return { erro: "Não conseguimos calcular as parcelas agora. Pague em 1x ou com Pix, ou tente de novo em instantes." };
   const total = plano.totalCentavos;
   const sb = supabaseAdmin()!;
   await sb

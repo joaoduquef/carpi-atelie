@@ -1,7 +1,7 @@
 "use server";
 
 import { dentroDoLimite, ipDaRequisicao } from "@/lib/limite";
-import { supabasePublico } from "@/lib/supabase/servidor";
+import { supabaseAdmin } from "@/lib/supabase/servidor";
 import { emailValido } from "@/lib/validacao";
 
 export async function inscreverNewsletter(email: string, aceite: boolean): Promise<{ erro?: string; ok?: string }> {
@@ -9,7 +9,7 @@ export async function inscreverNewsletter(email: string, aceite: boolean): Promi
   if (!emailValido(limpo)) return { erro: "Digite um e-mail válido, como nome@exemplo.com." };
   if (!aceite) return { erro: "Marque a caixa para autorizar o envio de e-mails." };
 
-  const sb = supabasePublico();
+  const sb = supabaseAdmin(); // a inscrição só é feita pelo servidor, depois de conferir o aceite
   if (sb) {
     if (!(await dentroDoLimite(`newsletter:ip:${await ipDaRequisicao()}`, 10, 60 * 60)))
       return { erro: "Muitas tentativas seguidas. Tente de novo mais tarde." };

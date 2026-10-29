@@ -77,6 +77,11 @@ export async function criarPedido(entrada: EntradaPedido): Promise<RespostaPedid
   if (resumo.problemas.length) return { erro: resumo.problemas[0] };
   if (resumo.erroCupom) return { erro: resumo.erroCupom };
   if (!freteEscolhido) return { erro: resumo.erroFrete ?? "Escolha uma opção de entrega." };
+  // no site publicado, nunca cobra frete de exemplo (acontece só se o token do Melhor Envio sumir)
+  if (resumo.frete?.simulado && process.env.VERCEL_ENV === "production") {
+    console.error("[checkout] frete simulado no site publicado: confira MELHOR_ENVIO_TOKEN na Vercel");
+    return { erro: "Não conseguimos calcular o frete agora. Tente de novo em instantes ou fale com a gente pelo e-mail." };
+  }
   if (entrada.freteId && freteEscolhido.id !== entrada.freteId) return { erro: "As opções de entrega mudaram. Escolha de novo." };
 
   const sb = supabaseAdmin();
@@ -107,6 +112,7 @@ export async function criarPedido(entrada: EntradaPedido): Promise<RespostaPedid
   });
   if (error) {
     if (error.message.includes("estoque_insuficiente")) return { erro: "Uma das peças acabou de esgotar. Confira a sacola e tente de novo." };
+    if (error.message.includes("cupom_esgotado")) return { erro: "Este cupom atingiu o limite de usos. Tire o cupom para continuar." };
     console.error("[checkout] falha ao criar o pedido", error.message);
     return { erro: "Não conseguimos registrar o pedido agora. Tente de novo em instantes." };
   }

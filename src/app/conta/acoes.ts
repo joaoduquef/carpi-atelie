@@ -17,11 +17,12 @@ function texto(form: FormData, campo: string): string {
   return String(form.get(campo) ?? "").trim();
 }
 
+/** Endereço usado nos links dos e-mails: o oficial; o endereço da requisição só nos testes no próprio computador. */
 async function origem(): Promise<string> {
   const h = await headers();
-  const host = h.get("x-forwarded-host") ?? h.get("host");
-  const proto = h.get("x-forwarded-proto") ?? "https";
-  return host ? `${proto}://${host}` : LOJA.url;
+  const host = h.get("host") ?? "";
+  if (/^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host)) return `http://${host}`;
+  return LOJA.url;
 }
 
 // ---------------------------------------------------------------- entrar

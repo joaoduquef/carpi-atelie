@@ -45,5 +45,12 @@ export const UFS = [
 
 /** Só aceita caminhos internos (evita redirecionar para outro site depois do login). */
 export function caminhoSeguro(valor: unknown, padrao = "/minha-conta"): string {
-  return typeof valor === "string" && valor.startsWith("/") && !valor.startsWith("//") && !valor.startsWith("/\\") ? valor : padrao;
+  if (typeof valor !== "string" || !valor.startsWith("/") || /[\\\u0000-\u001f\u007f]/.test(valor)) return padrao;
+  try {
+    // resolve num endereço de mentira: se o resultado sair desse endereço, era um link para outro site
+    const u = new URL(valor, "https://carpi.invalid");
+    return u.origin === "https://carpi.invalid" ? `${u.pathname}${u.search}${u.hash}` : padrao;
+  } catch {
+    return padrao;
+  }
 }

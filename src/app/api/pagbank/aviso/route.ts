@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { dentroDoLimite, ipDaRequisicao } from "@/lib/limite";
 import { assinaturaValida, pagbankConfigurado } from "@/lib/pagamento/pagbank";
 import { confirmarSePago } from "@/lib/pagamento/servico";
 import { supabaseAdmin } from "@/lib/supabase/servidor";
@@ -18,7 +19,11 @@ export async function POST(request: NextRequest) {
     console.error("[aviso] assinatura inválida");
     return NextResponse.json({ ok: false }, { status: 401 });
   }
-  if (assinatura === null) console.warn("[aviso] aviso sem x-authenticity-token: conferindo direto no PagBank");
+  if (assinatura === null) {
+    // sem assinatura: ainda conferimos direto no PagBank, mas com limite para ninguém usar a rota para gastar a API
+    if (!(await dentroDoLimite(`aviso:ip:${await ipDaRequisicao()}`, 30, 10 * 60))) return NextResponse.json({ ok: false }, { status: 429 });
+    console.warn("[aviso] aviso sem x-authenticity-token: conferindo direto no PagBank");
+  }
 
   let idExterno = "";
   try {

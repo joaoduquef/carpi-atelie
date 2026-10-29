@@ -32,6 +32,20 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 - **Sem o Supabase configurado:** o catálogo vem de `src/data/mock.ts` e as telas de conta mostram uma conta fictícia ("Ana Souza").
 - **Com o Supabase configurado (Fase 2):** cadastro, login, recuperação de senha, Minha conta, newsletter e catálogo funcionam de verdade. Sacola e favoritos ficam no navegador e passam para a conta quando a cliente entra.
 
+## Atualizações do banco (rodar no SQL Editor, na ordem)
+
+| Arquivo | O que faz |
+|---|---|
+| `supabase/migrations/20261018000001_inicial.sql` | tabelas, regras de segurança e funções da loja |
+| `supabase/seed.sql` | produtos, cores e fotos (só na primeira vez) |
+| `supabase/migrations/20261024000001_checkout.sql` | criação do pedido com reserva de estoque |
+| `supabase/migrations/20261025000001_pagamento.sql` | confirmação do pagamento e cancelamento de pedidos vencidos |
+| `supabase/migrations/20261029000001_revisao.sql` | revisão de segurança: reserva de 60 min, limite de cupom, pagamento atrasado, newsletter só pelo servidor |
+
+Rodar de novo um arquivo que já foi rodado dá erro em alguns casos; na dúvida, pergunte antes.
+
+**Alertas nos Logs da Vercel:** linhas começando com `[ALERTA]` pedem ação (pagamento em dobro, ou pago depois do prazo quando a peça já acabou): estorne no PagBank ou fale com a cliente. Na Fase 5 esses alertas viram e-mail para vocês.
+
 ## Fase 4: configurar (pagamento pelo PagBank)
 
 **1. Atualizar o banco** (obrigatório): no SQL Editor do Supabase, rode `supabase/migrations/20261025000001_pagamento.sql`. Ele cria as funções que confirmam o pagamento (baixa o estoque e conta o uso do cupom) e cancelam os pedidos sem pagamento.
