@@ -13,10 +13,13 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 | 5. Painel admin | Produtos, pedidos, status, rastreio, cupons, newsletter, e-mails | A fazer |
 | 6. Publicação | Vercel, domínio, checklist final | Domínio no ar; falta o checklist abaixo |
 
-### Pendências antes de abrir as vendas
+### Pendências (as vendas já estão abertas)
+
+- [ ] **Rodar no SQL Editor** os arquivos de banco que faltarem (tabela "Atualizações do banco", abaixo), principalmente `20261029000001_revisao.sql`, e o comando do prazo de 5 dias e da caixa de 650 g.
+- [ ] **Proteção contra robôs no cadastro e login:** no Supabase, **Authentication → Attack Protection**, ligar o CAPTCHA (Cloudflare Turnstile, grátis) e conferir os limites em **Rate Limits**. Hoje os limites do site valem nos formulários, mas o Supabase também pode ser chamado direto.
 
 - [ ] **E-mails pelo Resend** (resend.com, grátis até 3.000 por mês): sem isso, só os e-mails da equipe do Supabase recebem a confirmação de cadastro, e os e-mails saem em inglês. Passos: criar a conta, cadastrar o domínio carpiatelie.com.br e copiar os registros DNS para o Registro.br, ativar o SMTP no Supabase (**Authentication → Emails → SMTP Settings**: host `smtp.resend.com`, porta `465`, usuário `resend`, senha = API Key do Resend, remetente `contato@carpiatelie.com.br`) e colar os modelos de `supabase/templates/`.
-- [ ] **Mudar o banco para São Paulo:** hoje o projeto do Supabase está no Canadá (`ca-central-1`), por isso o servidor do site está em Washington (`iad1` em `vercel.json`). Criar um projeto novo na região South America (São Paulo), rodar `supabase/migrations/20261018000001_inicial.sql` e `supabase/seed.sql`, configurar as URLs, trocar as 3 variáveis do Supabase na Vercel e mudar `vercel.json` para `gru1`. Melhor fazer antes de ter clientes cadastrados.
+- [ ] **Mudar o banco para São Paulo:** hoje o projeto do Supabase está no Canadá (`ca-central-1`), por isso o servidor do site está em Washington (`iad1` em `vercel.json`). Criar um projeto novo na região South America (São Paulo), rodar todos os arquivos da tabela "Atualizações do banco", configurar as URLs, trocar as 3 variáveis do Supabase na Vercel e mudar `vercel.json` para `gru1`. Melhor fazer antes de ter clientes cadastrados.
 - [ ] **Tornar João e Nalu administradores** (passo 7 da Fase 2, abaixo).
 - [ ] **PagBank oficial:** depois de testar no sandbox, gerar o token da conta real, trocar `PAGBANK_TOKEN` na Vercel e criar `PAGBANK_AMBIENTE` = `producao`. (As vendas foram abertas em 24/10/2026: `vendasAbertas: true` em `src/config/loja.ts`; para fechar de novo, volte para `false`.)
 - [ ] **Planos pagos:** Vercel Pro (o plano grátis não permite uso comercial) e Supabase Pro (backup diário e sem pausa por falta de uso).
