@@ -26,7 +26,6 @@ BASE_TUBO = 52.80
 BASE_FURO = 33.80
 BASE_FUNDO = 3.00
 BASE_PAREDE = 1.90
-TAMPA = (33.60, 9.60, 1.60)  # tampa da base (CARPI-03)
 LOBULOS = 12
 
 # --- geometria do conjunto montado, medida no desenho CARPI-04 (só para desenhar, sem cota) ---
@@ -257,18 +256,8 @@ for k in range(LOBULOS):
     if math.sin(t) > 0.1:
         bx, by = ponto(H_BOLINHAS, raio_cupula(H_BOLINHAS), 0, 0, t)
         add(f'<ellipse class="vis" cx="{f(bx)}" cy="{f(by)}" rx="{f(R_BOLINHA * KP * 2.2 * (0.5 + 0.5 * math.sin(t)))}" ry="{f(R_BOLINHA * KP * 2.2)}"/>')
-texto(px, pchao - 3, "CARPI", "gravacao")
+texto(px, pchao + BASE_D / 2 * KP * ACH - 4 * KP, "CARPI", "gravacao")
 texto(px - 50, 24, "PERSPECTIVA", "titulo", "start")
-
-# ================================================================ detalhe: tampa da base (escala 2:1)
-dx, dy, K2 = 182, 172, 2
-tl, tw, te = (v * K2 for v in TAMPA)
-add(f'<rect class="vis" x="{f(dx)}" y="{f(dy)}" width="{f(tl)}" height="{f(tw)}" rx="0.6"/>')
-add(f'<rect class="fino" x="{f(dx)}" y="{f(dy + tw + 12)}" width="{f(tl)}" height="{f(te)}"/>')
-cota_h(dy - 5, dx, dx + tl, br(TAMPA[0]), dy)
-cota_v(dx + tl + 6, dy, dy + tw, br(TAMPA[1]), dx + tl)
-chamada(dx + tl, dy + tw + 12 + te / 2, dx + tl + 6, dy + tw + 12 + te / 2, dx + tl + 9, f"espessura {br(TAMPA[2])}")
-texto(dx, dy - 13, "DETALHE · TAMPA DA BASE (2:1)", "titulo", "start")
 
 # ================================================================ notas
 notas = [
@@ -278,31 +267,29 @@ notas = [
     "3. Encaixes de baioneta entre as peças: 3 entradas em",
     "    cada conexão, giro nominal de 20°, folga radial 0,30.",
     f"4. Cúpula com casca interna nominal de {br(CUP_CASCA)}.",
-    f"5. Base com paredes cilíndricas de {br(BASE_PAREDE)}; tampa da",
-    f"    base (passagem do cabo) de {br(TAMPA[0])} × {br(TAMPA[1])} × {br(TAMPA[2])}.",
+    f"5. Base com paredes cilíndricas de {br(BASE_PAREDE)}.",
     "6. Corte A-A simplificado; lâmpada só como referência.",
 ]
 for i, n in enumerate(notas):
     texto(300, 150 + i * 6.2, n, "titulo" if i == 0 else "nota", "start")
 
 # ================================================================ lista de peças
-tx, ty, cw = 160, H - 10 - 31, [9, 24, 18, 85]
+tx, ty, cw = 160, H - 10 - 6.2 * 4, [9, 24, 18, 85]
 cab = ["ITEM", "PEÇA", "DESENHO", "MEDIDAS PRINCIPAIS"]
 linhas_tab = [
     ["1", "Cúpula", "CARPI-00", f"altura {br(CUP_ALTURA)} · Ø{br(CUP_ENVELOPE)} REF · anel Ø{br(CUP_ANEL)}"],
     ["2", "Saia", "CARPI-01", f"altura {br(SAIA_ALTURA)} · Ø{br(SAIA_ENVELOPE)} REF · Ø{br(SAIA_ANEL)} / Ø{br(SAIA_ASSENTO)}"],
     ["3", "Base", "CARPI-02", f"altura {br(BASE_ALTURA)} · Ø{br(BASE_D)} / Ø{br(BASE_D_INT)} · tubo Ø{br(BASE_TUBO)}"],
-    ["4", "Tampa da base", "CARPI-03", f"{br(TAMPA[0])} × {br(TAMPA[1])} × {br(TAMPA[2])}"],
 ]
 alt = 6.2
 largura = sum(cw)
-add(f'<rect class="moldura-fina" x="{tx}" y="{ty}" width="{largura}" height="{f(alt * 5)}"/>')
-for i in range(1, 5):
+add(f'<rect class="moldura-fina" x="{tx}" y="{ty}" width="{largura}" height="{f(alt * 4)}"/>')
+for i in range(1, 4):
     linha(tx, ty + alt * i, tx + largura, ty + alt * i, "grade")
 xx = tx
 for c in cw[:-1]:
     xx += c
-    linha(xx, ty, xx, ty + alt * 5, "grade")
+    linha(xx, ty, xx, ty + alt * 4, "grade")
 for i, lin in enumerate([cab] + linhas_tab):
     xx = tx
     for c, v in zip(cw, lin):
@@ -321,14 +308,13 @@ texto(x0 + 4, y0 + 7.5, "CARPI ATELIÊ", "marca", "start")
 texto(x0 + 4, y0 + 13.5, "Abajur BABI · desenho de conjunto", "nota", "start")
 celulas = [
     ("PROJEÇÃO", "1º diedro"), ("ESCALA", "1:3 (A3)"), ("UNIDADE", "mm"),
-    ("MATERIAL", "PETG"), ("DATA", "30/10/2026"), ("DESENHO", "CARPI-05 · REV. B"),
+    ("MATERIAL", "PETG"), ("DATA", "30/10/2026"), ("DESENHO", "CARPI-BABI rev. 1"),
 ]
 for i, (r, v) in enumerate(celulas):
     cxl = x0 + 2.5 + (i % 3) * cel
     cyl = y0 + 17 + (i // 3) * 20
     texto(cxl, cyl + 6, r, "rotulo", "start")
     texto(cxl, cyl + 13.5, v, "valor", "start")
-texto(x1 - 2, y1 - 2.5, "Projeto das peças: Christian Scoralich Alves", "rotulo", "end")
 
 estilo = f"""
 <style>

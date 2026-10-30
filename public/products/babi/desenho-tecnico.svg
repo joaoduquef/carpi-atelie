@@ -154,63 +154,39 @@
 <ellipse class="vis" cx="334.83" cy="79.41" rx="2.01" ry="2.04"/>
 <ellipse class="vis" cx="322.41" cy="77.98" rx="1.74" ry="2.04"/>
 <ellipse class="vis" cx="315.24" cy="75.49" rx="1.29" ry="2.04"/>
-<text class="gravacao" x="342" y="125" text-anchor="middle">CARPI</text>
+<text class="gravacao" x="342" y="130.32" text-anchor="middle">CARPI</text>
 <text class="titulo" x="292" y="24" text-anchor="start">PERSPECTIVA</text>
-<rect class="vis" x="182" y="172" width="67.2" height="19.2" rx="0.6"/>
-<rect class="fino" x="182" y="203.2" width="67.2" height="3.2"/>
-<line class="ch" x1="182" y1="170.8" x2="182" y2="165.2"/>
-<line class="ch" x1="249.2" y1="170.8" x2="249.2" y2="165.2"/>
-<line class="cota" x1="182" y1="167" x2="249.2" y2="167"/>
-<path class="seta" d="M182 167 L184.8 166.15 L184.8 167.85 Z"/>
-<path class="seta" d="M249.2 167 L246.4 167.85 L246.4 166.15 Z"/>
-<text class="tc" x="215.6" y="165.7" text-anchor="middle">33,60</text>
-<line class="ch" x1="250.4" y1="172" x2="257" y2="172"/>
-<line class="ch" x1="250.4" y1="191.2" x2="257" y2="191.2"/>
-<line class="cota" x1="255.2" y1="172" x2="255.2" y2="191.2"/>
-<path class="seta" d="M255.2 172 L256.05 174.8 L254.35 174.8 Z"/>
-<path class="seta" d="M255.2 191.2 L254.35 188.4 L256.05 188.4 Z"/>
-<text class="tc" x="253.9" y="181.6" text-anchor="middle" transform="rotate(-90 253.9 181.6)">9,60</text>
-<circle class="ponto" cx="249.2" cy="204.8" r="0.7"/>
-<polyline class="cota" points="249.2,204.8 255.2,204.8 258.2,204.8"/>
-<text class="tc" x="259.4" y="206" text-anchor="start">espessura 1,60</text>
-<text class="titulo" x="182" y="159" text-anchor="start">DETALHE · TAMPA DA BASE (2:1)</text>
 <text class="titulo" x="300" y="150" text-anchor="start">NOTAS</text>
 <text class="nota" x="300" y="156.2" text-anchor="start">1. Cotas em milímetros. Não medir no desenho.</text>
 <text class="nota" x="300" y="162.4" text-anchor="start">2. REF: cota de referência, nas cristas da ondulação.</text>
 <text class="nota" x="300" y="168.6" text-anchor="start">3. Encaixes de baioneta entre as peças: 3 entradas em</text>
 <text class="nota" x="300" y="174.8" text-anchor="start">    cada conexão, giro nominal de 20°, folga radial 0,30.</text>
 <text class="nota" x="300" y="181" text-anchor="start">4. Cúpula com casca interna nominal de 0,85.</text>
-<text class="nota" x="300" y="187.2" text-anchor="start">5. Base com paredes cilíndricas de 1,90; tampa da</text>
-<text class="nota" x="300" y="193.4" text-anchor="start">    base (passagem do cabo) de 33,60 × 9,60 × 1,60.</text>
-<text class="nota" x="300" y="199.6" text-anchor="start">6. Corte A-A simplificado; lâmpada só como referência.</text>
-<rect class="moldura-fina" x="160" y="256" width="136" height="31"/>
-<line class="grade" x1="160" y1="262.2" x2="296" y2="262.2"/>
+<text class="nota" x="300" y="187.2" text-anchor="start">5. Base com paredes cilíndricas de 1,90.</text>
+<text class="nota" x="300" y="193.4" text-anchor="start">6. Corte A-A simplificado; lâmpada só como referência.</text>
+<rect class="moldura-fina" x="160" y="262.2" width="136" height="24.8"/>
 <line class="grade" x1="160" y1="268.4" x2="296" y2="268.4"/>
 <line class="grade" x1="160" y1="274.6" x2="296" y2="274.6"/>
 <line class="grade" x1="160" y1="280.8" x2="296" y2="280.8"/>
-<line class="grade" x1="169" y1="256" x2="169" y2="287"/>
-<line class="grade" x1="193" y1="256" x2="193" y2="287"/>
-<line class="grade" x1="211" y1="256" x2="211" y2="287"/>
-<text class="rotulo" x="161.6" y="260.3" text-anchor="start">ITEM</text>
-<text class="rotulo" x="170.6" y="260.3" text-anchor="start">PEÇA</text>
-<text class="rotulo" x="194.6" y="260.3" text-anchor="start">DESENHO</text>
-<text class="rotulo" x="212.6" y="260.3" text-anchor="start">MEDIDAS PRINCIPAIS</text>
-<text class="celula" x="161.6" y="266.5" text-anchor="start">1</text>
-<text class="celula" x="170.6" y="266.5" text-anchor="start">Cúpula</text>
-<text class="celula" x="194.6" y="266.5" text-anchor="start">CARPI-00</text>
-<text class="celula" x="212.6" y="266.5" text-anchor="start">altura 144,00 · Ø216,83 REF · anel Ø84,48</text>
-<text class="celula" x="161.6" y="272.7" text-anchor="start">2</text>
-<text class="celula" x="170.6" y="272.7" text-anchor="start">Saia</text>
-<text class="celula" x="194.6" y="272.7" text-anchor="start">CARPI-01</text>
-<text class="celula" x="212.6" y="272.7" text-anchor="start">altura 43,68 · Ø192,90 REF · Ø83,88 / Ø116,28</text>
-<text class="celula" x="161.6" y="278.9" text-anchor="start">3</text>
-<text class="celula" x="170.6" y="278.9" text-anchor="start">Base</text>
-<text class="celula" x="194.6" y="278.9" text-anchor="start">CARPI-02</text>
-<text class="celula" x="212.6" y="278.9" text-anchor="start">altura 130,00 · Ø120,00 / Ø115,68 · tubo Ø52,80</text>
-<text class="celula" x="161.6" y="285.1" text-anchor="start">4</text>
-<text class="celula" x="170.6" y="285.1" text-anchor="start">Tampa da base</text>
-<text class="celula" x="194.6" y="285.1" text-anchor="start">CARPI-03</text>
-<text class="celula" x="212.6" y="285.1" text-anchor="start">33,60 × 9,60 × 1,60</text>
+<line class="grade" x1="169" y1="262.2" x2="169" y2="287"/>
+<line class="grade" x1="193" y1="262.2" x2="193" y2="287"/>
+<line class="grade" x1="211" y1="262.2" x2="211" y2="287"/>
+<text class="rotulo" x="161.6" y="266.5" text-anchor="start">ITEM</text>
+<text class="rotulo" x="170.6" y="266.5" text-anchor="start">PEÇA</text>
+<text class="rotulo" x="194.6" y="266.5" text-anchor="start">DESENHO</text>
+<text class="rotulo" x="212.6" y="266.5" text-anchor="start">MEDIDAS PRINCIPAIS</text>
+<text class="celula" x="161.6" y="272.7" text-anchor="start">1</text>
+<text class="celula" x="170.6" y="272.7" text-anchor="start">Cúpula</text>
+<text class="celula" x="194.6" y="272.7" text-anchor="start">CARPI-00</text>
+<text class="celula" x="212.6" y="272.7" text-anchor="start">altura 144,00 · Ø216,83 REF · anel Ø84,48</text>
+<text class="celula" x="161.6" y="278.9" text-anchor="start">2</text>
+<text class="celula" x="170.6" y="278.9" text-anchor="start">Saia</text>
+<text class="celula" x="194.6" y="278.9" text-anchor="start">CARPI-01</text>
+<text class="celula" x="212.6" y="278.9" text-anchor="start">altura 43,68 · Ø192,90 REF · Ø83,88 / Ø116,28</text>
+<text class="celula" x="161.6" y="285.1" text-anchor="start">3</text>
+<text class="celula" x="170.6" y="285.1" text-anchor="start">Base</text>
+<text class="celula" x="194.6" y="285.1" text-anchor="start">CARPI-02</text>
+<text class="celula" x="212.6" y="285.1" text-anchor="start">altura 130,00 · Ø120,00 / Ø115,68 · tubo Ø52,80</text>
 <rect class="moldura" x="300" y="222" width="110" height="65"/>
 <line class="grade" x1="300" y1="239" x2="410" y2="239"/>
 <line class="grade" x1="300" y1="259" x2="410" y2="259"/>
@@ -229,6 +205,5 @@
 <text class="rotulo" x="339.17" y="265" text-anchor="start">DATA</text>
 <text class="valor" x="339.17" y="272.5" text-anchor="start">30/10/2026</text>
 <text class="rotulo" x="375.83" y="265" text-anchor="start">DESENHO</text>
-<text class="valor" x="375.83" y="272.5" text-anchor="start">CARPI-05 · REV. B</text>
-<text class="rotulo" x="408" y="284.5" text-anchor="end">Projeto das peças: Christian Scoralich Alves</text>
+<text class="valor" x="375.83" y="272.5" text-anchor="start">CARPI-BABI rev. 1</text>
 </svg>
