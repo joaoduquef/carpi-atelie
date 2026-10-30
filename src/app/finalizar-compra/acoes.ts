@@ -2,6 +2,7 @@
 
 import { LOJA } from "@/config/loja";
 import { calcularPedido } from "@/lib/checkout/calcular";
+import { garantirCupomNoBanco } from "@/lib/checkout/cupom";
 import type { EntradaPedido, EntradaResumo, RespostaPedido, Resumo } from "@/lib/checkout/tipos";
 import { cepValido, limparCep } from "@/lib/frete";
 import { dentroDoLimite, ipDaRequisicao } from "@/lib/limite";
@@ -87,6 +88,7 @@ export async function criarPedido(entrada: EntradaPedido): Promise<RespostaPedid
   const sb = supabaseAdmin();
   if (!sb) return { erro: "Demonstração: os pedidos passam a ser registrados quando o Supabase estiver configurado." };
 
+  if (resumo.cupom) await garantirCupomNoBanco(resumo.cupom.codigo);
   const parcelas = entrada.pagamento === "cartao" ? Math.min(12, Math.max(1, Math.floor(entrada.parcelas) || 1)) : 1;
   const { data, error } = await sb.rpc("criar_pedido", {
     p: {

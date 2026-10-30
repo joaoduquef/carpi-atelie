@@ -5,7 +5,6 @@ export type Cupom = { codigo: string; tipo: "percentual" | "fixo"; valor: number
 
 const CUPONS_DEMO: Cupom[] = [
   { codigo: "CARPI10", tipo: "percentual", valor: 10, minimoCentavos: 10000 },
-  { codigo: "FRETEQUINZE", tipo: "fixo", valor: 1500, minimoCentavos: 0, aplicaEm: "frete" },
 ];
 
 export function validarCupomDemo(codigo: string, subtotal: number): { cupom: Cupom; desconto: number } | { erro: string } {

@@ -1,4 +1,5 @@
 import "server-only";
+import { CUPONS } from "@/config/cupons";
 import { validarCupomDemo } from "@/lib/cupons";
 import { formatarReais } from "@/lib/dinheiro";
 import { supabaseAdmin } from "@/lib/supabase/servidor";
@@ -21,6 +22,13 @@ export function descontoDoCupom(c: CupomValido, baseCentavos: number): number {
 export async function validarCupom(codigoBruto: string, subtotalCentavos: number): Promise<ResultadoCupom> {
   const codigo = codigoBruto.trim().toUpperCase();
   if (!codigo) return { erro: "Digite o código do cupom." };
+
+  // cupons do código (src/config/cupons.ts)
+  const doCodigo = CUPONS.find((c) => c.codigo === codigo);
+  if (doCodigo) {
+    if (!doCodigo.ativo) return { erro: "Este cupom não está mais valendo." };
+    return { codigo: doCodigo.codigo, aplicaEm: doCodigo.aplicaEm, tipo: doCodigo.tipo, valor: doCodigo.valor };
+  }
 
   const sb = supabaseAdmin();
   if (!sb) {
@@ -49,4 +57,18 @@ export async function validarCupom(codigoBruto: string, subtotalCentavos: number
     return { erro: `Este cupom vale para compras a partir de ${formatarReais(c.valor_minimo_centavos)}.` };
 
   return { codigo: c.codigo, aplicaEm: c && "aplica_em" in c && c.aplica_em === "frete" ? "frete" : "produtos", tipo: c.tipo, valor: c.valor };
+}
+
+/**
+ * O pedido guarda o código do cupom ligado à tabela de cupons do banco. Para os cupons do código,
+ * cria a linha no banco na primeira vez em que são usados (o desconto continua vindo do código).
+ */
+export async function garantirCupomNoBanco(codigo: string): Promise<void> {
+  const c = CUPONS.find((x) => x.codigo === codigo);
+  const sb = supabaseAdmin();
+  if (!c || !sb) return;
+  const linha = { codigo: c.codigo, tipo: c.tipo, valor: c.valor };
+  let { error } = await sb.from("cupons").upsert({ ...linha, aplica_em: c.aplicaEm }, { onConflict: "codigo", ignoreDuplicates: true });
+  if (error?.message.includes("aplica_em")) ({ error } = await sb.from("cupons").upsert(linha, { onConflict: "codigo", ignoreDuplicates: true }));
+  if (error) console.error("[cupom] falha ao registrar o cupom no banco", error.message);
 }
