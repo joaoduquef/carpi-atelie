@@ -44,6 +44,7 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 | `supabase/migrations/20261024000001_checkout.sql` | criação do pedido com reserva de estoque |
 | `supabase/migrations/20261025000001_pagamento.sql` | confirmação do pagamento e cancelamento de pedidos vencidos |
 | `supabase/migrations/20261029000001_revisao.sql` | revisão de segurança: reserva de 60 min, limite de cupom, pagamento atrasado, newsletter só pelo servidor |
+| `supabase/migrations/20261030000001_altura_babi.sql` | altura da Babi corrigida para 28,6 cm |
 
 Rodar de novo um arquivo que já foi rodado dá erro em alguns casos; na dúvida, pergunte antes.
 

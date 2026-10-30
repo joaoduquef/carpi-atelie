@@ -22,7 +22,7 @@ const modelos: Modelo[] = [
     precoCentavos: 29900,
     status: "ativo",
     especificacoes: [
-      { rotulo: "Altura", valor: "30,6 cm" },
+      { rotulo: "Altura", valor: "28,6 cm" },
       { rotulo: "Largura", valor: "21,7 cm (saia ondulada); base com Ø 12 cm" },
       { rotulo: "Material", valor: "PETG translúcido" },
       { rotulo: "Lâmpada", valor: "LED 6 W, 3000 K (luz quente), bivolt, inclusa" },
