@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function PagamentosEEntrega() {
   return (
-    <PaginaTexto titulo="Pagamentos e entrega" provisorio>
+    <PaginaTexto titulo="Pagamentos e entrega">
       <CartaoTexto titulo="Formas de pagamento" tom="rosa">
         <ul>
           <li>Pix, com 5% de desconto nos produtos. O QR Code e o código copia e cola aparecem na própria página, e a confirmação é automática.</li>
