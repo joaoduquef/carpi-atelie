@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "@/components/ui/Link";
+import { LOJA } from "@/config/loja";
 import { useEffect, useRef, useState } from "react";
 import { useCatalogo } from "@/components/loja/CatalogoProvider";
 import { useLoja } from "@/components/loja/LojaProvider";
@@ -232,7 +233,7 @@ export function Checkout({ cliente: inicial, enderecos, teste }: { cliente: Dado
                   </label>
                 ))}
                 <p className="text-xs text-texto-suave">
-                  Prazo = {cat.modelos.find((m) => m.status === "ativo")?.prazoProducaoDias ?? 5} dias úteis de produção + transporte.
+                  Prazo = {LOJA.prazoProducaoDias} dias úteis de produção + transporte.
                   {resumo.frete.simulado && " Valores de exemplo: o frete real entra quando o Melhor Envio for ligado."}
                 </p>
               </div>

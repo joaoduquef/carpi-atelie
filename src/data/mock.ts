@@ -1,5 +1,6 @@
 // Catálogo fictício, usado só enquanto o Supabase não estiver configurado
 // (por exemplo, no link de teste da Vercel antes de colar as chaves).
+import { LOJA } from "@/config/loja";
 import { foto } from "@/lib/fotos";
 import type { Catalogo, Cor, Imagem, Modelo, Variacao } from "@/lib/tipos";
 
@@ -26,9 +27,9 @@ const modelos: Modelo[] = [
       { rotulo: "Material", valor: "PETG translúcido" },
       { rotulo: "Lâmpada", valor: "LED 6 W, 3000 K (luz quente), bivolt, inclusa" },
       { rotulo: "Peso", valor: "Aproximadamente 550 a 700 g" },
-      { rotulo: "Produção", valor: "Feito sob encomenda em 5 dias úteis" },
+      { rotulo: "Produção", valor: `Feito sob encomenda em ${LOJA.prazoProducaoDias} dias úteis` },
     ],
-    prazoProducaoDias: 5,
+    prazoProducaoDias: LOJA.prazoProducaoDias,
     embalagem,
     ordem: 1,
   },
@@ -40,7 +41,7 @@ const modelos: Modelo[] = [
       precoCentavos: null,
       status: "em_breve",
       especificacoes: [],
-      prazoProducaoDias: 5,
+      prazoProducaoDias: LOJA.prazoProducaoDias,
       embalagem,
       ordem: i + 2,
     }),

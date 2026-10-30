@@ -15,7 +15,7 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 
 ### Pendências (as vendas já estão abertas)
 
-- [ ] **Rodar no SQL Editor** os arquivos de banco que faltarem (tabela "Atualizações do banco", abaixo), principalmente `20261029000001_revisao.sql`, e o comando do prazo de 5 dias e da caixa de 650 g.
+- [ ] **Rodar no SQL Editor** os arquivos de banco que faltarem (tabela "Atualizações do banco", abaixo), principalmente `20261029000001_revisao.sql`, e o comando da caixa de 650 g (o prazo de produção agora vem de `src/config/loja.ts`, não precisa mais mexer no banco).
 - [ ] **Proteção contra robôs no cadastro e login:** no Supabase, **Authentication → Attack Protection**, ligar o CAPTCHA (Cloudflare Turnstile, grátis) e conferir os limites em **Rate Limits**. Hoje os limites do site valem nos formulários, mas o Supabase também pode ser chamado direto.
 
 - [ ] **E-mails pelo Resend** (resend.com, grátis até 3.000 por mês): sem isso, só os e-mails da equipe do Supabase recebem a confirmação de cadastro, e os e-mails saem em inglês. Passos: criar a conta, cadastrar o domínio carpiatelie.com.br e copiar os registros DNS para o Registro.br, ativar o SMTP no Supabase (**Authentication → Emails → SMTP Settings**: host `smtp.resend.com`, porta `465`, usuário `resend`, senha = API Key do Resend, remetente `contato@carpiatelie.com.br`) e colar os modelos de `supabase/templates/`.
@@ -184,6 +184,7 @@ Outros comandos: `npm run build` (gera a versão de produção) e `npm run lint`
 | Desenho técnico da Babi | Gerado pelo arquivo `scripts/desenho-tecnico-babi.py` (as medidas ficam no topo dele). Rode `python3 scripts/desenho-tecnico-babi.py` para criar o `desenho-tecnico.svg`, gere o `.png` a partir dele e aumente o número em `src/lib/fotos.ts`. |
 | Foto de João e Nalu (página Sobre nós) | `public/sobre/joao-e-nalu.jpg` — retrato (em pé, proporção 4 × 5), fundo branco. Depois de trocar, aumente o número em `src/lib/fotos.ts`. |
 | E-mail, Instagram, CNPJ, razão social, texto da barra do topo, aviso das marcas de impressão (embaixo de "Como funciona" em todos os produtos) | `src/config/loja.ts` |
+| Prazo de produção (vale no site todo: produto, frete, finalização, Sobre nós, Pagamentos e entrega) | `src/config/loja.ts`, `prazoProducaoDias` |
 | Abrir as vendas (tirar o aviso "Vendas abrem em breve") | `src/config/loja.ts`, trocar `vendasAbertas: false` por `true` (só depois da Fase 4) |
 | Preço, descrição e medidas (até a Fase 2) | `src/data/mock.ts` |
 | Cores e efeito das luzes | `src/app/globals.css` (bloco `:root` para as cores; seção "Luzes" para o efeito de apagar) |

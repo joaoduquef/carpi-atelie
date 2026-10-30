@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LOJA } from "@/config/loja";
 import Image from "next/image";
 import { foto } from "@/lib/fotos";
 import { TituloSecao } from "@/components/ui/TituloSecao";
@@ -55,7 +56,7 @@ export default function Sobre() {
             a diferença no ambiente sem precisar de muito.
           </p>
           <p className="max-w-[56ch] text-lg leading-relaxed text-texto-suave">
-            Produzimos sob encomenda, com prazo de preparo de 5 dias úteis e envio com rastreamento.
+            Produzimos sob encomenda, com prazo de preparo de {LOJA.prazoProducaoDias} dias úteis e envio com rastreamento.
           </p>
         </div>
       </section>

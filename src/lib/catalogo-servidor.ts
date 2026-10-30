@@ -1,6 +1,7 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { cache } from "react";
+import { LOJA } from "@/config/loja";
 import { CATALOGO_FICTICIO } from "@/data/mock";
 import { foto } from "@/lib/fotos";
 import { supabasePublico } from "@/lib/supabase/servidor";
@@ -71,8 +72,11 @@ async function lerCatalogo(sb: NonNullable<ReturnType<typeof supabasePublico>>):
       descricao: m.descricao,
       precoCentavos: m.preco_centavos,
       status: m.status as StatusModelo,
-      especificacoes: (m.especificacoes ?? []) as Especificacao[],
-      prazoProducaoDias: m.prazo_producao_dias,
+      // o prazo de produção vem da configuração da loja, para ser igual no site todo
+      especificacoes: ((m.especificacoes ?? []) as Especificacao[]).map((e) =>
+        e.rotulo === "Produção" ? { ...e, valor: `Feito sob encomenda em ${LOJA.prazoProducaoDias} dias úteis` } : e,
+      ),
+      prazoProducaoDias: LOJA.prazoProducaoDias,
       embalagem: {
         pesoKg: Number(m.peso_kg),
         larguraCm: Number(m.largura_cm),

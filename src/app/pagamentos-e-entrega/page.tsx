@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LOJA } from "@/config/loja";
 import Link from "@/components/ui/Link";
 import { CartaoTexto, PaginaTexto } from "@/components/ui/PaginaTexto";
 
@@ -18,7 +19,7 @@ export default function PagamentosEEntrega() {
         </ul>
       </CartaoTexto>
       <CartaoTexto titulo="Prazos" tom="mare">
-        <p>Cada peça é feita sob encomenda. O prazo de entrega é a soma de 5 dias úteis de produção com o prazo da transportadora.</p>
+        <p>Cada peça é feita sob encomenda. O prazo de entrega é a soma de {LOJA.prazoProducaoDias} dias úteis de produção com o prazo da transportadora.</p>
       </CartaoTexto>
       <CartaoTexto titulo="Frete" tom="damasco">
         <ul>

@@ -11,6 +11,8 @@ export const LOJA = {
    * "Vendas abrem em breve" no lugar de "Finalizar compra". Troque para true para abrir as vendas.
    */
   vendasAbertas: true,
+  /** Prazo de produção de todas as peças, em dias úteis (vale no site todo, acima do que estiver no banco). */
+  prazoProducaoDias: 5,
   /** Entrega (Fase 3). O frete é sempre calculado no servidor. */
   envio: {
     /** CEP de onde as peças saem (Belo Horizonte, MG). Sem o token do Melhor Envio, o frete é simulado. */
