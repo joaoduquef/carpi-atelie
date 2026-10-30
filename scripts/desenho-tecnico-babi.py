@@ -125,7 +125,7 @@ add(f'<rect class="folha" x="0" y="0" width="{W}" height="{H}"/>')
 add(f'<rect class="moldura" x="10" y="10" width="{W - 20}" height="{H - 20}"/>')
 
 # ================================================================ vista frontal
-cx, chao = 82, 136
+cx, chao = 86, 140
 
 
 def y(h):
@@ -152,11 +152,11 @@ cota_v(cx - CUP_ENVELOPE / 2 * K - 9, y(ALTURA), chao, br(ALTURA), cx - rb)
 cota_v(cx + CUP_ENVELOPE / 2 * K + 7, y(ALTURA), y(H_CUP), br(CUP_ALTURA), cx + R_CUP_TOPO * K)
 cota_h(y(ALTURA) - 5, cx - CUP_ENVELOPE / 2 * K, cx + CUP_ENVELOPE / 2 * K, f"Ø{br(CUP_ENVELOPE)} REF", y(H_CUP))
 cota_h(chao + 12, cx - rb, cx + rb, f"Ø{br(BASE_D)}", chao)
-chamada(cx + SAIA_ENVELOPE / 2 * K - 1, y(H_SAIA) - 0.6, cx + SAIA_ENVELOPE / 2 * K + 6, y(H_SAIA) + 6, cx + SAIA_ENVELOPE / 2 * K + 10, f"Ø{br(SAIA_ENVELOPE)} REF")
-texto(20, 24, "VISTA FRONTAL", "titulo", "start")
+cota_h(chao + 21, cx - SAIA_ENVELOPE / 2 * K, cx + SAIA_ENVELOPE / 2 * K, f"Ø{br(SAIA_ENVELOPE)} REF", y(H_SAIA))
+texto(cx, 26, "VISTA FRONTAL", "titulo")
 
 # ================================================================ vista superior (1º diedro: abaixo da frontal)
-sy = chao + 26 + CUP_ENVELOPE / 2 * K
+sy = 216
 rc = CUP_ENVELOPE / 2 * K
 caminho(lobado(cx, sy, rc, 18 * K))
 caminho(lobado(cx, sy, R_CUP_TOPO * K, 8 * K), "vis-grossa")
@@ -171,11 +171,11 @@ linha(cx - rc - 5, sy, cx + rc + 5, sy, "centro")
 linha(cx, sy - rc - 5, cx, sy + rc + 5, "centro")
 chamada(cx + CUP_ANEL / 2 * K * 0.71, sy - CUP_ANEL / 2 * K * 0.71, cx + rc + 6, sy - rc + 4, cx + rc + 10, f"Ø{br(CUP_ANEL)} anel da cúpula")
 chamada(cx + BASE_TUBO / 2 * K * 0.71, sy + BASE_TUBO / 2 * K * 0.71, cx + rc + 6, sy + rc - 4, cx + rc + 10, f"Ø{br(BASE_TUBO)} / Ø{br(BASE_FURO)} tubo da base")
-texto(cx + rc + 10, sy + 1.2, "12 bolinhas, a cada 30°", "tc", "start")
-texto(20, sy - rc - 4, "VISTA SUPERIOR", "titulo", "start")
+chamada(cx + 98 * K + R_BOLINHA * K * 2.6, sy, cx + rc + 6, sy, cx + rc + 10, "12 bolinhas, a cada 30°")
+texto(cx, sy - rc - 7, "VISTA SUPERIOR", "titulo")
 
 # ================================================================ corte A-A (mesma escala, alinhado com a frontal)
-kx = 205
+kx = 226.5
 
 
 def xs(r):
@@ -222,10 +222,10 @@ chamada(xs(BASE_D / 2 - 10), y(BASE_FUNDO / 2), xs(BASE_D / 2) + 8, y(10), xs(BA
 chamada(xs(SAIA_ASSENTO / 2), y(H_CUP - 8), xs(SAIA_ENVELOPE / 2) + 6, y(118), xs(SAIA_ENVELOPE / 2) + 10, f"assento Ø{br(SAIA_ASSENTO)}")
 chamada(xs(-CUP_ANEL / 2), y(H_CUP + 1), xs(-CUP_ENVELOPE / 2) - 4, y(160), xs(-CUP_ENVELOPE / 2) - 8, "baioneta")
 chamada(xs(-9), y(190), xs(-CUP_ENVELOPE / 2) - 4, y(215), xs(-CUP_ENVELOPE / 2) - 8, "lâmpada (ref.)")
-texto(kx - CUP_ENVELOPE / 2 * K, 24, "CORTE A-A", "titulo", "start")
+texto(kx, 26, "CORTE A-A", "titulo")
 
 # ================================================================ perspectiva
-px, pchao, KP, ACH = 342, 128, 0.29, 0.2
+px, pchao, KP, ACH = 352, 140, K, 0.2
 
 
 def ponto(h, R, prof, fase, t):
@@ -257,24 +257,29 @@ for k in range(LOBULOS):
         bx, by = ponto(H_BOLINHAS, raio_cupula(H_BOLINHAS), 0, 0, t)
         add(f'<ellipse class="vis" cx="{f(bx)}" cy="{f(by)}" rx="{f(R_BOLINHA * KP * 2.2 * (0.5 + 0.5 * math.sin(t)))}" ry="{f(R_BOLINHA * KP * 2.2)}"/>')
 texto(px, pchao + BASE_D / 2 * KP * ACH - 4 * KP, "CARPI", "gravacao")
-texto(px - 50, 24, "PERSPECTIVA", "titulo", "start")
+texto(px, 26, "PERSPECTIVA", "titulo")
 
-# ================================================================ notas
-notas = [
-    "NOTAS",
-    "1. Cotas em milímetros. Não medir no desenho.",
-    "2. REF: cota de referência, nas cristas da ondulação.",
-    "3. Encaixes de baioneta entre as peças: 3 entradas em",
-    "    cada conexão, giro nominal de 20°, folga radial 0,30.",
-    f"4. Cúpula com casca interna nominal de {br(CUP_CASCA)}.",
-    f"5. Base com paredes cilíndricas de {br(BASE_PAREDE)}.",
-    "6. Corte A-A simplificado; lâmpada só como referência.",
-]
-for i, n in enumerate(notas):
-    texto(300, 150 + i * 6.2, n, "titulo" if i == 0 else "nota", "start")
+# ================================================================ notas (duas colunas) e lista de peças
+nx, ny = 203, 186
+notas = (
+    [
+        "1. Cotas em milímetros. Não medir no desenho.",
+        "2. REF: cota de referência, nas cristas da ondulação.",
+        "3. Encaixes de baioneta entre as peças: 3 entradas em",
+        "    cada conexão, giro nominal de 20°, folga radial 0,30.",
+    ],
+    [
+        f"4. Cúpula com casca interna nominal de {br(CUP_CASCA)}.",
+        f"5. Base com paredes cilíndricas de {br(BASE_PAREDE)}.",
+        "6. Corte A-A simplificado; lâmpada só como referência.",
+    ],
+)
+texto(nx, ny, "NOTAS", "titulo", "start")
+for c, coluna in enumerate(notas):
+    for i, n in enumerate(coluna):
+        texto(nx + c * 100 + (3 if n.startswith("  ") else 0), ny + 7.5 + i * 6.2, n.strip(), "nota", "start")
 
-# ================================================================ lista de peças
-tx, ty, cw = 160, H - 10 - 6.2 * 4, [9, 24, 18, 85]
+tx, ty, cw = nx, 222, [12, 34, 34, 110]
 cab = ["ITEM", "PEÇA", "DESENHO", "MEDIDAS PRINCIPAIS"]
 linhas_tab = [
     ["1", "Cúpula", "CARPI-00", f"altura {br(CUP_ALTURA)} · Ø{br(CUP_ENVELOPE)} REF · anel Ø{br(CUP_ANEL)}"],
@@ -293,33 +298,33 @@ for c in cw[:-1]:
 for i, lin in enumerate([cab] + linhas_tab):
     xx = tx
     for c, v in zip(cw, lin):
-        texto(xx + 1.6, ty + alt * i + 4.3, v, "rotulo" if i == 0 else "celula", "start")
+        texto(xx + 1.8, ty + alt * i + 4.3, v, "rotulo" if i == 0 else "celula", "start")
         xx += c
 
-# ================================================================ legenda
-x0, y0, x1, y1 = 300, 222, W - 10, H - 10
-add(f'<rect class="moldura" x="{x0}" y="{y0}" width="{x1 - x0}" height="{y1 - y0}"/>')
-linha(x0, y0 + 17, x1, y0 + 17, "grade")
-linha(x0, y0 + 37, x1, y0 + 37, "grade")
-cel = (x1 - x0) / 3
-for i in (1, 2):
-    linha(x0 + cel * i, y0 + 17, x0 + cel * i, y1, "grade")
-texto(x0 + 4, y0 + 7.5, "CARPI ATELIÊ", "marca", "start")
-texto(x0 + 4, y0 + 13.5, "Abajur BABI · desenho de conjunto", "nota", "start")
+# ================================================================ legenda (faixa na largura toda, embaixo)
+x0, y0, x1, y1 = 10, 262, W - 10, H - 10
+linha(x0, y0, x1, y0, "moldura")
+marca = 120
+linha(x0 + marca, y0, x0 + marca, y1, "grade")
+texto(x0 + 6, y0 + 11, "CARPI ATELIÊ", "marca", "start")
+texto(x0 + 6, y0 + 18.5, "Abajur BABI · desenho de conjunto", "nota", "start")
 celulas = [
     ("PROJEÇÃO", "1º diedro"), ("ESCALA", "1:3 (A3)"), ("UNIDADE", "mm"),
     ("MATERIAL", "PETG"), ("DATA", "30/10/2026"), ("DESENHO", "CARPI-BABI rev. 1"),
 ]
+cel = (x1 - x0 - marca) / len(celulas)
 for i, (r, v) in enumerate(celulas):
-    cxl = x0 + 2.5 + (i % 3) * cel
-    cyl = y0 + 17 + (i // 3) * 20
-    texto(cxl, cyl + 6, r, "rotulo", "start")
-    texto(cxl, cyl + 13.5, v, "valor", "start")
+    xc = x0 + marca + i * cel
+    if i:
+        linha(xc, y0, xc, y1, "grade")
+    texto(xc + 4, y0 + 9, r, "rotulo", "start")
+    texto(xc + 4, y0 + 17, v, "valor", "start")
 
 estilo = f"""
 <style>
   text {{ font-family: 'Liberation Sans', Arial, Helvetica, sans-serif; fill: {TRACO}; }}
   .folha {{ fill: #fff; }}
+  line.moldura {{ stroke-width: 0.6; }}
   .moldura {{ fill: none; stroke: {TRACO}; stroke-width: 0.7; }}
   .moldura-fina {{ fill: none; stroke: {TRACO}; stroke-width: 0.45; }}
   .grade {{ stroke: {TRACO}; stroke-width: 0.3; }}
