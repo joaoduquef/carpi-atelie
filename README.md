@@ -45,6 +45,7 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 | `supabase/migrations/20261025000001_pagamento.sql` | confirmação do pagamento e cancelamento de pedidos vencidos |
 | `supabase/migrations/20261029000001_revisao.sql` | revisão de segurança: reserva de 60 min, limite de cupom, pagamento atrasado, newsletter só pelo servidor |
 | `supabase/migrations/20261030000001_altura_babi.sql` | altura da Babi corrigida para 28,6 cm |
+| `supabase/migrations/20261030000002_preco_349.sql` | preço dos abajures: R$ 349,00 |
 
 Rodar de novo um arquivo que já foi rodado dá erro em alguns casos; na dúvida, pergunte antes.
 

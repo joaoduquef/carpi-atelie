@@ -72,7 +72,7 @@ export const CONTA_DEMO: DadosConta = {
       numero: 1042,
       criadoEm: "2026-10-14T12:00:00Z",
       status: "enviado",
-      totalCentavos: 28405,
+      totalCentavos: 33155,
       pagamento: "Pix",
       codigoRastreio: "JD123456789BR",
       urlRastreio: "https://www.jadlog.com.br/jadlog/tracking",

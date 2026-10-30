@@ -9,7 +9,7 @@ on conflict (slug) do update set nome = excluded.nome, hex = excluded.hex, fundo
 insert into public.modelos (slug, nome, descricao, preco_centavos, status, especificacoes, prazo_producao_dias, peso_kg, largura_cm, altura_cm, comprimento_cm, ordem) values
   ('babi', 'Babi',
    E'Um abajur de saia ondulada, feito para ser visto mesmo quando apagado. A cúpula translúcida ganha outra vida quando acesa, espalhando uma luz quente e suave pelo ambiente.\n\nAcompanha parte elétrica e lâmpada, pronto para iluminar seu espaço.',
-   29900, 'ativo',
+   34900, 'ativo',
    '[{"rotulo":"Altura","valor":"28,6 cm"},
      {"rotulo":"Largura","valor":"21,7 cm (saia ondulada); base com Ø 12 cm"},
      {"rotulo":"Material","valor":"PETG translúcido"},

@@ -2,7 +2,7 @@
 
 const formatador = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 
-/** 29900 → "R$ 299,00" (com espaço comum, para não quebrar layout) */
+/** 34900 → "R$ 349,00" (com espaço comum, para não quebrar layout) */
 export function formatarReais(centavos: number): string {
   return formatador.format(centavos / 100).replace(/ /g, " ");
 }

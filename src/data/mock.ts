@@ -19,7 +19,7 @@ const modelos: Modelo[] = [
     nome: "Babi",
     descricao:
       "Um abajur de saia ondulada, feito para ser visto mesmo quando apagado. A cúpula translúcida ganha outra vida quando acesa, espalhando uma luz quente e suave pelo ambiente.\n\nAcompanha parte elétrica e lâmpada, pronto para iluminar seu espaço.",
-    precoCentavos: 29900,
+    precoCentavos: 34900,
     status: "ativo",
     especificacoes: [
       { rotulo: "Altura", valor: "28,6 cm" },
