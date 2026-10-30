@@ -12,7 +12,7 @@ export const MEDIDAS: Record<string, Especificacao[]> = {
     { rotulo: "Base", valor: "Ø 12 cm, com 13 cm de altura" },
     { rotulo: "Material", valor: "PETG translúcido" },
     { rotulo: "Lâmpada", valor: "LED 4,5 W, 3000 K (luz quente), bivolt, inclusa" },
-    { rotulo: "Peso", valor: "Aproximadamente 550 a 700 g" },
+    { rotulo: "Peso", valor: "Aproximadamente 650 g" },
     { rotulo: "Produção", valor: `Feito sob encomenda em ${LOJA.prazoProducaoDias} dias úteis` },
   ],
 };

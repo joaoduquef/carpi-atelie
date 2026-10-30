@@ -14,7 +14,7 @@ insert into public.modelos (slug, nome, descricao, preco_centavos, status, espec
      {"rotulo":"Largura","valor":"21,7 cm (saia ondulada); base com Ø 12 cm"},
      {"rotulo":"Material","valor":"PETG translúcido"},
      {"rotulo":"Lâmpada","valor":"LED 4,5 W, 3000 K (luz quente), bivolt, inclusa"},
-     {"rotulo":"Peso","valor":"Aproximadamente 550 a 700 g"},
+     {"rotulo":"Peso","valor":"Aproximadamente 650 g"},
      {"rotulo":"Produção","valor":"Feito sob encomenda em 5 dias úteis"}]'::jsonb,
    5, 0.65, 25, 35, 25, 1),
   ('isa', 'Isa', 'Novo modelo da CARPI, nas cores Maré, Damasco e Romã.', null, 'em_breve', '[]'::jsonb, 5, 0.65, 25, 35, 25, 2),

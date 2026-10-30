@@ -32,7 +32,7 @@ export function Newsletter() {
   }
 
   return (
-    <section aria-labelledby="titulo-news" className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+    <section id="newsletter" aria-labelledby="titulo-news" className="scroll-mt-6 mx-auto w-full max-w-6xl px-4 sm:px-6">
       <form
         onSubmit={enviar}
         noValidate

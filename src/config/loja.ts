@@ -28,7 +28,11 @@ export const LOJA = {
   instagram: "carpiatelie",
   razaoSocial: "69.666.538 JOAO DUQUE DA SILVA FILHO",
   cnpj: "69.666.538/0001-36",
-  anuncio: "Cupom FRETEQUINZE para desconto no frete em todas as regiões",
+  /** faixa do topo: as mensagens se alternam a cada 5 segundos (href = link ao clicar) */
+  anuncios: [
+    { texto: "Cupom FRETEQUINZE para desconto no frete em todas as regiões" },
+    { texto: "Inscreva-se na nossa newsletter!", href: "#newsletter" },
+  ],
   /** aparece na página de todos os produtos, embaixo dos cards de "Como funciona" */
   avisoImpressao:
     "Como cada abajur é produzido sob encomenda, camada por camada, ele pode ter pequenas marcas e variações da impressão. Elas não são defeitos: são o registro de uma peça feita uma a uma, só para você.",

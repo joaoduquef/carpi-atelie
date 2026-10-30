@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { LOJA } from "@/config/loja";
 import { Cabecalho } from "@/components/layout/Cabecalho";
+import { Anuncio } from "@/components/layout/Anuncio";
 import { Newsletter } from "@/components/layout/Newsletter";
 import { Rodape } from "@/components/layout/Rodape";
 import { Aviso } from "@/components/loja/Aviso";
@@ -87,7 +88,7 @@ export default async function RootLayout({
                     paddingTop: "calc(8px + env(safe-area-inset-top, 0px))",
                   }}
                 >
-                  {LOJA.anuncio}
+                  <Anuncio mensagens={LOJA.anuncios} />
                 </div>
                 <Cabecalho
                   nomeUsuario={
