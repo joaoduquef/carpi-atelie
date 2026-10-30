@@ -35,6 +35,7 @@ type PedidoTela = {
   descontoCupom: number;
   descontoPix: number;
   frete: number;
+  cupomFrete: string | null;
   total: number;
   itens: { nome: string; quantidade: number }[];
   titularNome: string;
@@ -357,7 +358,7 @@ export function Pagamento({ pedido, pagbankLigado, podeSimular, sandbox }: { ped
           <dl className="grid grid-cols-[1fr_auto] gap-x-3 gap-y-1.5 border-t border-linha pt-3 text-[0.95rem] tabular-nums">
             <Linha rotulo="Subtotal" valor={formatarReais(pedido.subtotal)} />
             {pedido.descontoCupom > 0 && <Linha rotulo="Cupom" valor={`− ${formatarReais(pedido.descontoCupom)}`} />}
-            <Linha rotulo="Frete" valor={pedido.frete === 0 ? "Grátis" : formatarReais(pedido.frete)} />
+            <Linha rotulo={pedido.cupomFrete ? `Frete (com cupom ${pedido.cupomFrete})` : "Frete"} valor={pedido.frete === 0 ? "Grátis" : formatarReais(pedido.frete)} />
             {pedido.forma === "pix" && pedido.descontoPix > 0 && <Linha rotulo="Desconto Pix (5%)" valor={`− ${formatarReais(pedido.descontoPix)}`} />}
             {pedido.forma === "cartao" && planoEscolhido && !planoEscolhido.semJuros && (
               <Linha rotulo="Juros do parcelamento" valor={formatarReais(planoEscolhido.totalCentavos - (pedido.subtotal - pedido.descontoCupom + pedido.frete))} />

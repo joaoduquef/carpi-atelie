@@ -192,7 +192,7 @@ export default async function PaginaProduto({ params, searchParams }: Props) {
         </Acordeao>
         <Acordeao titulo="Pagamentos e entrega" tom="amarelo">
           <p>
-            Pix com 5% de desconto ou cartão de crédito em até 12x. Frete grátis para todo o Sudeste. Prazo de entrega = {modelo.prazoProducaoDias} dias úteis
+            Pix com 5% de desconto ou cartão de crédito em até 12x. Cupom FRETEQUINZE: R$ 15 de desconto no frete para todas as regiões. Prazo de entrega = {modelo.prazoProducaoDias} dias úteis
             de produção + prazo da transportadora. Você acompanha o pedido pelo código de rastreio em Minha conta.
           </p>
           <Link href="/pagamentos-e-entrega" className="justify-self-start font-bold underline underline-offset-4">

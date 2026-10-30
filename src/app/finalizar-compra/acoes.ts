@@ -93,9 +93,10 @@ export async function criarPedido(entrada: EntradaPedido): Promise<RespostaPedid
       perfil_id: usuario.id,
       itens: resumo.linhas.map((l) => ({ variacao_id: l.variacaoId, nome: l.nome, preco_unitario: l.precoUnitarioCentavos, quantidade: l.quantidade })),
       subtotal: resumo.subtotalCentavos,
-      desconto_cupom: resumo.cupom?.descontoCentavos ?? 0,
+      desconto_cupom: resumo.cupom && !resumo.cupom.noFrete ? resumo.cupom.descontoCentavos : 0,
       desconto_pix: resumo.descontoPixCentavos,
-      frete_cobrado: freteEscolhido.cobradoCentavos,
+      // cupom de frete: grava o frete já com o desconto (assim Pix, cartão e troca de forma de pagamento continuam certos)
+      frete_cobrado: freteEscolhido.cobradoCentavos - (resumo.cupom?.noFrete ? resumo.cupom.descontoCentavos : 0),
       frete_custo: freteEscolhido.custoCentavos,
       juros: resumo.jurosCentavos,
       total: resumo.totalCentavos,

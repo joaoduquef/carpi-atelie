@@ -31,7 +31,8 @@ export type ParcelaResumo = { vezes: number; valorParcelaCentavos: number; total
 export type Resumo = {
   linhas: LinhaResumo[];
   subtotalCentavos: number;
-  cupom: { codigo: string; descontoCentavos: number } | null;
+  /** noFrete: o desconto é no frete (já descontado do total; o frete das opções aparece cheio) */
+  cupom: { codigo: string; descontoCentavos: number; noFrete: boolean } | null;
   erroCupom: string | null;
   frete: { opcoes: OpcaoFreteResumo[]; escolhidaId: string | null; simulado: boolean } | null;
   erroFrete: string | null;

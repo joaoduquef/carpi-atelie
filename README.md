@@ -8,7 +8,7 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 |---|---|---|
 | 1. Visual | Todas as páginas, paleta, fonte, celular e "Apagar as luzes" | **Aprovada** |
 | 2. Banco de dados | Supabase, cadastro e login, produtos e estoque vindos do banco | **No ar** (www.carpiatelie.com.br ligado ao Supabase) |
-| 3. Sacola e checkout | Cupons, frete pelo Melhor Envio, frete grátis no Sudeste | **Pronta para teste** (veja "Fase 3: configurar" abaixo) |
+| 3. Sacola e checkout | Cupons (nos produtos ou no frete), frete pelo Melhor Envio | **Pronta para teste** (veja "Fase 3: configurar" abaixo) |
 | 4. Pagamento | PagBank: Pix e cartão, aviso de pagamento, baixa de estoque | **Pronta para teste** (veja "Fase 4: configurar" abaixo) |
 | 5. Painel admin | Produtos, pedidos, status, rastreio, cupons, newsletter, e-mails | A fazer |
 | 6. Publicação | Vercel, domínio, checklist final | Domínio no ar; falta o checklist abaixo |
@@ -28,7 +28,7 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 
 ### O que ainda é simulado
 
-- **Frete:** enquanto o token do Melhor Envio e o CEP de origem não estiverem configurados, aparecem duas opções de exemplo (econômica e expressa). A regra do frete grátis no Sudeste já vale: a opção mais barata sai grátis e nas outras a cliente paga só a diferença.
+- **Frete:** enquanto o token do Melhor Envio e o CEP de origem não estiverem configurados, aparecem duas opções de exemplo (econômica e expressa). O frete grátis no Sudeste está desligado; o desconto no frete agora é o cupom FRETEQUINZE (R$ 15,00).
 - **Cupom:** com o Supabase configurado, os cupons vêm da tabela `cupons` (até o painel da Fase 5, crie pelo SQL, veja abaixo). Sem o Supabase, só o cupom de teste `CARPI10`.
 - **Juros do cartão:** valores de exemplo (2,99% ao mês). Os reais vêm do intermediador.
 - **Pagamento:** no sandbox do PagBank, nada é cobrado de verdade. O pedido fica "Aguardando pagamento" e reserva o estoque; sem pagamento em 1 hora, é cancelado sozinho e o estoque volta.
@@ -46,6 +46,7 @@ Loja online da CARPI Ateliê (carpiatelie.com.br): abajures de design feitos sob
 | `supabase/migrations/20261029000001_revisao.sql` | revisão de segurança: reserva de 60 min, limite de cupom, pagamento atrasado, newsletter só pelo servidor |
 | `supabase/migrations/20261030000001_altura_babi.sql` | altura da Babi corrigida para 28,6 cm |
 | `supabase/migrations/20261030000002_preco_349.sql` | preço dos abajures: R$ 349,00 |
+| `supabase/migrations/20261030000003_cupom_frete.sql` | cupom de frete FRETEQUINZE (R$ 15,00) e lâmpada de 4,5 W |
 
 Rodar de novo um arquivo que já foi rodado dá erro em alguns casos; na dúvida, pergunte antes.
 

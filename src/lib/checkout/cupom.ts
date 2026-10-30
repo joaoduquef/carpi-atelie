@@ -3,9 +3,21 @@ import { validarCupomDemo } from "@/lib/cupons";
 import { formatarReais } from "@/lib/dinheiro";
 import { supabaseAdmin } from "@/lib/supabase/servidor";
 
-export type ResultadoCupom = { codigo: string; descontoCentavos: number } | { erro: string };
+export type CupomValido = {
+  codigo: string;
+  /** "produtos": desconto no subtotal; "frete": desconto no frete (calculado depois que o frete é escolhido) */
+  aplicaEm: "produtos" | "frete";
+  tipo: "percentual" | "fixo";
+  valor: number;
+};
+export type ResultadoCupom = CupomValido | { erro: string };
 
-/** Confere o cupom no banco (criado no painel, Fase 5) e calcula o desconto sobre o subtotal dos produtos. */
+/** Desconto do cupom sobre uma base (subtotal dos produtos ou valor do frete), nunca maior que a base. */
+export function descontoDoCupom(c: CupomValido, baseCentavos: number): number {
+  return Math.min(baseCentavos, c.tipo === "percentual" ? Math.round((baseCentavos * c.valor) / 100) : c.valor);
+}
+
+/** Confere o cupom no banco (criado no painel, Fase 5). O desconto é calculado com descontoDoCupom. */
 export async function validarCupom(codigoBruto: string, subtotalCentavos: number): Promise<ResultadoCupom> {
   const codigo = codigoBruto.trim().toUpperCase();
   if (!codigo) return { erro: "Digite o código do cupom." };
@@ -14,12 +26,12 @@ export async function validarCupom(codigoBruto: string, subtotalCentavos: number
   if (!sb) {
     // sem o Supabase: só o cupom de teste
     const r = validarCupomDemo(codigo, subtotalCentavos);
-    return "erro" in r ? r : { codigo: r.cupom.codigo, descontoCentavos: r.desconto };
+    return "erro" in r ? r : { codigo: r.cupom.codigo, aplicaEm: r.cupom.aplicaEm ?? "produtos", tipo: r.cupom.tipo, valor: r.cupom.valor };
   }
 
   const { data: c, error } = await sb
     .from("cupons")
-    .select("codigo, tipo, valor, valido_de, valido_ate, limite_usos, usos, valor_minimo_centavos, ativo")
+    .select("codigo, tipo, valor, aplica_em, valido_de, valido_ate, limite_usos, usos, valor_minimo_centavos, ativo")
     .eq("codigo", codigo)
     .maybeSingle();
   if (error) {
@@ -35,6 +47,5 @@ export async function validarCupom(codigoBruto: string, subtotalCentavos: number
   if (subtotalCentavos < c.valor_minimo_centavos)
     return { erro: `Este cupom vale para compras a partir de ${formatarReais(c.valor_minimo_centavos)}.` };
 
-  const desconto = c.tipo === "percentual" ? Math.round((subtotalCentavos * c.valor) / 100) : Math.min(subtotalCentavos, c.valor);
-  return { codigo: c.codigo, descontoCentavos: desconto };
+  return { codigo: c.codigo, aplicaEm: c.aplica_em === "frete" ? "frete" : "produtos", tipo: c.tipo, valor: c.valor };
 }

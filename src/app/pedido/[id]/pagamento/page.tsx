@@ -27,6 +27,8 @@ export default async function PaginaPagamento({ params }: { params: Promise<{ id
         descontoCupom: pedido.descontoCupom,
         descontoPix: pedido.descontoPix,
         frete: pedido.frete,
+        // cupom de frete: o frete gravado já vem com o desconto
+        cupomFrete: pedido.cupomCodigo && pedido.descontoCupom === 0 ? pedido.cupomCodigo : null,
         total: pedido.total,
         itens: pedido.itens.map((i) => ({ nome: i.nome, quantidade: i.quantidade })),
         titularNome: pedido.cliente.nome,

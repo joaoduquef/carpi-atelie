@@ -3,7 +3,7 @@ import { MAX_POR_ITEM } from "@/lib/limites-sacola";
 import { carregarCatalogoAtual } from "@/lib/catalogo-servidor";
 import { buscarCor, buscarModelo, buscarVariacao } from "@/lib/catalogo";
 import { calcularParcelas, PIX_DESCONTO, MAX_PARCELAS } from "@/lib/dinheiro";
-import { validarCupom } from "./cupom";
+import { descontoDoCupom, validarCupom, type CupomValido } from "./cupom";
 import { cotarFrete, type OpcaoFrete } from "./frete";
 import type { PacoteFrete } from "./melhor-envio";
 import type { EntradaResumo, LinhaResumo, Resumo } from "./tipos";
@@ -54,15 +54,16 @@ export async function calcularPedido(entrada: EntradaResumo): Promise<Calculo> {
 
   const subtotal = linhas.reduce((s, l) => s + l.subtotalCentavos, 0);
 
-  // cupom (sobre os produtos)
-  let cupom: Resumo["cupom"] = null;
+  // cupom: sobre os produtos ou sobre o frete
+  let valido: CupomValido | null = null;
   let erroCupom: string | null = null;
   if (entrada.cupom?.trim()) {
     const r = await validarCupom(entrada.cupom, subtotal);
     if ("erro" in r) erroCupom = r.erro;
-    else cupom = { codigo: r.codigo, descontoCentavos: Math.min(r.descontoCentavos, subtotal) };
+    else valido = r;
   }
-  const produtos = subtotal - (cupom?.descontoCentavos ?? 0);
+  const descontoProdutos = valido?.aplicaEm === "produtos" ? descontoDoCupom(valido, subtotal) : 0;
+  const produtos = subtotal - descontoProdutos;
 
   // frete
   let frete: Resumo["frete"] = null;
@@ -87,7 +88,11 @@ export async function calcularPedido(entrada: EntradaResumo): Promise<Calculo> {
       };
     }
   }
-  const valorFrete = freteEscolhido?.cobradoCentavos ?? 0;
+  const descontoFrete = valido?.aplicaEm === "frete" && freteEscolhido ? descontoDoCupom(valido, freteEscolhido.cobradoCentavos) : 0;
+  const valorFrete = (freteEscolhido?.cobradoCentavos ?? 0) - descontoFrete;
+  const cupom: Resumo["cupom"] = valido
+    ? { codigo: valido.codigo, noFrete: valido.aplicaEm === "frete", descontoCentavos: valido.aplicaEm === "frete" ? descontoFrete : descontoProdutos }
+    : null;
 
   // pagamento: Pix tem 5% de desconto nos produtos; cartão em até 12x com juros a partir de 2x
   const descontoPix = entrada.pagamento === "pix" ? Math.round(produtos * PIX_DESCONTO) : 0;

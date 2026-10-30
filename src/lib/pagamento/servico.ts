@@ -17,6 +17,7 @@ export type PedidoPagamento = {
   juros: number;
   total: number;
   criadoEm: string;
+  cupomCodigo: string | null;
   cliente: { nome: string; email: string; cpf: string; telefone: string };
   endereco: { destinatario: string; rua: string; numero: string; complemento: string; bairro: string; cidade: string; uf: string; cep: string };
   itens: { variacaoId: string; nome: string; quantidade: number; precoUnitario: number }[];
@@ -46,6 +47,7 @@ export async function lerPedido(id: string): Promise<PedidoPagamento | null> {
     juros: p.juros_centavos,
     total: p.total_centavos,
     criadoEm: p.criado_em,
+    cupomCodigo: p.cupom_codigo,
     cliente: p.cliente,
     endereco: p.endereco,
     itens: (p.pedido_itens ?? []).map((i: { variacao_id: string; nome: string; quantidade: number; preco_unitario_centavos: number }) => ({

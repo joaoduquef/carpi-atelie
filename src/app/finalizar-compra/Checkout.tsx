@@ -314,7 +314,7 @@ export function Checkout({ cliente: inicial, enderecos, teste }: { cliente: Dado
             </form>
             {cupom && (
               <p role="status" className={`mt-1.5 text-xs font-bold ${resumo?.erroCupom ? "text-erro" : "text-sucesso"}`}>
-                {resumo?.erroCupom ?? (resumo?.cupom ? `Cupom ${resumo.cupom.codigo} aplicado.` : "Conferindo o cupom…")}
+                {resumo?.erroCupom ?? (resumo?.cupom ? (resumo.cupom.noFrete && !resumo.frete ? `Cupom ${resumo.cupom.codigo} aplicado: o desconto entra quando você calcular o frete.` : `Cupom ${resumo.cupom.codigo} aplicado.`) : "Conferindo o cupom…")}
                 {resumo?.erroCupom && (
                   <button type="button" onClick={() => { setCupom(""); setCodigoCupom(""); }} className="ml-2 underline">
                     tirar
@@ -328,7 +328,7 @@ export function Checkout({ cliente: inicial, enderecos, teste }: { cliente: Dado
             <dl className={`grid grid-cols-[1fr_auto] gap-x-3 gap-y-1.5 border-t border-linha pt-3 text-[0.95rem] tabular-nums transition-opacity ${calculando ? "opacity-50" : ""}`}>
               <dt>Subtotal</dt>
               <dd className="text-right">{formatarReais(resumo.subtotalCentavos)}</dd>
-              {resumo.cupom && (
+              {!resumo.cupom?.noFrete && resumo.cupom && resumo.cupom.descontoCentavos > 0 && (
                 <>
                   <dt>Cupom {resumo.cupom.codigo}</dt>
                   <dd className="text-right">− {formatarReais(resumo.cupom.descontoCentavos)}</dd>
@@ -336,6 +336,12 @@ export function Checkout({ cliente: inicial, enderecos, teste }: { cliente: Dado
               )}
               <dt>Frete</dt>
               <dd className="text-right">{freteEscolhido ? (freteEscolhido.cobradoCentavos === 0 ? "Grátis" : formatarReais(freteEscolhido.cobradoCentavos)) : "—"}</dd>
+              {resumo.cupom?.noFrete && resumo.cupom.descontoCentavos > 0 && (
+                <>
+                  <dt>Cupom {resumo.cupom.codigo} (frete)</dt>
+                  <dd className="text-right">− {formatarReais(resumo.cupom.descontoCentavos)}</dd>
+                </>
+              )}
               {resumo.descontoPixCentavos > 0 && (
                 <>
                   <dt>Desconto Pix (5%)</dt>

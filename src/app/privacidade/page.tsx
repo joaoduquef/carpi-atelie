@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Política de privacidade", descripti
 
 export default function Privacidade() {
   return (
-    <PaginaTexto titulo="Política de privacidade" provisorio>
+    <PaginaTexto titulo="Política de privacidade">
       <CartaoTexto largo>
         <p>
           Esta política explica quais dados pessoais o {LOJA.nome} ({LOJA.razaoSocial}, CNPJ {LOJA.cnpj}) coleta, por que coleta e quais são os seus

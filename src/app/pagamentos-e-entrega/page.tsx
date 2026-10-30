@@ -5,7 +5,7 @@ import { CartaoTexto, PaginaTexto } from "@/components/ui/PaginaTexto";
 
 export const metadata: Metadata = {
   title: "Pagamentos e entrega",
-  description: "Formas de pagamento, parcelamento, desconto no Pix, prazos e frete grátis para o Sudeste.",
+  description: "Formas de pagamento, parcelamento, desconto no Pix, prazos e cupom de desconto no frete para todas as regiões.",
 };
 
 export default function PagamentosEEntrega() {
@@ -23,8 +23,8 @@ export default function PagamentosEEntrega() {
       </CartaoTexto>
       <CartaoTexto titulo="Frete" tom="damasco">
         <ul>
-          <li>Frete grátis para todo o Sudeste (SP, RJ, MG e ES).</li>
-          <li>Para as outras regiões, o frete é calculado pelo CEP. Enviamos preferencialmente pela plataforma Melhor Envio.</li>
+          <li>Cupom de frete para todas as regiões: informe o código FRETEQUINZE no campo “Tenho um cupom”, ao finalizar o pedido, e receba R$ 15,00 de desconto no frete.</li>
+          <li>O frete é calculado pelo CEP. Enviamos preferencialmente pela plataforma Melhor Envio.</li>
         </ul>
       </CartaoTexto>
       <CartaoTexto titulo="Rastreio" tom="amarelo">

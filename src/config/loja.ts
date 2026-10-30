@@ -21,20 +21,20 @@ export const LOJA = {
     opcoes: "todas" as "todas" | "mais_barata",
     /** esconde as opções em que a cliente busca o pacote num ponto de retirada (ex.: "Loggi Ponto") */
     soEntregaNoEndereco: true,
-    /** Sudeste (SP, RJ, MG, ES): a opção mais barata sai grátis; nas outras, a cliente paga só a diferença. */
-    freteGratisSudeste: { ativo: true, minimoCentavos: 0 },
+    /** Sudeste (SP, RJ, MG, ES): a opção mais barata sai grátis; nas outras, a cliente paga só a diferença. Desligado: agora o desconto é o cupom FRETEQUINZE. */
+    freteGratisSudeste: { ativo: false, minimoCentavos: 0 },
   },
   email: "carpiatelie@gmail.com",
   instagram: "carpiatelie",
   razaoSocial: "69.666.538 JOAO DUQUE DA SILVA FILHO",
   cnpj: "69.666.538/0001-36",
-  anuncio: "Frete grátis para todo o Sudeste",
+  anuncio: "Cupom FRETEQUINZE para desconto no frete em todas as regiões",
   /** aparece na página de todos os produtos, embaixo dos cards de "Como funciona" */
   avisoImpressao:
     "Como cada abajur é produzido sob encomenda, camada por camada, ele pode ter pequenas marcas e variações da impressão. Elas não são defeitos: são o registro de uma peça feita uma a uma, só para você.",
   titulo: "CARPI Ateliê | Abajures feitos com carinho",
   descricao:
-    "Abajures de design autoral, feitos sob encomenda no CARPI Ateliê. Frete grátis para todo o Sudeste.",
+    "Abajures de design autoral, feitos sob encomenda no CARPI Ateliê. Cupom FRETEQUINZE: R$ 15 de desconto no frete para todas as regiões.",
   /** logos em /public/payments/<arquivo>.svg */
   meiosPagamento: [
     { nome: "Pix", arquivo: "pix" },
