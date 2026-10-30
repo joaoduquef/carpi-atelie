@@ -100,17 +100,21 @@ export function GaleriaProduto({
             />
           </div>
         )}
-        {vista.render === "foto" && (
+        {vista.render === "foto" && vista.imagem.tipo === "desenho_tecnico" && (
+          // o desenho é uma folha deitada (A3): girado, ocupa o quadro em pé inteiro
+          <div className="absolute inset-0 bg-white" style={{ containerType: "size" }}>
+            <div className="absolute top-1/2 left-1/2 h-[100cqw] w-[100cqh] -translate-x-1/2 -translate-y-1/2 -rotate-90">
+              <Image src={vista.imagem.url} alt={vista.imagem.alt} fill sizes="(max-width: 768px) 140vw, 720px" className="object-contain p-3" />
+            </div>
+          </div>
+        )}
+        {vista.render === "foto" && vista.imagem.tipo !== "desenho_tecnico" && (
           <Image
             src={vista.imagem.url}
             alt={vista.imagem.alt}
             fill
             sizes="(max-width: 768px) 100vw, 520px"
-            className={
-              vista.imagem.tipo === "desenho_tecnico"
-                ? "bg-white object-contain p-4"
-                : "object-cover"
-            }
+            className="object-cover"
           />
         )}
         {vistas.length > 1 && (
