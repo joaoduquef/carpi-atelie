@@ -1,6 +1,7 @@
 // Catálogo fictício, usado só enquanto o Supabase não estiver configurado
 // (por exemplo, no link de teste da Vercel antes de colar as chaves).
 import { LOJA } from "@/config/loja";
+import { MEDIDAS } from "@/config/medidas";
 import { foto } from "@/lib/fotos";
 import type { Catalogo, Cor, Imagem, Modelo, Variacao } from "@/lib/tipos";
 
@@ -21,14 +22,7 @@ const modelos: Modelo[] = [
       "Um abajur de saia ondulada, feito para ser visto mesmo quando apagado. A cúpula translúcida ganha outra vida quando acesa, espalhando uma luz quente e suave pelo ambiente.\n\nAcompanha parte elétrica e lâmpada, pronto para iluminar seu espaço.",
     precoCentavos: 34900,
     status: "ativo",
-    especificacoes: [
-      { rotulo: "Altura", valor: "28,6 cm" },
-      { rotulo: "Largura", valor: "21,7 cm (saia ondulada); base com Ø 12 cm" },
-      { rotulo: "Material", valor: "PETG translúcido" },
-      { rotulo: "Lâmpada", valor: "LED 4,5 W, 3000 K (luz quente), bivolt, inclusa" },
-      { rotulo: "Peso", valor: "Aproximadamente 550 a 700 g" },
-      { rotulo: "Produção", valor: `Feito sob encomenda em ${LOJA.prazoProducaoDias} dias úteis` },
-    ],
+    especificacoes: MEDIDAS.babi,
     prazoProducaoDias: LOJA.prazoProducaoDias,
     embalagem,
     ordem: 1,
