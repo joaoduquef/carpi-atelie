@@ -29,11 +29,12 @@ export async function validarCupom(codigoBruto: string, subtotalCentavos: number
     return "erro" in r ? r : { codigo: r.cupom.codigo, aplicaEm: r.cupom.aplicaEm ?? "produtos", tipo: r.cupom.tipo, valor: r.cupom.valor };
   }
 
-  const { data: c, error } = await sb
-    .from("cupons")
-    .select("codigo, tipo, valor, aplica_em, valido_de, valido_ate, limite_usos, usos, valor_minimo_centavos, ativo")
-    .eq("codigo", codigo)
-    .maybeSingle();
+  const campos = "codigo, tipo, valor, valido_de, valido_ate, limite_usos, usos, valor_minimo_centavos, ativo";
+  let { data: c, error } = await sb.from("cupons").select(`${campos}, aplica_em`).eq("codigo", codigo).maybeSingle();
+  if (error?.message.includes("aplica_em")) {
+    // banco ainda sem o arquivo 20261030000003_cupom_frete.sql: todos os cupons valem nos produtos
+    ({ data: c, error } = await sb.from("cupons").select(campos).eq("codigo", codigo).maybeSingle());
+  }
   if (error) {
     console.error("[cupom] falha ao ler o cupom", error.message);
     return { erro: "Não conseguimos conferir o cupom agora. Tente de novo em instantes." };
@@ -47,5 +48,5 @@ export async function validarCupom(codigoBruto: string, subtotalCentavos: number
   if (subtotalCentavos < c.valor_minimo_centavos)
     return { erro: `Este cupom vale para compras a partir de ${formatarReais(c.valor_minimo_centavos)}.` };
 
-  return { codigo: c.codigo, aplicaEm: c.aplica_em === "frete" ? "frete" : "produtos", tipo: c.tipo, valor: c.valor };
+  return { codigo: c.codigo, aplicaEm: c && "aplica_em" in c && c.aplica_em === "frete" ? "frete" : "produtos", tipo: c.tipo, valor: c.valor };
 }

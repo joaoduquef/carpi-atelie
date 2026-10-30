@@ -3,6 +3,7 @@ import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import { LOJA } from "@/config/loja";
 import { MEDIDAS } from "@/config/medidas";
+import { PRECOS } from "@/config/precos";
 import { CATALOGO_FICTICIO } from "@/data/mock";
 import { foto } from "@/lib/fotos";
 import { supabasePublico } from "@/lib/supabase/servidor";
@@ -71,7 +72,7 @@ async function lerCatalogo(sb: NonNullable<ReturnType<typeof supabasePublico>>):
       slug: m.slug,
       nome: m.nome,
       descricao: m.descricao,
-      precoCentavos: m.preco_centavos,
+      precoCentavos: PRECOS[m.slug] ?? m.preco_centavos, // preço de src/config/precos.ts
       status: m.status as StatusModelo,
       // as medidas vêm de src/config/medidas.ts (do desenho técnico) e o prazo de produção da configuração da loja
       especificacoes: (MEDIDAS[m.slug] ?? ((m.especificacoes ?? []) as Especificacao[])).map((e) =>

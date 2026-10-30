@@ -2,6 +2,7 @@
 // (por exemplo, no link de teste da Vercel antes de colar as chaves).
 import { LOJA } from "@/config/loja";
 import { MEDIDAS } from "@/config/medidas";
+import { PRECOS } from "@/config/precos";
 import { foto } from "@/lib/fotos";
 import type { Catalogo, Cor, Imagem, Modelo, Variacao } from "@/lib/tipos";
 
@@ -20,7 +21,7 @@ const modelos: Modelo[] = [
     nome: "Babi",
     descricao:
       "Um abajur de saia ondulada, feito para ser visto mesmo quando apagado. A cúpula translúcida ganha outra vida quando acesa, espalhando uma luz quente e suave pelo ambiente.\n\nAcompanha parte elétrica e lâmpada, pronto para iluminar seu espaço.",
-    precoCentavos: 34900,
+    precoCentavos: PRECOS.babi,
     status: "ativo",
     especificacoes: MEDIDAS.babi,
     prazoProducaoDias: LOJA.prazoProducaoDias,
